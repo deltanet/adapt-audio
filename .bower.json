@@ -1,0 +1,27 @@
+{
+  "name": "adapt-audio",
+  "version": "2.0.0",
+  "framework": "^2.0.0",
+  "homepage": "https://github.com/deltanet/adapt-audio",
+  "issues": "https://github.com/deltanet/adapt-audio/issues",
+  "displayName": "Audio",
+  "extension": "audio",
+  "description": "An extension to allow learners to add audio",
+  "main": "/js/adapt-audio.js",
+  "keywords": [
+    "adapt-plugin",
+    "adapt-extension"
+  ],
+  "license": "GPLv3",
+  "targetAttribute": "_audio",
+  "_release": "2.0.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.0",
+    "commit": "c52fed633b928ab4465eb4039a59c1bdf8c56451"
+  },
+  "_source": "git://github.com/deltanet/adapt-audio.git",
+  "_target": "~2.0.0",
+  "_originalSource": "adapt-audio",
+  "_direct": true
+}

@@ -1,0 +1,165 @@
+{
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "required":false,
+  "properties":{
+    "pluginLocations": {
+      "type":"object",
+      "required":true,
+      "properties":{
+        "config": {
+          "type":"object"
+        },
+        "course": {
+          "type":"object",
+          "properties":{
+            "_resources": {
+              "type": "object",
+              "required": false,
+              "legend": "Resources",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "default":"Resources",
+                  "required": true,
+                  "title": "",
+                  "inputType": "Text",
+                  "validators": ["required"]
+                },
+                "description": {
+                  "type": "string",
+                  "default":"Click here to view resources for this course",
+                  "required": false,
+                  "title": "",
+                  "inputType": "Text",
+                  "validators": []
+                },
+                "_filterButtons": {
+                  "type":"object",
+                  "title": "Filter Buttons",
+                  "properties": {
+                    "all": {
+                      "type": "string",
+                      "default": "All",
+                      "title": "",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "document": {
+                      "type": "string",
+                      "default": "Documents",
+                      "title": "",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "media": {
+                      "type": "string",
+                      "default": "Media",
+                      "title": "",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "link": {
+                      "type": "string",
+                      "default": "Links",
+                      "title": "",
+                      "inputType": "Text",
+                      "validators": []
+                    }
+                  }
+                },
+                "_filterAria": {
+                  "type":"object",
+                  "title": "Aria Labels",
+                  "properties": {
+                    "allAria": {
+                      "type": "string",
+                      "default": "View all resources",
+                      "title": "All",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "documentAria": {
+                      "type": "string",
+                      "default": "View document resources",
+                      "title": "Documents",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "mediaAria": {
+                      "type": "string",
+                      "default": "View media resources",
+                      "title": "Media",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "linkAria": {
+                      "type": "string",
+                      "default": "View resource links",
+                      "title": "Links",
+                      "inputType": "Text",
+                      "validators": []
+                    }
+                  }
+                },
+                "_resourcesItems": {
+                  "type": "array",
+                  "required": false,
+                  "title": "Resources Items",
+                  "items": {
+                    "type": "object",
+                    "required": false,
+                    "title": "Items",
+                    "properties": {
+                      "_type": {
+                        "type": "string",
+                        "require": true,
+                        "title": "Type",
+                        "inputType": { "type": "Select", "options": ["document", "media", "link"]},
+                        "validators": ["required"]
+                      },
+                      "title": {
+                        "type": "string",
+                        "require": true,
+                        "title": "Title",
+                        "inputType": "Text",
+                        "validators": ["required"]
+                      },
+                      "description": {
+                        "type": "string",
+                        "require": false,
+                        "title": "Description",
+                        "inputType": "Text",
+                        "validators": []
+                      },
+                      "_link": {
+                        "type": "string",
+                        "require": true,
+                        "title": "Link",
+                        "inputType": "Asset:other",
+                        "validators": ["required"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "contentobject": {
+          "type":"object"
+        },
+        "article": {
+          "type":"object"
+        },
+        "block": {
+          "type":"object"
+        },
+        "component": {
+          "type":"object"
+        }
+      }
+    }
+  }
+}
