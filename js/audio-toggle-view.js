@@ -15,7 +15,6 @@ define(function(require) {
         initialize: function() {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'audio:updateNarrationStatus', this.updateToggle);
-            
             if(Adapt.audio.narrationAudio == 1){
                 this.$('.audio-nav-toggle').addClass('icon-sound');
             } else {

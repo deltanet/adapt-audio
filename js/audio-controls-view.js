@@ -14,6 +14,8 @@ define(function(require) {
 
         initialize: function () {
             this.listenTo(Adapt, 'remove', this.remove);
+            this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
+            this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
             this.preRender();
             this.render();
         },
@@ -30,7 +32,7 @@ define(function(require) {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioControls"];
 
-            if(this.model.get("_audio")._isEnabled){
+            if (this.model.get("_audio")._isEnabled) {
                 $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
             }
             // Set vars
@@ -98,6 +100,35 @@ define(function(require) {
             Adapt.trigger('audio:effectsEnded');
         },
 
+        initQuestionFeedbackAudio: function() {
+            if(this.model.get("_feedback")._audio) {
+                // Correct
+                if (this.model.get('_isCorrect')) {
+                    // Determine which file to play
+                    if (Adapt.audio.narrationClip.canPlayType('audio/ogg')) this.audioFile = this.model.get("_feedback")._audio._correct._media.ogg;
+                    if (Adapt.audio.narrationClip.canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._correct._media.mp3;
+                    //
+                // Partly correct
+                } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
+                    if (Adapt.audio.narrationClip.canPlayType('audio/ogg')) this.audioFile = this.model.get("_audio")._audio._partlyCorrect._final._media.ogg;
+                    if (Adapt.audio.narrationClip.canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._partlyCorrect._final._media.mp3;
+                // Incorrect
+                } else {
+                    // Determine which file to play
+                    if (Adapt.audio.narrationClip.canPlayType('audio/ogg')) this.audioFile = this.model.get("_feedback")._audio._incorrect._final._media.ogg;
+                    if (Adapt.audio.narrationClip.canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._incorrect._final._media.mp3;
+                    //
+                }
+                // Trigger audio
+                Adapt.trigger('audio:playNarrationAudio', this.audioFile, this.model.get('_id'));
+            }
+        },
+
+        stopFeedbackAudio: function() {
+            if(this.model.get("_feedback")._audio) {
+                Adapt.trigger('audio:pauseNarrationAudio');
+            }
+        },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
             if (visible) {

@@ -147,8 +147,6 @@ define(function(require) {
 		Adapt.trigger('audio:pauseMusicAudio');
 	});
 
-
-
     Adapt.on('app:dataReady', function() {
     	// Get default audio status for each audio channel
     	// *** Will need to work on this if user's settings are going to be stored in SCORM ***
@@ -196,7 +194,9 @@ define(function(require) {
     // Toggle button view
     // -----
     Adapt.on("pageView:postRender", function(view) {
-        new AudioToggleView({model:view.model});
+    	if (Adapt.config.get("_audio")._isEnabled) {
+	        //new AudioToggleView({model:view.model});
+	    }
     });
     // -----
     // Audio controls view
@@ -206,7 +206,5 @@ define(function(require) {
           new AudioControlsView({model:view.model});
         }
     });
-    //
-    // *** May need to add menu view if audio is to be included on the menu ***
 
 })
