@@ -2,7 +2,7 @@
 
 **Audio** is an *extension* for the the [Adapt framework](https://github.com/adaptlearning/adapt_framework).   
 
-This extension is currently in development and is intended to act as a course wide controller for audio with menus, pages, page structure and components.
+This extension is currently in development and is intended to act as a course wide controller for audio declared within menus, pages, page structure and components.
 
 ##Installation
 
