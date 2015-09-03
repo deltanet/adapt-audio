@@ -16,6 +16,7 @@ define(function(require) {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
+            this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.preRender();
             this.render();
         },
@@ -33,17 +34,22 @@ define(function(require) {
             var template = Handlebars.templates["audioControls"];
 
             if (this.model.get("_audio")._isEnabled) {
-                $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
+                if(this.model.get("_audio")._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
+                    $(this.el).html(template(data)).appendTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
+                } else {
+                    $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
+                }
             }
+
             // Set vars
             this.audioType = this.model.get("_audio")._type;
             this.elementId = this.model.get("_id");
 
             // Check for autoplay and show/hide controls
             if(this.model.get("_audio")._autoplay){
-                this.$('.audio-toggle').addClass('icon-triangle-right');
+                this.$('.audio-toggle').addClass('fa-volume-up');
             } else {
-                this.$('.audio-toggle').addClass('icon-dot');
+                this.$('.audio-toggle').addClass('fa-volume-off');
             }
             if(this.model.get("_audio")._showControls==false){
                 this.$('.audio-toggle').addClass('hidden');
@@ -198,6 +204,20 @@ define(function(require) {
                 } else {
                     Adapt.trigger('audio:playEffectsAudio', this.audioFile, this.elementId);
                 }
+            }
+        },
+
+        onAccessibilityToggle: function() {
+            var hasAccessibility = Adapt.config.has('_accessibility') && Adapt.config.get('_accessibility')._isEnabled;
+
+            if (!hasAccessibility) {
+                console.log("Accessibility is off");
+            } else {
+                console.log("Accessibility is on!!!!!");
+
+                Adapt.trigger('audio:updateNarrationStatus', 0);
+                Adapt.trigger('audio:updateEffectsStatus', 0);
+                Adapt.trigger('audio:updateMusicStatus', 0);
             }
         }
 
