@@ -176,7 +176,14 @@ define(function(require) {
                             }
                         }
                     }
-                    this.$('.audio-inner').off('inview');
+                }
+            } else {
+                if(this.audioType == "narration"){
+                    Adapt.trigger('audio:pauseNarrationAudio');
+                } else if (this.audioType == "music") {
+                    Adapt.trigger('audio:pauseMusicAudio');
+                } else (this.audioType == "effects") {
+                    Adapt.trigger('audio:pauseEffectsAudio');
                 }
             }
         },
