@@ -17,6 +17,7 @@ define(function(require) {
             this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
+            this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
             this.render();
         },
@@ -176,7 +177,14 @@ define(function(require) {
                             }
                         }
                     }
-                    this.$('.audio-inner').off('inview');
+                }
+            } else {
+                if(this.audioType == "narration"){
+                    Adapt.trigger('audio:pauseNarrationAudio');
+                } else if (this.audioType == "music") {
+                    Adapt.trigger('audio:pauseMusicAudio');
+                } else if (this.audioType == "effects") {
+                    Adapt.trigger('audio:pauseEffectsAudio');
                 }
             }
         },
@@ -218,6 +226,17 @@ define(function(require) {
                 Adapt.trigger('audio:updateNarrationStatus', 0);
                 Adapt.trigger('audio:updateEffectsStatus', 0);
                 Adapt.trigger('audio:updateMusicStatus', 0);
+            }
+        },
+
+        removeInViewListeners: function () { 
+            this.$('.audio-inner').off('inview');
+            if (this.audioType == "narration") {
+                Adapt.trigger('audio:pauseNarrationAudio');
+            } else if (this.audioType == "music") {
+                Adapt.trigger('audio:pauseMusicAudio');
+            } else if (this.audioType == "effects") {
+                Adapt.trigger('audio:pauseEffectsAudio');
             }
         }
 
