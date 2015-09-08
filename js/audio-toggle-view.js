@@ -15,12 +15,6 @@ define(function(require) {
         initialize: function() {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'audio:updateNarrationStatus', this.updateToggle);
-            if(Adapt.audio.narrationAudio == 1){
-                this.$('.audio-nav-toggle').addClass('icon-sound');
-            } else {
-                this.$('.audio-nav-toggle').addClass('icon-sound-mute');
-            }
-            
             this.render();
         },
 
@@ -32,16 +26,23 @@ define(function(require) {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioToggle"];
             this.$el.html(template(data)).appendTo('#wrapper'+'>.navigation'+'>.navigation-inner');
+
+            if(Adapt.audio.narrationAudio == 1){
+                this.$('.audio-nav-toggle').addClass('fa-volume-up');
+            } else {
+                this.$('.audio-nav-toggle').addClass('fa-volume-off');
+            }
+            
             return this;
         },
 
         updateToggle: function(){
             if(Adapt.audio.narrationAudio == 1){
-                this.$('.audio-nav-toggle').removeClass('icon-sound-mute');
-                this.$('.audio-nav-toggle').addClass('icon-sound');
+                this.$('.audio-nav-toggle').removeClass('fa-volume-off');
+                this.$('.audio-nav-toggle').addClass('fa-volume-up');
             } else {
-                this.$('.audio-nav-toggle').removeClass('icon-sound');
-                this.$('.audio-nav-toggle').addClass('icon-sound-mute');
+                this.$('.audio-nav-toggle').removeClass('fa-volume-up');
+                this.$('.audio-nav-toggle').addClass('fa-volume-off');
             }
         },
 

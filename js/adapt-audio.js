@@ -44,10 +44,10 @@ define(function(require) {
         Adapt.audio.narrationClip.newID = id;
         // Play clip
         if(Adapt.audio.narrationAudio==1){
-            Adapt.audio.narrationClip.play();
+        	setTimeout(function() {Adapt.audio.narrationClip.play();},3000);
             Adapt.audio.narrationClip.isPlaying=true;
-            $('#'+Adapt.audio.narrationClip.newID).removeClass('icon-triangle-right');
-            $('#'+Adapt.audio.narrationClip.newID).addClass('icon-dot');
+            $('#'+Adapt.audio.narrationClip.newID).removeClass('fa-volume-off');
+            $('#'+Adapt.audio.narrationClip.newID).addClass('fa-volume-up');
 	        $('#'+Adapt.audio.narrationClip.newID).addClass('playing');
         }
         // Update player ID to new clip
@@ -61,8 +61,8 @@ define(function(require) {
 
 	Adapt.on('audio:narrationEnded', function () {
 		Adapt.audio.narrationClip.isPlaying=false;
-		$('#'+Adapt.audio.narrationClip.playingID).removeClass('icon-dot');
-        $('#'+Adapt.audio.narrationClip.playingID).addClass('icon-triangle-right');
+		$('#'+Adapt.audio.narrationClip.playingID).removeClass('fa-volume-up');
+        $('#'+Adapt.audio.narrationClip.playingID).addClass('fa-volume-off');
         $('#'+Adapt.audio.narrationClip.playingID).removeClass('playing');
 	});
 	//////////////////////////
@@ -79,8 +79,8 @@ define(function(require) {
         if(Adapt.audio.musicAudio==1){
             Adapt.audio.musicClip.play();
             Adapt.audio.musicClip.isPlaying=true;
-            $('#'+Adapt.audio.musicClip.newID).removeClass('icon-triangle-right');
-            $('#'+Adapt.audio.musicClip.newID).addClass('icon-dot');
+            $('#'+Adapt.audio.musicClip.newID).removeClass('fa-volume-off');
+            $('#'+Adapt.audio.musicClip.newID).addClass('fa-volume-up');
 	        $('#'+Adapt.audio.musicClip.newID).addClass('playing');
         }
         // Update player ID to new clip
@@ -94,8 +94,8 @@ define(function(require) {
 
 	Adapt.on('audio:musicEnded', function () {
 		Adapt.audio.musicClip.isPlaying=false;
-		$('#'+Adapt.audio.musicClip.playingID).removeClass('icon-dot');
-        $('#'+Adapt.audio.musicClip.playingID).addClass('icon-triangle-right');
+		$('#'+Adapt.audio.musicClip.playingID).removeClass('fa-volume-up');
+        $('#'+Adapt.audio.musicClip.playingID).addClass('fa-volume-off');
         $('#'+Adapt.audio.musicClip.playingID).removeClass('playing');
 	});
 	///////////////////////
@@ -112,8 +112,8 @@ define(function(require) {
         if(Adapt.audio.effectsAudio==1){
             Adapt.audio.effectsClip.play();
             Adapt.audio.effectsClip.isPlaying=true;
-            $('#'+Adapt.audio.effectsClip.newID).removeClass('icon-triangle-right');
-            $('#'+Adapt.audio.effectsClip.newID).addClass('icon-dot');
+            $('#'+Adapt.audio.effectsClip.newID).removeClass('fa-volume-off');
+            $('#'+Adapt.audio.effectsClip.newID).addClass('fa-volume-up');
 	        $('#'+Adapt.audio.effectsClip.newID).addClass('playing');
         }
         // Update player ID to new clip
@@ -127,8 +127,8 @@ define(function(require) {
 
 	Adapt.on('audio:effectsEnded', function () {
 		Adapt.audio.effectsClip.isPlaying=false;
-		$('#'+Adapt.audio.effectsClip.playingID).removeClass('icon-dot');
-        $('#'+Adapt.audio.effectsClip.playingID).addClass('icon-triangle-right');
+		$('#'+Adapt.audio.effectsClip.playingID).removeClass('fa-volume-up');
+        $('#'+Adapt.audio.effectsClip.playingID).addClass('fa-volume-off');
         $('#'+Adapt.audio.effectsClip.playingID).removeClass('playing');
 	});
 	////////////////////////
@@ -195,16 +195,22 @@ define(function(require) {
     // -----
     Adapt.on("pageView:postRender", function(view) {
     	if (Adapt.config.get("_audio")._isEnabled) {
-	        //new AudioToggleView({model:view.model});
+	        new AudioToggleView({model:view.model});
 	    }
     });
     // -----
     // Audio controls view
     // -----
     Adapt.on('articleView:postRender blockView:postRender componentView:postRender', function(view) {
+
         if (view.model.get("_audio")) {
-          new AudioControlsView({model:view.model});
+          if ($('html').hasClass('accessibility')) {
+                // Do nothing
+            } else {
+                new AudioControlsView({model:view.model});
+            }
         }
+
     });
 
 })
