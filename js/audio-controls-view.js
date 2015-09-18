@@ -36,9 +36,9 @@ define(function(require) {
 
             if (this.model.get("_audio")._isEnabled) {
                 if(this.model.get("_audio")._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
-                    $(this.el).html(template(data)).appendTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
+                    $(this.el).html(template(data)).appendTo('.' + this.model.get("_id"));
                 } else {
-                    $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
+                    $(this.el).html(template(data)).prependTo('.' + this.model.get("_id"));
                 }
             }
 
@@ -46,12 +46,7 @@ define(function(require) {
             this.audioType = this.model.get("_audio")._type;
             this.elementId = this.model.get("_id");
 
-            // Check for autoplay and show/hide controls
-            if(this.model.get("_audio")._autoplay){
-                this.$('.audio-toggle').addClass('fa-volume-up');
-            } else {
-                this.$('.audio-toggle').addClass('fa-volume-off');
-            }
+            // Hide controls
             if(this.model.get("_audio")._showControls==false){
                 this.$('.audio-toggle').addClass('hidden');
             }
@@ -83,8 +78,6 @@ define(function(require) {
                 // Set listener for when clip ends
                 $(Adapt.audio.effectsClip).on('ended', _.bind(this.onAudioEffectsEnded, this));
             }
-            // Add inview listener on audio element
-            this.$('.audio-inner').on('inview', _.bind(this.inview, this));
 
             _.defer(_.bind(function() {
                 this.postRender();
@@ -92,6 +85,7 @@ define(function(require) {
         },
 
         postRender: function() {
+            // Add inview listener on audio element
             this.$('.audio-inner').on('inview', _.bind(this.inview, this));
         },
 
@@ -108,7 +102,7 @@ define(function(require) {
         },
 
         initQuestionFeedbackAudio: function() {
-            if(this.model.get("_feedback")._audio) {
+            if(this.model.has("_feedback")._audio) {
                 // Correct
                 if (this.model.get('_isCorrect')) {
                     // Determine which file to play
@@ -132,7 +126,7 @@ define(function(require) {
         },
 
         stopFeedbackAudio: function() {
-            if(this.model.get("_feedback")._audio) {
+            if(this.model.has('_feedback')._audio) {
                 Adapt.trigger('audio:pauseNarrationAudio');
             }
         },
@@ -180,11 +174,11 @@ define(function(require) {
                 }
             } else {
                 if(this.audioType == "narration"){
-                    Adapt.trigger('audio:pauseNarrationAudio');
+                    Adapt.audio.narrationClip.pause();
                 } else if (this.audioType == "music") {
-                    Adapt.trigger('audio:pauseMusicAudio');
+                    Adapt.audio.musicClip.pause();
                 } else if (this.audioType == "effects") {
-                    Adapt.trigger('audio:pauseEffectsAudio');
+                    Adapt.audio.effectsClip.pause();
                 }
             }
         },
