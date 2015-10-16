@@ -36,9 +36,9 @@ define(function(require) {
 
             if (this.model.get("_audio")._isEnabled) {
                 if(this.model.get("_audio")._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
-                    $(this.el).html(template(data)).appendTo('.' + this.model.get("_id"));
+                    $(this.el).html(template(data)).appendTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
                 } else {
-                    $(this.el).html(template(data)).prependTo('.' + this.model.get("_id"));
+                    $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
                 }
             }
 

@@ -2,6 +2,16 @@
 
 **Audio** is an *extension* for the the [Adapt framework](https://github.com/adaptlearning/adapt_framework).   
 
+----------------------------
+**Version number:**  2.0.0     
+**Framework versions supported:**  2.0.0     
+**Author / maintainer:** DeltaNet with [contributors](https://github.com/deltanet/adapt-audio/graphs/contributors)     
+**Accessibility support:** no  
+**RTL support:** no     
+**Authoring tool support:** no
+
+----------------------------
+
 This extension is currently in development and is intended to act as a course wide controller for audio declared within menus, pages, page structure and components.
 
 ##Installation
@@ -27,11 +37,3 @@ To be written
 ## Limitations
  
 To be written
-
-----------------------------
-**Version number:**  0.1   <a href="https://community.adaptlearning.org/ target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a> 
-**Framework versions:** 2.0  
-**Author / maintainer:**  [Deltanet](https://github.com/deltanet)  
-**Accessibility support:** no
-**RTL support:** no  
-**Cross-platform coverage:** Chrome, Chrome for Android, Firefox (ESR + latest version), IE 11, IE10, IE9, IE8, IE Mobile 11, Safari for iPhone (iOS 7+8), Safari for iPad (iOS 7+8), Safari 8, Opera    

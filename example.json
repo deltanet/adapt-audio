@@ -1,5 +1,6 @@
 // To go in the config.json file
 "_audio": {
+    "_isEnabled": true,
     "_audioNarrationStatus": 1,
     "_audioEffectsStatus": 1,
     "_audioMusicStatus": 1
