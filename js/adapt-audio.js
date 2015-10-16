@@ -44,7 +44,7 @@ define(function(require) {
         Adapt.audio.narrationClip.newID = id;
         // Play clip
         if(Adapt.audio.narrationAudio==1){
-        	setTimeout(function() {Adapt.audio.narrationClip.play();},3000);
+        	setTimeout(function() {Adapt.audio.narrationClip.play();},1000);
             Adapt.audio.narrationClip.isPlaying=true;
             $('#'+Adapt.audio.narrationClip.newID).removeClass('fa-volume-off');
             $('#'+Adapt.audio.narrationClip.newID).addClass('fa-volume-up');
