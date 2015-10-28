@@ -42,6 +42,8 @@ define(function(require) {
                 }
             }
 
+            $(this.el).addClass(this.model.get("_type"));
+
             // Set vars
             this.audioType = this.model.get("_audio")._type;
             this.elementId = this.model.get("_id");

@@ -4,9 +4,11 @@
         .dir-rtl & {
             float:left;
         }
+        color: @navigation-icon-color;
         padding: @navigation-padding;
+        .transition-color;
         &:hover{
-            color: @primary-color;
+            color: @navigation-icon-color-hover;
         }
     }
 }
@@ -19,12 +21,22 @@
         background-color: @item-color;
         padding: @item-padding;
         border-radius: 50%;
+        .transition-all-colors;
         &:hover{
             background-color: @item-color-hover;
         }
     }
     .hidden {
         display: none;
+    }
+    &.article {
+    }
+    &.block {
+    }
+    &.component {
+        .dir-rtl & {
+          margin-left: -@component-padding;
+        }
     }
 }
 
@@ -44,10 +56,10 @@
             display:inline-block;
             padding:10px 0px;
             border-right: 1px solid @drawer-item-color;
-		    .dir-rtl & {
-		        border-left: 1px solid @drawer-item-color;
-		        border-right: inherit;
-		    }
+    		    .dir-rtl & {
+    		        border-left: 1px solid @drawer-item-color;
+    		        border-right: inherit;
+    		    }
         }
         &.selected {
             color:@drawer-item-text-hover-color;
@@ -78,6 +90,7 @@
     .drawer-audio-toggle {
         color: @drawer-icon-color;
         padding-top: @item-padding;
+        .transition-color;
         .no-touch &:hover {
             color: @drawer-icon-color-hover;
         }
