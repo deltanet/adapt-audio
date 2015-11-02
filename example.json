@@ -1,9 +1,6 @@
 // To go in the config.json file
 "_audio": {
-    "_isEnabled": true,
-    "_audioNarrationStatus": 1,
-    "_audioEffectsStatus": 1,
-    "_audioMusicStatus": 1
+    "_isEnabled": true
 }
 
 // To go in the course.json file
@@ -25,16 +22,19 @@
     },
     "_audioItems": [
         {
+            "_status": 1,
             "_type": "narration",
             "title": "Narration",
             "description": "This content in this course is narrated. You can save your preference here too."
         },
         {
+            "_status": 1,
             "_type": "effects",
             "title": "Sound FX",
             "description": "If you don't want sound effects to play throughout the course you can switch them off here."
         },
         {
+            "_status": 1,
             "_type": "music",
             "title": "Music",
             "description": "Some areas of the course may contain background music."
@@ -47,7 +47,7 @@
     "_isEnabled": true,
     "_showControls": false,
     "_autoplay": true,
-    "_type": "music", // types are "narration", "music" or "effects"
+    "_channel": 0, // channels represent the number of items defined in the course.json settings, by default there are 0, 1 and 2 available (3 _audioItems in the array)
     "_location": "", // pre-defined styles are "top-left", "top-right", "bottom-left", "bottom-right"
     "_media": {
         "mp3": "course/en/audio/music.mp3",

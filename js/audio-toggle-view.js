@@ -14,7 +14,7 @@ define(function(require) {
 
         initialize: function() {
             this.listenTo(Adapt, 'remove', this.remove);
-            this.listenTo(Adapt, 'audio:updateNarrationStatus', this.updateToggle);
+            this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.render();
         },
 
@@ -27,22 +27,28 @@ define(function(require) {
             var template = Handlebars.templates["audioToggle"];
             this.$el.html(template(data)).appendTo('#wrapper'+'>.navigation'+'>.navigation-inner');
 
-            if(Adapt.audio.narrationAudio == 1){
-                this.$('.audio-nav-toggle').addClass('fa-volume-up');
-            } else {
-                this.$('.audio-nav-toggle').addClass('fa-volume-off');
+            // Check for any channel being on
+            for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                if(Adapt.audio.audioClip[i].status==1){
+                    this.$('.audio-nav-toggle').addClass('fa-volume-up');
+                } else {
+                    this.$('.audio-nav-toggle').addClass('fa-volume-off');
+                }
             }
-            
+
             return this;
         },
 
         updateToggle: function(){
-            if(Adapt.audio.narrationAudio == 1){
-                this.$('.audio-nav-toggle').removeClass('fa-volume-off');
-                this.$('.audio-nav-toggle').addClass('fa-volume-up');
-            } else {
-                this.$('.audio-nav-toggle').removeClass('fa-volume-up');
-                this.$('.audio-nav-toggle').addClass('fa-volume-off');
+            // Check for any channel being on
+            for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                if(Adapt.audio.audioClip[i].status==1){
+                    this.$('.audio-nav-toggle').removeClass('fa-volume-off');
+                    this.$('.audio-nav-toggle').addClass('fa-volume-up');
+                } else {
+                    this.$('.audio-nav-toggle').removeClass('fa-volume-up');
+                    this.$('.audio-nav-toggle').addClass('fa-volume-off');
+                }
             }
         },
 

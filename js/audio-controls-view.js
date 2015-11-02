@@ -41,45 +41,24 @@ define(function(require) {
                     $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
                 }
             }
-
+            // Add class so it can be referenced in the theme if needed 
             $(this.el).addClass(this.model.get("_type"));
 
             // Set vars
-            this.audioType = this.model.get("_audio")._type;
+            this.audioChannel = this.model.get("_audio")._channel;
             this.elementId = this.model.get("_id");
 
             // Hide controls
             if(this.model.get("_audio")._showControls==false){
                 this.$('.audio-toggle').addClass('hidden');
             }
-            // Set ID's for the Audio Model to reference.
-            if(this.audioType == "narration"){
-                // Determine which file to play
-                if (Adapt.audio.narrationClip.canPlayType('audio/ogg')) this.audioFile = this.model.get("_audio")._media.ogg;
-                if (Adapt.audio.narrationClip.canPlayType('audio/mpeg')) this.audioFile = this.model.get("_audio")._media.mp3;
-                // Set clip ID
-                Adapt.audio.narrationClip.newID = this.elementId;
-                // Set listener for when clip ends
-                $(Adapt.audio.narrationClip).on('ended', _.bind(this.onAudioNarrationEnded, this));
-            }
-            if(this.audioType == "music"){
-                // Determine which file to play
-                if (Adapt.audio.musicClip.canPlayType('audio/ogg')) this.audioFile = this.model.get("_audio")._media.ogg;
-                if (Adapt.audio.musicClip.canPlayType('audio/mpeg')) this.audioFile = this.model.get("_audio")._media.mp3;
-                // Set clip ID
-                Adapt.audio.musicClip.newID = this.elementId;
-                // Set listener for when clip ends
-                $(Adapt.audio.musicClip).on('ended', _.bind(this.onAudioMusicEnded, this));
-            }
-            if(this.audioType == "effects"){
-                // Determine which file to play
-                if (Adapt.audio.effectsClip.canPlayType('audio/ogg')) this.audioFile = this.model.get("_audio")._media.ogg;
-                if (Adapt.audio.effectsClip.canPlayType('audio/mpeg')) this.audioFile = this.model.get("_audio")._media.mp3;
-                // Set clip ID
-                Adapt.audio.effectsClip.newID = this.elementId;
-                // Set listener for when clip ends
-                $(Adapt.audio.effectsClip).on('ended', _.bind(this.onAudioEffectsEnded, this));
-            }
+            // Determine which file to play
+            if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/ogg')) this.audioFile = this.model.get("_audio")._media.ogg;
+            if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/mpeg')) this.audioFile = this.model.get("_audio")._media.mp3;
+            // Set clip ID
+            Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
+            // Set listener for when clip ends
+            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
 
             _.defer(_.bind(function() {
                 this.postRender();
@@ -91,16 +70,8 @@ define(function(require) {
             this.$('.audio-inner').on('inview', _.bind(this.inview, this));
         },
 
-        onAudioNarrationEnded: function() {
-            Adapt.trigger('audio:narrationEnded');
-        },
-
-        onAudioMusicEnded: function() {
-            Adapt.trigger('audio:musicEnded');
-        },
-
-        onAudioEffectsEnded: function() {
-            Adapt.trigger('audio:effectsEnded');
+        onAudioEnded: function() {
+            Adapt.trigger('audio:audioEnded', this.audioChannel);
         },
 
         initQuestionFeedbackAudio: function() {
@@ -108,28 +79,31 @@ define(function(require) {
                 // Correct
                 if (this.model.get('_isCorrect')) {
                     // Determine which file to play
-                    if (Adapt.audio.narrationClip.canPlayType('audio/ogg')) this.audioFile = this.model.get("_feedback")._audio._correct._media.ogg;
-                    if (Adapt.audio.narrationClip.canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._correct._media.mp3;
+                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/ogg')) this.audioFile = this.model.get("_feedback")._audio._correct._media.ogg;
+                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._correct._media.mp3;
                     //
                 // Partly correct
                 } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
-                    if (Adapt.audio.narrationClip.canPlayType('audio/ogg')) this.audioFile = this.model.get("_audio")._audio._partlyCorrect._final._media.ogg;
-                    if (Adapt.audio.narrationClip.canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._partlyCorrect._final._media.mp3;
+                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/ogg')) this.audioFile = this.model.get("_audio")._audio._partlyCorrect._final._media.ogg;
+                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._partlyCorrect._final._media.mp3;
                 // Incorrect
                 } else {
                     // Determine which file to play
-                    if (Adapt.audio.narrationClip.canPlayType('audio/ogg')) this.audioFile = this.model.get("_feedback")._audio._incorrect._final._media.ogg;
-                    if (Adapt.audio.narrationClip.canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._incorrect._final._media.mp3;
+                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/ogg')) this.audioFile = this.model.get("_feedback")._audio._incorrect._final._media.ogg;
+                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._incorrect._final._media.mp3;
                     //
                 }
                 // Trigger audio
-                Adapt.trigger('audio:playNarrationAudio', this.audioFile, this.model.get('_id'));
+                // Check if audio is set to on
+                if(Adapt.audio.audioClip[this.audioChannel].status==1){
+                    Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.audioChannel);
+                }
             }
         },
 
         stopFeedbackAudio: function() {
             if(this.model.has('_feedback')._audio) {
-                Adapt.trigger('audio:pauseNarrationAudio');
+                Adapt.trigger('audio:pauseAudio', this.audioChannel);
             }
         },
 
@@ -145,69 +119,26 @@ define(function(require) {
                 }
                 // Check if visible on screen
                 if (this._isVisibleTop && this._isVisibleBottom) {
-                    // Check what type of audio is being played
-                    if(this.audioType == "narration"){
-                        // Check if audio is set to on
-                        if(Adapt.audio.narrationAudio==1){
-                            // Check if audio is set to autoplay
-                            if(this.model.get("_audio")._autoplay){
-                                Adapt.trigger('audio:playNarrationAudio', this.audioFile, this.elementId);
-                            }
-                        }
-                    }
-                    if(this.audioType == "music"){
-                        // Check if audio is set to on
-                        if(Adapt.audio.musicAudio==1){
-                            // Check if audio is set to autoplay
-                            if(this.model.get("_audio")._autoplay){
-                                Adapt.trigger('audio:playMusicAudio', this.audioFile, this.elementId);
-                            }
-                        }
-                    }
-                    if(this.audioType == "effects"){
-                        // Check if audio is set to on
-                        if(Adapt.audio.effectsAudio==1){
-                            // Check if audio is set to autoplay
-                            if(this.model.get("_audio")._autoplay){
-                                Adapt.trigger('audio:playEffectsAudio', this.audioFile, this.elementId);
-                            }
+                    // Check if audio is set to on
+                    if(Adapt.audio.audioClip[this.audioChannel].status==1){
+                        // Check if audio is set to autoplay
+                        if(this.model.get("_audio")._autoplay){
+                            Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
                         }
                     }
                 }
             } else {
-                if(this.audioType == "narration"){
-                    Adapt.audio.narrationClip.pause();
-                } else if (this.audioType == "music") {
-                    Adapt.audio.musicClip.pause();
-                } else if (this.audioType == "effects") {
-                    Adapt.audio.effectsClip.pause();
-                }
+                Adapt.trigger('audio:pauseAudio', this.audioChannel);
             }
         },
 
         toggleAudio: function(event) {
             if (event) event.preventDefault();
-            // Check what type of audio is being played
-            if(this.audioType == "narration"){
-                if ($(event.currentTarget).hasClass('playing')) {
-                    Adapt.trigger('audio:pauseNarrationAudio');
-                } else {
-                    Adapt.trigger('audio:playNarrationAudio', this.audioFile, this.elementId);
-                }
-            }
-            if(this.audioType == "music"){
-                if ($(event.currentTarget).hasClass('playing')) {
-                    Adapt.trigger('audio:pauseMusicAudio');
-                } else {
-                    Adapt.trigger('audio:playMusicAudio', this.audioFile, this.elementId);
-                }
-            }
-            if(this.audioType == "effects"){
-                if ($(event.currentTarget).hasClass('playing')) {
-                    Adapt.trigger('audio:pauseEffectsAudio');
-                } else {
-                    Adapt.trigger('audio:playEffectsAudio', this.audioFile, this.elementId);
-                }
+
+            if ($(event.currentTarget).hasClass('playing')) {
+                Adapt.trigger('audio:pauseAudio', this.audioChannel);
+            } else {
+                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
         },
 
@@ -217,23 +148,17 @@ define(function(require) {
             if (!hasAccessibility) {
                 console.log("Accessibility is off");
             } else {
-                console.log("Accessibility is on!!!!!");
+                console.log("Accessibility is on");
 
-                Adapt.trigger('audio:updateNarrationStatus', 0);
-                Adapt.trigger('audio:updateEffectsStatus', 0);
-                Adapt.trigger('audio:updateMusicStatus', 0);
+                for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                    Adapt.trigger('audio:updateAudioStatus', this.audioChannel, 0);
+                }
             }
         },
 
         removeInViewListeners: function () { 
             this.$('.audio-inner').off('inview');
-            if (this.audioType == "narration") {
-                Adapt.trigger('audio:pauseNarrationAudio');
-            } else if (this.audioType == "music") {
-                Adapt.trigger('audio:pauseMusicAudio');
-            } else if (this.audioType == "effects") {
-                Adapt.trigger('audio:pauseEffectsAudio');
-            }
+            Adapt.trigger('audio:pauseAudio', this.audioChannel);
         }
 
     });
