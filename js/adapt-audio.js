@@ -7,6 +7,7 @@ define(function(require) {
 
 	var Adapt = require('coreJS/adapt');
 	var Backbone = require('backbone');
+	var scorm = require('extensions/adapt-contrib-spoor/js/scorm');
 	var AudioToggleView = require('extensions/adapt-audio/js/audio-toggle-view');
 	var AudioDrawerView = require('extensions/adapt-audio/js/audio-drawer-view');
 	var AudioHelpers = require('extensions/adapt-audio/js/audio-helpers');
@@ -18,25 +19,41 @@ define(function(require) {
 	Adapt.audio.audioClip = new Array();
 
     function setVars () {
-
+    	// Set number of audio channels specified in the course JSON
     	Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems.length;
-
+    	// Create audio objects based on the number of channels
     	for (var i = 0; i < Adapt.audio.numChannels; i++) {
     		Adapt.audio.audioClip[i] = new Audio();
 	    }
-
+    	// Determine whether any audio setting will be saved based on SCORM resume data
+    	// If yes then used saved preference
+    	// If not then specify settings from the course JSON
+    	if (scorm.isSCORM2004()) {
+    		if(scorm.getValue("cmi.entry") == "resume"){
+    			Adapt.audio.audioStatus = scorm.getValue("cmi.learner_preference.audio_level");
+    		} else {
+    			for (var i = 0; i < Adapt.audio.numChannels; i++) {
+		    		Adapt.audio.audioClip[i].status = Adapt.course.get('_audio')._audioItems[i]._status;
+			    }
+    		}
+		}
+		else {
+			if(scorm.getValue("cmi.core.entry") == "resume"){
+    			Adapt.audio.audioStatus = scorm.getValue("cmi.student_preference.audio");
+    		} else {
+    			for (var i = 0; i < Adapt.audio.numChannels; i++) {
+		    		Adapt.audio.audioClip[i].status = Adapt.course.get('_audio')._audioItems[i]._status;
+			    }
+    		}
+		}
+    
+	    // Assign variables to each audio object
 	    for (var i = 0; i < Adapt.audio.numChannels; i++) {
-    		// *** Will need to work on this if user's settings are going to be stored in SCORM ***
-    		/// SCORM ///
-			// cmi.student_preference.audio
-			// cmi.suspend_data
-			/////////////
-	    	Adapt.audio.audioClip[i].status = Adapt.course.get('_audio')._audioItems[i]._status;
+			Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
 	    	Adapt.audio.audioClip[i].isPlaying = false;
 	    	Adapt.audio.audioClip[i].playingID = "";
 	    	Adapt.audio.audioClip[i].newID = "";
 	    }
-
     }
 
     Adapt.on('audio:playAudio', function (audioClip, id, channel) {
@@ -75,6 +92,27 @@ define(function(require) {
 	Adapt.on('audio:updateAudioStatus', function (channel, value) {
 		Adapt.audio.audioClip[channel].status = value;
 		Adapt.trigger('audio:pauseAudio', channel);
+		Adapt.trigger('audio:saveAudioStatus');
+	});
+
+	// Save audio preference for LMS
+	Adapt.on('audio:saveAudioStatus', function () {
+		// Check for any channel being on
+        for (var i = 0; i < Adapt.audio.numChannels; i++) {
+            if(Adapt.audio.audioClip[i].status==1){
+                Adapt.audio.audioStatus = 1;
+            } else {
+                Adapt.audio.audioStatus = 0;
+            }
+        }
+        // Set SCORM element
+        if (scorm.isSCORM2004()) {
+			scorm.setValue("cmi.learner_preference.audio_level", Adapt.audio.audioStatus);
+		}
+		else {
+			scorm.setValue("cmi.student_preference.audio", Adapt.audio.audioStatus);
+		}
+
 	});
 
     Adapt.on('app:dataReady', function() {
@@ -85,7 +123,6 @@ define(function(require) {
     // Drawer item
     // -----
 	function setupDrawerAudio(audioDrawerModel, audioItems) {
-
 		var audioDrawerCollection = new Backbone.Collection(audioItems);
 		var audioDrawerModel = new Backbone.Model(audioDrawerModel);
 
@@ -99,7 +136,6 @@ define(function(require) {
 	
 	}
 	Adapt.once('app:dataReady', function() {
-
 		var drawerAudio = Adapt.course.get('_audio');
 
 		if (drawerAudio) {
@@ -127,7 +163,6 @@ define(function(require) {
     // Audio controls view
     // -----
     Adapt.on('articleView:postRender blockView:postRender componentView:postRender', function(view) {
-
         if (view.model.get("_audio")) {
           if ($('html').hasClass('accessibility')) {
                 // Do nothing
@@ -135,7 +170,6 @@ define(function(require) {
                 new AudioControlsView({model:view.model});
             }
         }
-
     });
 
 })

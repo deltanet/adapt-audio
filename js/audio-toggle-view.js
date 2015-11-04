@@ -55,6 +55,9 @@ define(function(require) {
         toggleAudio: function(event) {
 
             if (event) event.preventDefault();
+
+            console.log("Adapt.audio.audioStatus = "+Adapt.audio.audioStatus);
+
             Adapt.trigger("audio:showAudioDrawer");
 
         }
