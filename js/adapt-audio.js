@@ -7,6 +7,7 @@ define(function(require) {
 
 	var Adapt = require('coreJS/adapt');
 	var Backbone = require('backbone');
+	var scorm = require('extensions/adapt-contrib-spoor/js/scorm');
 	var AudioToggleView = require('extensions/adapt-audio/js/audio-toggle-view');
 	var AudioDrawerView = require('extensions/adapt-audio/js/audio-drawer-view');
 	var AudioHelpers = require('extensions/adapt-audio/js/audio-helpers');
@@ -14,153 +15,114 @@ define(function(require) {
 
 	// Define audio model for all other views and components to reference
 	Adapt.audio = {};
+	Adapt.audio.audioChannel = new Array();
+	Adapt.audio.audioClip = new Array();
 
-	// Create audio channels for the types of audio available
-	Adapt.audio.narrationClip = new Audio();
-	Adapt.audio.musicClip = new Audio();
-	Adapt.audio.effectsClip = new Audio();
+    function setVars () {
+    	// Set number of audio channels specified in the course JSON
+    	Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems.length;
+    	// Create audio objects based on the number of channels
+    	for (var i = 0; i < Adapt.audio.numChannels; i++) {
+    		Adapt.audio.audioClip[i] = new Audio();
+	    }
+    	// Determine whether any audio setting will be saved based on SCORM resume data
+    	// If yes then used saved preference
+    	// If not then specify settings from the course JSON
+    	if (scorm.isSCORM2004()) {
+    		if(scorm.getValue("cmi.entry") == "resume"){
+    			Adapt.audio.audioStatus = scorm.getValue("cmi.learner_preference.audio_level");
+    		} else {
+    			for (var i = 0; i < Adapt.audio.numChannels; i++) {
+		    		Adapt.audio.audioClip[i].status = Adapt.course.get('_audio')._audioItems[i]._status;
+			    }
+    		}
+		}
+		else {
+			if(scorm.getValue("cmi.core.entry") == "resume"){
+    			Adapt.audio.audioStatus = scorm.getValue("cmi.student_preference.audio");
+    		} else {
+    			for (var i = 0; i < Adapt.audio.numChannels; i++) {
+		    		Adapt.audio.audioClip[i].status = Adapt.course.get('_audio')._audioItems[i]._status;
+			    }
+    		}
+		}
+    
+	    // Assign variables to each audio object
+	    for (var i = 0; i < Adapt.audio.numChannels; i++) {
+			Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
+	    	Adapt.audio.audioClip[i].isPlaying = false;
+	    	Adapt.audio.audioClip[i].playingID = "";
+	    	Adapt.audio.audioClip[i].newID = "";
+	    }
+    }
 
-	// Set default for each audio channel as 'Not playing' *** Used for the audio player toggle button
-	Adapt.audio.narrationClip.isPlaying = false;
-	Adapt.audio.musicClip.isPlaying = false;
-	Adapt.audio.effectsClip.isPlaying = false;
-
-	Adapt.audio.narrationClip.playingID = "";
-	Adapt.audio.musicClip.playingID = "";
-	Adapt.audio.effectsClip.playingID = "";
-
-	Adapt.audio.narrationClip.newID = "";
-	Adapt.audio.musicClip.newID = "";
-	Adapt.audio.effectsClip.newID = "";
-
-	// Create functions for other views and components to trigger playing and pausing/stopping each audio channel
-	//
-	///// Narration Audio /////
-	Adapt.on('audio:playNarrationAudio', function(audioClip,id) {
+    Adapt.on('audio:playAudio', function (audioClip, id, channel) {
 		// Stop current clip
-        Adapt.trigger('audio:pauseNarrationAudio');
+        Adapt.trigger('audio:pauseAudio', channel);
         // Update player to new clip vars
-        Adapt.audio.narrationClip.src = audioClip;
-        Adapt.audio.narrationClip.newID = id;
+        Adapt.audio.audioClip[channel].src = audioClip;
+        Adapt.audio.audioClip[channel].newID = id;
+        console.log("newID = "+Adapt.audio.audioClip[channel].newID);
         // Play clip
-        if(Adapt.audio.narrationAudio==1){
-        	setTimeout(function() {Adapt.audio.narrationClip.play();},1000);
-            Adapt.audio.narrationClip.isPlaying=true;
-            $('#'+Adapt.audio.narrationClip.newID).removeClass('fa-volume-off');
-            $('#'+Adapt.audio.narrationClip.newID).addClass('fa-volume-up');
-	        $('#'+Adapt.audio.narrationClip.newID).addClass('playing');
+        if(Adapt.audio.audioClip[i].status==1){
+        	setTimeout(function() {Adapt.audio.audioClip[channel].play();},1000);
+            Adapt.audio.audioClip[channel].isPlaying = true;
+            console.log("isPlaying = "+Adapt.audio.audioClip[channel].isPlaying);
+            $('#'+Adapt.audio.audioClip[channel].newID).removeClass('fa-volume-off');
+            $('#'+Adapt.audio.audioClip[channel].newID).addClass('fa-volume-up');
+	        $('#'+Adapt.audio.audioClip[channel].newID).addClass('playing');
         }
         // Update player ID to new clip
-        Adapt.audio.narrationClip.playingID = Adapt.audio.narrationClip.newID;
+        Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
 	});
 
-	Adapt.on('audio:pauseNarrationAudio', function() {
-        Adapt.audio.narrationClip.pause();
-        Adapt.trigger('audio:narrationEnded');
+	Adapt.on('audio:pauseAudio', function (channel) {
+        Adapt.audio.audioClip[channel].pause();
+        Adapt.trigger('audio:audioEnded', channel);
 	});
 
-	Adapt.on('audio:narrationEnded', function () {
-		Adapt.audio.narrationClip.isPlaying=false;
-		$('#'+Adapt.audio.narrationClip.playingID).removeClass('fa-volume-up');
-        $('#'+Adapt.audio.narrationClip.playingID).addClass('fa-volume-off');
-        $('#'+Adapt.audio.narrationClip.playingID).removeClass('playing');
-	});
-	//////////////////////////
-	//
-	//
-	///// Music Audio /////
-	Adapt.on('audio:playMusicAudio', function(audioClip,id) {
-		// Stop current clip
-        Adapt.trigger('audio:pauseMusicAudio');
-        // Update player to new clip vars
-        Adapt.audio.musicClip.src = audioClip;
-        Adapt.audio.musicClip.newID = id;
-        // Play clip
-        if(Adapt.audio.musicAudio==1){
-            Adapt.audio.musicClip.play();
-            Adapt.audio.musicClip.isPlaying=true;
-            $('#'+Adapt.audio.musicClip.newID).removeClass('fa-volume-off');
-            $('#'+Adapt.audio.musicClip.newID).addClass('fa-volume-up');
-	        $('#'+Adapt.audio.musicClip.newID).addClass('playing');
-        }
-        // Update player ID to new clip
-        Adapt.audio.musicClip.playingID = Adapt.audio.musicClip.newID;
+	Adapt.on('audio:audioEnded', function (channel) {
+		Adapt.audio.audioClip[channel].isPlaying = false;
+		$('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-volume-up');
+        $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-volume-off');
+        $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
 	});
 
-	Adapt.on('audio:pauseMusicAudio', function() {
-        Adapt.audio.musicClip.pause();
-        Adapt.trigger('audio:musicEnded');
-	});
-
-	Adapt.on('audio:musicEnded', function () {
-		Adapt.audio.musicClip.isPlaying=false;
-		$('#'+Adapt.audio.musicClip.playingID).removeClass('fa-volume-up');
-        $('#'+Adapt.audio.musicClip.playingID).addClass('fa-volume-off');
-        $('#'+Adapt.audio.musicClip.playingID).removeClass('playing');
-	});
-	///////////////////////
-	//
-	//
-	///// Effects Audio /////
-	Adapt.on('audio:playEffectsAudio', function(audioClip) {
-		// Stop current clip
-        Adapt.trigger('audio:pauseEffectsAudio');
-        // Update player to new clip vars
-        Adapt.audio.musicClip.src = audioClip;
-        Adapt.audio.musicClip.newID = id;
-        // Play clip
-        if(Adapt.audio.effectsAudio==1){
-            Adapt.audio.effectsClip.play();
-            Adapt.audio.effectsClip.isPlaying=true;
-            $('#'+Adapt.audio.effectsClip.newID).removeClass('fa-volume-off');
-            $('#'+Adapt.audio.effectsClip.newID).addClass('fa-volume-up');
-	        $('#'+Adapt.audio.effectsClip.newID).addClass('playing');
-        }
-        // Update player ID to new clip
-        Adapt.audio.effectsClip.playingID = Adapt.audio.effectsClip.newID;
-	});
-
-	Adapt.on('audio:pauseEffectsAudio', function() {
-        Adapt.audio.effectsClip.pause();
-        Adapt.trigger('audio:effectsEnded');
-	});
-
-	Adapt.on('audio:effectsEnded', function () {
-		Adapt.audio.effectsClip.isPlaying=false;
-		$('#'+Adapt.audio.effectsClip.playingID).removeClass('fa-volume-up');
-        $('#'+Adapt.audio.effectsClip.playingID).addClass('fa-volume-off');
-        $('#'+Adapt.audio.effectsClip.playingID).removeClass('playing');
-	});
-	////////////////////////
-	//
 	// Audio on/off events
-	Adapt.on('audio:updateNarrationStatus', function (value) {
-		Adapt.audio.narrationAudio = value;
-		Adapt.trigger('audio:pauseNarrationAudio');
+	Adapt.on('audio:updateAudioStatus', function (channel, value) {
+		Adapt.audio.audioClip[channel].status = value;
+		Adapt.trigger('audio:pauseAudio', channel);
+		Adapt.trigger('audio:saveAudioStatus');
 	});
-	Adapt.on('audio:updateEffectsStatus', function (value) {
-		Adapt.audio.effectsAudio = value;
-		Adapt.trigger('audio:pauseEffectsAudio');
-	});
-	Adapt.on('audio:updateMusicStatus', function (value) {
-		Adapt.audio.musicAudio = value;
-		Adapt.trigger('audio:pauseMusicAudio');
+
+	// Save audio preference for LMS
+	Adapt.on('audio:saveAudioStatus', function () {
+		// Check for any channel being on
+        for (var i = 0; i < Adapt.audio.numChannels; i++) {
+            if(Adapt.audio.audioClip[i].status==1){
+                Adapt.audio.audioStatus = 1;
+            } else {
+                Adapt.audio.audioStatus = 0;
+            }
+        }
+        // Set SCORM element
+        if (scorm.isSCORM2004()) {
+			scorm.setValue("cmi.learner_preference.audio_level", Adapt.audio.audioStatus);
+		}
+		else {
+			scorm.setValue("cmi.student_preference.audio", Adapt.audio.audioStatus);
+		}
+
 	});
 
     Adapt.on('app:dataReady', function() {
-    	// Get default audio status for each audio channel
-    	// *** Will need to work on this if user's settings are going to be stored in SCORM ***
-		Adapt.audio.narrationAudio = Adapt.config.get('_audio')._audioNarrationStatus;
-		Adapt.audio.effectsAudio = Adapt.config.get('_audio')._audioEffectsStatus;
-		Adapt.audio.musicAudio = Adapt.config.get('_audio')._audioMusicStatus;
-
+		setVars();
     });
 
 	// -----
     // Drawer item
     // -----
 	function setupDrawerAudio(audioDrawerModel, audioItems) {
-
 		var audioDrawerCollection = new Backbone.Collection(audioItems);
 		var audioDrawerModel = new Backbone.Model(audioDrawerModel);
 
@@ -174,7 +136,6 @@ define(function(require) {
 	
 	}
 	Adapt.once('app:dataReady', function() {
-
 		var drawerAudio = Adapt.course.get('_audio');
 
 		if (drawerAudio) {
@@ -202,7 +163,6 @@ define(function(require) {
     // Audio controls view
     // -----
     Adapt.on('articleView:postRender blockView:postRender componentView:postRender', function(view) {
-
         if (view.model.get("_audio")) {
           if ($('html').hasClass('accessibility')) {
                 // Do nothing
@@ -210,7 +170,6 @@ define(function(require) {
                 new AudioControlsView({model:view.model});
             }
         }
-
     });
 
 })

@@ -29,23 +29,13 @@ define(function(require) {
             var template = Handlebars.templates["audioDrawer"];
             this.$el.html(template({model: modelData, audio:collectionData, _globals: Adapt.course.get('_globals')}));
 
-            // Narrator audio
-            if(Adapt.audio.narrationAudio == 1){
-                this.$('.item-0').addClass('fa-volume-up');
-            } else {
-                this.$('.item-0').addClass('fa-volume-off');
-            }
-            // Effects audio
-            if(Adapt.audio.effectsAudio == 1){
-                this.$('.item-1').addClass('fa-volume-up');
-            } else {
-                this.$('.item-1').addClass('fa-volume-off');
-            }
-            // Music audio
-            if(Adapt.audio.musicAudio == 1){
-                this.$('.item-2').addClass('fa-volume-up');
-            } else {
-                this.$('.item-2').addClass('fa-volume-off');
+            // Display appropriate icon
+            for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                if(Adapt.audio.audioClip[i].status==1){
+                    this.$('.item-'+i).addClass('fa-volume-up');
+                } else {
+                    this.$('.item-'+i).addClass('fa-volume-off');
+                }
             }
 
             _.defer(_.bind(this.postRender, this));
@@ -80,49 +70,18 @@ define(function(require) {
 
             var currentItem = $(event.currentTarget).data('id');
 
-            this.$('.'+currentItem).removeClass('fa-volume-up');
-            this.$('.'+currentItem).addClass('fa-volume-off');
+            this.$('.item-'+currentItem).removeClass('fa-volume-up');
+            this.$('.item-'+currentItem).addClass('fa-volume-off');
 
-            // Narrator audio
-            if(currentItem=="item-0"){
-                if(Adapt.audio.narrationAudio == 0){
-                    this.$('.'+currentItem).removeClass('fa-volume-off');
-                    this.$('.'+currentItem).addClass('fa-volume-up');
-                    Adapt.trigger('audio:updateNarrationStatus', 1);
+            if(Adapt.audio.audioClip[currentItem].status == 0){
+                this.$('.item-'+currentItem).removeClass('fa-volume-off');
+                this.$('.item-'+currentItem).addClass('fa-volume-up');
+                Adapt.trigger('audio:updateAudioStatus', currentItem, 1);
 
-                } else {
-                    this.$('.'+currentItem).removeClass('fa-volume-up');
-                    this.$('.'+currentItem).addClass('fa-volume-off');
-                    Adapt.trigger('audio:updateNarrationStatus', 0);
-                }
-            }
-
-            // Effects audio
-            if(currentItem=="item-1"){
-                if(Adapt.audio.effectsAudio == 0){
-                    this.$('.'+currentItem).removeClass('fa-volume-off');
-                    this.$('.'+currentItem).addClass('fa-volume-up');
-                    Adapt.trigger('audio:updateEffectsStatus', 1);
-
-                } else {
-                    this.$('.'+currentItem).removeClass('fa-volume-up');
-                    this.$('.'+currentItem).addClass('fa-volume-off');
-                    Adapt.trigger('audio:updateEffectsStatus', 0);
-                }
-            }
-
-            // Music audio
-            if(currentItem=="item-2"){
-                if(Adapt.audio.musicAudio == 0){
-                    this.$('.'+currentItem).removeClass('fa-volume-off');
-                    this.$('.'+currentItem).addClass('fa-volume-up');
-                    Adapt.trigger('audio:updateMusicStatus', 1);
-
-                } else {
-                    this.$('.'+currentItem).removeClass('fa-volume-up');
-                    this.$('.'+currentItem).addClass('fa-volume-off');
-                    Adapt.trigger('audio:updateMusicStatus', 0);
-                }
+            } else {
+                this.$('.item-'+currentItem).removeClass('fa-volume-up');
+                this.$('.item-'+currentItem).addClass('fa-volume-off');
+                Adapt.trigger('audio:updateAudioStatus', currentItem, 0);
             }
 
         }
