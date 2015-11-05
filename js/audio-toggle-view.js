@@ -1,8 +1,3 @@
-/*
-* adapt-audio
-* License - http://github.com/adaptlearning/adapt_framework/LICENSE
-* Maintainers - Robert Peek <robert@delta-net.co.uk>
-*/
 define(function(require) {
 
     var Adapt = require('coreJS/adapt');

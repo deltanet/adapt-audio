@@ -1,8 +1,3 @@
-/*
-* adapt-audio
-* License - http://github.com/adaptlearning/adapt_framework/LICENSE
-* Maintainers - Robert Peek <robert@delta-net.co.uk>
-*/
 define(function(require) {
 
 	var Adapt = require('coreJS/adapt');
@@ -28,6 +23,7 @@ define(function(require) {
     	// Determine whether any audio setting will be saved based on SCORM resume data
     	// If yes then used saved preference
     	// If not then specify settings from the course JSON
+    	
     	if (scorm.isSCORM2004()) {
     		if(scorm.getValue("cmi.entry") == "resume"){
     			Adapt.audio.audioStatus = scorm.getValue("cmi.learner_preference.audio_level");
@@ -46,7 +42,7 @@ define(function(require) {
 			    }
     		}
 		}
-    
+    	
 	    // Assign variables to each audio object
 	    for (var i = 0; i < Adapt.audio.numChannels; i++) {
 			Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
@@ -64,7 +60,7 @@ define(function(require) {
         Adapt.audio.audioClip[channel].newID = id;
         console.log("newID = "+Adapt.audio.audioClip[channel].newID);
         // Play clip
-        if(Adapt.audio.audioClip[i].status==1){
+        if(Adapt.audio.audioClip[channel].status==1){
         	setTimeout(function() {Adapt.audio.audioClip[channel].play();},1000);
             Adapt.audio.audioClip[channel].isPlaying = true;
             console.log("isPlaying = "+Adapt.audio.audioClip[channel].isPlaying);

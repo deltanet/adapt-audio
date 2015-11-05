@@ -9,5 +9,4 @@ An extension for the the [Adapt framework](https://github.com/adaptlearning/adap
 **Accessibility support:** NA  
 **RTL support:** Yes     
 **Authoring tool support:** no
-
 ----------------------------
