@@ -7,6 +7,7 @@ define(function(require) {
 	var AudioDrawerView = require('extensions/adapt-audio/js/audio-drawer-view');
 	var AudioHelpers = require('extensions/adapt-audio/js/audio-helpers');
 	var AudioControlsView = require('extensions/adapt-audio/js/audio-controls-view');
+	var AudioMenuView = require('extensions/adapt-audio/js/audio-menu-view');
 
 	// Define audio model for all other views and components to reference
 	Adapt.audio = {};
@@ -23,26 +24,31 @@ define(function(require) {
     	// Determine whether any audio setting will be saved based on SCORM resume data
     	// If yes then used saved preference
     	// If not then specify settings from the course JSON
-    	
+    	/*
     	if (scorm.isSCORM2004()) {
-    		if(scorm.getValue("cmi.entry") == "resume"){
+    		if(scorm.getValue("cmi.entry") !== "ab-initio"){
     			Adapt.audio.audioStatus = scorm.getValue("cmi.learner_preference.audio_level");
     		} else {
     			for (var i = 0; i < Adapt.audio.numChannels; i++) {
 		    		Adapt.audio.audioClip[i].status = Adapt.course.get('_audio')._audioItems[i]._status;
 			    }
+			    Adapt.audio.audioStatus = 1;
     		}
 		}
 		else {
-			if(scorm.getValue("cmi.core.entry") == "resume"){
+			if(scorm.getValue("cmi.core.entry") !== "ab-initio"){
     			Adapt.audio.audioStatus = scorm.getValue("cmi.student_preference.audio");
     		} else {
     			for (var i = 0; i < Adapt.audio.numChannels; i++) {
 		    		Adapt.audio.audioClip[i].status = Adapt.course.get('_audio')._audioItems[i]._status;
 			    }
+			    Adapt.audio.audioStatus = 1;
     		}
 		}
-    	
+		*/
+
+		Adapt.audio.audioStatus = 1;
+
 	    // Assign variables to each audio object
 	    for (var i = 0; i < Adapt.audio.numChannels; i++) {
 			Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
@@ -159,11 +165,23 @@ define(function(require) {
     // Audio controls view
     // -----
     Adapt.on('articleView:postRender blockView:postRender componentView:postRender', function(view) {
-        if (view.model.get("_audio")) {
+        if (view.model.get("_audio") && Adapt.audio.audioStatus == 1) {
           if ($('html').hasClass('accessibility')) {
                 // Do nothing
             } else {
                 new AudioControlsView({model:view.model});
+            }
+        }
+    });
+    // -----
+    // Menu view
+    // -----
+    Adapt.on("menuView:ready", function(view) {
+	    if (view.model.get("_audio") && Adapt.audio.audioStatus == 1) {
+          if ($('html').hasClass('accessibility')) {
+                // Do nothing
+            } else {
+                new AudioMenuView({model:view.model});
             }
         }
     });

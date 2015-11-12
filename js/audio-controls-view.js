@@ -10,7 +10,7 @@ define(function(require) {
         initialize: function () {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
-            this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
+            this.listenTo(Adapt, 'notify:closed', this.stopNotifyAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
@@ -30,11 +30,14 @@ define(function(require) {
             var template = Handlebars.templates["audioControls"];
 
             if (this.model.get("_audio")._isEnabled) {
+
                 if(this.model.get("_audio")._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
                     $(this.el).html(template(data)).appendTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
                 } else {
                     $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
                 }
+
+
             }
             // Add class so it can be referenced in the theme if needed 
             $(this.el).addClass(this.model.get("_type"));
@@ -96,8 +99,8 @@ define(function(require) {
             }
         },
 
-        stopFeedbackAudio: function() {
-            if(this.model.has('_feedback')._audio) {
+        stopNotifyAudio: function() {
+            if(this.model.has('_audio')) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             }
         },
