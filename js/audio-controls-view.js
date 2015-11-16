@@ -40,7 +40,7 @@ define(function(require) {
 
             }
             // Add class so it can be referenced in the theme if needed 
-            $(this.el).addClass(this.model.get("_type"));
+            $(this.el).addClass(this.model.get("_type")+"-audio");
 
             // Set vars
             this.audioChannel = this.model.get("_audio")._channel;
