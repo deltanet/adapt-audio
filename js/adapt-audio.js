@@ -88,9 +88,13 @@ define([
       Adapt.audio.audioClip[channel].newID = id;
       // Play clip
       if(Adapt.audio.audioClip[channel].status==1){
-        setTimeout(function() {Adapt.audio.audioClip[channel].play();},1000);
-        Adapt.audio.audioClip[channel].isPlaying = true;
-        this.showAudioIcon(channel);
+        try {
+          setTimeout(function() {Adapt.audio.audioClip[channel].play();},1000);
+          Adapt.audio.audioClip[channel].isPlaying = true;
+          this.showAudioIcon(channel);
+        } catch(e) {
+          console.log('Audio play error:' + e);
+        }
       }
       // Update player ID to new clip
       Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
@@ -99,7 +103,7 @@ define([
 
     pauseAudio: function(channel) {
       Adapt.audio.audioClip[channel].pause();
-      this.hideAudioIcon(channel);
+      //this.hideAudioIcon(channel);
     },
 
     audioEnded: function(channel) {
@@ -157,11 +161,12 @@ define([
     },
 
     onABCReady: function(view) {
-      if (this.audioEnabled  && view.model.get("_audio")) {
-        if ($('html').hasClass('accessibility')) {
-              // Do nothing
-          } else {
-              new AudioControlsView({model:view.model});
+
+      if (this.audioEnabled  && view.model && view.model.get("_audio")) {
+          try{
+            new AudioControlsView({model:view.model});
+          } catch(e){
+            console.log(e);
           }
       }
     }
