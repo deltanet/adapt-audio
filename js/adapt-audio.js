@@ -15,6 +15,7 @@ define([
     onDataReady: function() {
       this.setupEventListeners();
       this.setupAudio();
+      this.addAudioDrawerItem();
     },
 
     setupEventListeners: function() {
@@ -27,6 +28,8 @@ define([
       this.listenTo(Adapt, "audio:audioEnded", this.audioEnded);
       // listen to toggle audio on or off
       this.listenTo(Adapt, "audio:updateAudioStatus", this.updateAudioStatus);
+      // setup audio in drawer
+      this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio)
     },
 
     setupAudio: function() {
@@ -61,28 +64,12 @@ define([
     },
 
     onPageReady: function(view) {
-
       if (this.audioEnabled) {
           new AudioToggleView({model:view.model});
       }
-
-      var drawerAudio = Adapt.course.get('_audio');
-
-      if (this.audioEnabled && drawerAudio) {
-        var drawerObject = {
-              title: drawerAudio.title,
-              description: drawerAudio.description,
-              className: 'audio-drawer'
-          };
-          Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
-      } else {
-        return console.log('Sorry, audio is disabled or no audio object is set on the course.json file.');
-      }
-      this.setupDrawerAudio(drawerAudio, drawerAudio._audioItems);
     },
 
     playAudio: function(audioClip, id, channel) {
-
       // Update player to new clip vars
       Adapt.audio.audioClip[channel].src = audioClip;
       Adapt.audio.audioClip[channel].newID = id;
@@ -103,7 +90,7 @@ define([
 
     pauseAudio: function(channel) {
       Adapt.audio.audioClip[channel].pause();
-      //this.hideAudioIcon(channel);
+      this.hideAudioIcon(channel);
     },
 
     audioEnded: function(channel) {
@@ -112,10 +99,11 @@ define([
     },
 
     showAudioIcon: function(channel) {
+
       var audioHTMLId = '#'+Adapt.audio.audioClip[channel].newID;
       try {
-        $(audioHTMLId).removeClass('fa-volume-off');
-        $(audioHTMLId).addClass('fa-volume-up');
+        $(audioHTMLId).removeClass('fa-play');
+        $(audioHTMLId).addClass('fa-pause');
         $(audioHTMLId).addClass('playing');
       } catch(e) {
         console.error("audio error");
@@ -124,8 +112,8 @@ define([
 
     hideAudioIcon: function(channel) {
       try {
-        $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-volume-up');
-        $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-volume-off');
+        $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-pause');
+        $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-play');
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
       } catch(e) {
         console.error("audio error");
@@ -146,18 +134,31 @@ define([
       }
     },
 
-    setupDrawerAudio: function(audioDrawerModel, audioItems) {
+    addAudioDrawerItem: function() {
+      var drawerAudio = Adapt.course.get('_audio');
+
+      if (this.audioEnabled && drawerAudio && drawerAudio._enableAudioDrawer) {
+        var drawerObject = {
+              title: drawerAudio.title,
+              description: drawerAudio.description,
+              className: 'audio-drawer'
+          };
+          Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
+      } else {
+        return console.log('Sorry, audio is disabled or no audio object is set on the course.json file.');
+      }
+    },
+
+    setupDrawerAudio: function() {
+      var audioDrawerModel = Adapt.course.get('_audio');
+      var audioItems = audioDrawerModel._audioItems;
       var audioDrawerCollection = new Backbone.Collection(audioItems);
       var audioDrawerModel = new Backbone.Model(audioDrawerModel);
 
-      Adapt.on('audio:showAudioDrawer', function() {
-
-        Adapt.drawer.triggerCustomView(new AudioDrawerView({
-          model: audioDrawerModel, 
-          collection: audioDrawerCollection
-        }).$el);
-      });
-    
+      Adapt.drawer.triggerCustomView(new AudioDrawerView({
+        model: audioDrawerModel, 
+        collection: audioDrawerCollection
+      }).$el);
     },
 
     onABCReady: function(view) {

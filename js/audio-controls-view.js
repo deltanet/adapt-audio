@@ -99,8 +99,6 @@ define(function(require) {
                         console.log('An error has occured loading audio');
                     }
                 }
-                // Trigger audio
-                // Check if audio is set to on
                 if(Adapt.audio.audioClip[this.audioChannel].status==1){
                     Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.audioChannel);
                 }
@@ -139,9 +137,8 @@ define(function(require) {
         },
 
         toggleAudio: function(event) {
-            //debugger
             if (event) event.preventDefault();
-
+ 
             if ($(event.currentTarget).hasClass('playing')) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             } else {
