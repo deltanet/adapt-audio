@@ -5,6 +5,7 @@
 
 // To go in the course.json file
 "_audio": {
+    "_enableAudioDrawer": true,
     "_isEnabled": true,
     "_showControls": true,
     "_autoplay": true,
