@@ -52,7 +52,12 @@ define([
       }
 
       // set audio status, needs to check if this should be on/off but set to 1 for now. 
-      Adapt.audio.audioStatus = 1;
+      var audioPreference = Adapt.offlineStorage.get("audio_level");
+      if (audioPreference) {
+        Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
+      } else {
+        Adapt.audio.audioStatus = 1;
+      }
 
       // Assign variables to each audio object
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
@@ -89,6 +94,7 @@ define([
     },
 
     pauseAudio: function(channel) {
+      console.log('pasueAudio')
       Adapt.audio.audioClip[channel].pause();
       this.hideAudioIcon(channel);
     },
@@ -99,7 +105,6 @@ define([
     },
 
     showAudioIcon: function(channel) {
-
       var audioHTMLId = '#'+Adapt.audio.audioClip[channel].newID;
       try {
         $(audioHTMLId).removeClass('fa-play');
@@ -132,6 +137,10 @@ define([
           Adapt.audio.audioStatus = 0;
         }
       }
+
+      // store audio preference, 
+      Adapt.offlineStorage.set("audio_level", Adapt.audio.audioStatus);
+
     },
 
     addAudioDrawerItem: function() {

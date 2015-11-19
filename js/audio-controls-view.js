@@ -11,6 +11,7 @@ define(function(require) {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
+            this.listenTo(Adapt, 'notify:alert, notify:prompt, notify:popup', this.stopPlayingAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
@@ -71,12 +72,12 @@ define(function(require) {
         },
 
         initQuestionFeedbackAudio: function() {
-            if(this.model.has("_feedback")._audio) {
+            if(this.model.get('_feedback') && this.model.get('_feedback')._audio) {
                 // Correct
                 if (this.model.get('_isCorrect')) {
 
                     try {
-                        this.audioFile = this.model.get("_feedback")._audio._correct._media.mp3;
+                        this.audioFile = this.model.get('_feedback')._audio._correct._media.mp3;
                     } catch(e) {
                         console.log('An error has occured loading audio');
                     }
@@ -85,7 +86,7 @@ define(function(require) {
                 } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
 
                     try {
-                        this.model.get("_feedback")._audio._partlyCorrect._final._media.mp3;
+                        this.model.get('_feedback')._audio._partlyCorrect._final._media.mp3;
                     } catch(e) {
                         console.log('An error has occured loading audio');
                     }
@@ -94,7 +95,7 @@ define(function(require) {
                 } else {
 
                     try {
-                        this.audioFile = this.model.get("_feedback")._audio._incorrect._final._media.mp3;
+                        this.audioFile = this.model.get('_feedback')._audio._incorrect._final._media.mp3;
                     } catch(e) {
                         console.log('An error has occured loading audio');
                     }
@@ -106,9 +107,14 @@ define(function(require) {
         },
 
         stopFeedbackAudio: function() {
-            if(this.model.has('_feedback')._audio) {
+            if(this.model.get('_feedback') && this.model.get('_feedback')._audio) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             }
+        },
+
+        stopPlayingAudio: function(event) {
+            console.log('stopPlayingAudio');
+            console.log(event);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
