@@ -20,7 +20,6 @@
         color: @white;
         background-color: @item-color;
         padding: @item-padding;
-        border-radius: 50%;
         .transition-all-colors;
         &:hover{
             background-color: @item-color-hover;
@@ -29,11 +28,15 @@
     .hidden {
         display: none;
     }
-    &.article {
+    &.article-audio {
     }
-    &.block {
+    &.block-audio {
     }
-    &.component {
+    &.component-audio {
+        .audio-toggle {
+            margin-top: -@component-padding;
+            margin-right: -@component-padding;
+        }
         .dir-rtl & {
           margin-left: -@component-padding;
         }
@@ -44,9 +47,9 @@
     .audio-filter a {
         display:block;
         float:left;
-	    .dir-rtl & {
-	        float:right;
-	    }
+        .dir-rtl & {
+            float:right;
+        }
         text-align:center;
         text-decoration: none;
         color:@item-text-color;
@@ -56,10 +59,10 @@
             display:inline-block;
             padding:10px 0px;
             border-right: 1px solid @drawer-item-color;
-    		    .dir-rtl & {
-    		        border-left: 1px solid @drawer-item-color;
-    		        border-right: inherit;
-    		    }
+                .dir-rtl & {
+                    border-left: 1px solid @drawer-item-color;
+                    border-right: inherit;
+                }
         }
         &.selected {
             color:@drawer-item-text-hover-color;

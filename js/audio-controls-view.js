@@ -11,7 +11,8 @@ define(function(require) {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
-            this.listenTo(Adapt, 'notify:alert, notify:prompt, notify:popup', this.stopPlayingAudio);
+            // stop playing audio on any notify 
+            this.listenTo(Adapt, 'notify:alert notify:prompt notify:popup notify:push', this.stopPlayingAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
@@ -36,7 +37,7 @@ define(function(require) {
                 }
             }
             // Add class so it can be referenced in the theme if needed 
-            $(this.el).addClass(this.model.get("_type"));
+            $(this.el).addClass(this.model.get("_type")+"-audio");
 
             // Set vars
             this.audioChannel = this.model.get('_audio')._channel;
@@ -113,6 +114,7 @@ define(function(require) {
         },
 
         stopPlayingAudio: function(event) {
+            Adapt.trigger('audio:pauseAudio', this.audioChannel);
             console.log('stopPlayingAudio');
             console.log(event);
         },
