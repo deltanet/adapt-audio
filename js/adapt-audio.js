@@ -75,6 +75,8 @@ define([
     },
 
     playAudio: function(audioClip, id, channel) {
+      // Update previous player
+      this.hideAudioIcon(channel);
       // Update player to new clip vars
       Adapt.audio.audioClip[channel].src = audioClip;
       Adapt.audio.audioClip[channel].newID = id;
