@@ -94,9 +94,10 @@ define([
     },
 
     pauseAudio: function(channel) {
-      console.log('pasueAudio')
-      Adapt.audio.audioClip[channel].pause();
-      this.hideAudioIcon(channel);
+      if (!Adapt.audio.audioClip[channel].paused) {
+        Adapt.audio.audioClip[channel].pause();
+        this.hideAudioIcon(channel);
+      }
     },
 
     audioEnded: function(channel) {

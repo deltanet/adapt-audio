@@ -12,7 +12,7 @@ define(function(require) {
             this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
             // stop playing audio on any notify 
-            this.listenTo(Adapt, 'notify:alert notify:prompt notify:popup notify:push', this.stopPlayingAudio);
+            //this.listenTo(Adapt, 'notify:alert notify:prompt notify:popup notify:push', this.stopPlayingAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
@@ -115,8 +115,6 @@ define(function(require) {
 
         stopPlayingAudio: function(event) {
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
-            console.log('stopPlayingAudio');
-            console.log(event);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
