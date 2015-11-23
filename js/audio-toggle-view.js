@@ -1,8 +1,3 @@
-/*
-* adapt-audio
-* License - http://github.com/adaptlearning/adapt_framework/LICENSE
-* Maintainers - Robert Peek <robert@delta-net.co.uk>
-*/
 define(function(require) {
 
     var Adapt = require('coreJS/adapt');
@@ -35,7 +30,6 @@ define(function(require) {
                     this.$('.audio-nav-toggle').addClass('fa-volume-off');
                 }
             }
-
             return this;
         },
 
@@ -53,13 +47,24 @@ define(function(require) {
         },
 
         toggleAudio: function(event) {
-
             if (event) event.preventDefault();
-
-            console.log("Adapt.audio.audioStatus = "+Adapt.audio.audioStatus);
-
-            Adapt.trigger("audio:showAudioDrawer");
-
+            // Pause all channels and set each channel to off
+            if(Adapt.audio.audioStatus == 1){
+                for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                    Adapt.trigger('audio:pauseAudio', i);
+                    Adapt.audio.audioClip[i].status = 0;
+                }
+                // Turn audio off
+                Adapt.audio.audioStatus = 0;
+            } else {
+                for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                    Adapt.trigger('audio:pauseAudio', i);
+                    Adapt.audio.audioClip[i].status = 1;
+                }
+                // Turn audio on
+                Adapt.audio.audioStatus = 1;
+            }
+            this.updateToggle();
         }
 
     });

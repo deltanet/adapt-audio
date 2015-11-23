@@ -5,6 +5,16 @@
 
 // To go in the course.json file
 "_audio": {
+    "_enableAudioDrawer": true,
+    "_isEnabled": true,
+    "_showControls": true,
+    "_autoplay": true,
+    "_channel": 0,
+    "_location": "top-right",
+    "_media": {
+        "mp3": "course/en/audio/***.mp3",
+        "ogg": "course/en/audio/***.ogg"
+    },
     "title": "Audio",
     "description": "Click here to view the audio settings for this course.",
     "_filterButtons": {

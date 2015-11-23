@@ -1,8 +1,3 @@
-/*
-* adapt-audio
-* License - http://github.com/adaptlearning/adapt_framework/LICENSE
-* Maintainers - Robert Peek <robert@delta-net.co.uk>
-*/
 define(function(require) {
 
     var Adapt = require('coreJS/adapt');
@@ -16,6 +11,8 @@ define(function(require) {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
+            // stop playing audio on any notify 
+            //this.listenTo(Adapt, 'notify:alert notify:prompt notify:popup notify:push', this.stopPlayingAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
@@ -23,41 +20,43 @@ define(function(require) {
         },
 
         events: {
-            "click .audio-toggle":"toggleAudio"
+            'click .audio-toggle': 'toggleAudio'
         },
 
         preRender: function() {
         },
 
         render: function () {
-
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioControls"];
-
-            if (this.model.get("_audio")._isEnabled) {
-                if(this.model.get("_audio")._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
-                    $(this.el).html(template(data)).appendTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
+            if (this.model.get('_audio') || this.model.get('_audio')._isEnabled) {
+                if(this.model.get('_audio')._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
+                    $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ."+this.model.get("_type")+"-inner");
                 } else {
                     $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
                 }
             }
             // Add class so it can be referenced in the theme if needed 
-            $(this.el).addClass(this.model.get("_type"));
+            $(this.el).addClass(this.model.get("_type")+"-audio");
 
             // Set vars
-            this.audioChannel = this.model.get("_audio")._channel;
+            this.audioChannel = this.model.get('_audio')._channel;
             this.elementId = this.model.get("_id");
 
             // Hide controls
-            if(this.model.get("_audio")._showControls==false){
+            if(this.model.get('_audio')._showControls==false){
                 this.$('.audio-toggle').addClass('hidden');
             }
-            // Determine which file to play
-            if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/ogg')) this.audioFile = this.model.get("_audio")._media.ogg;
-            if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/mpeg')) this.audioFile = this.model.get("_audio")._media.mp3;
+            try {
+                this.audioFile = this.model.get("_audio")._media.mp3;
+            } catch(e) {
+                console.log('An error has occured loading audio');
+            }
+
             // Set clip ID
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
             // Set listener for when clip ends
+            // TODO this should not be in the render function as it is called for each instance on the page
             $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
 
             _.defer(_.bind(function() {
@@ -75,26 +74,34 @@ define(function(require) {
         },
 
         initQuestionFeedbackAudio: function() {
-            if(this.model.has("_feedback")._audio) {
+            if(this.model.get('_feedback') && this.model.get('_feedback')._audio) {
                 // Correct
                 if (this.model.get('_isCorrect')) {
-                    // Determine which file to play
-                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/ogg')) this.audioFile = this.model.get("_feedback")._audio._correct._media.ogg;
-                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._correct._media.mp3;
-                    //
+
+                    try {
+                        this.audioFile = this.model.get('_feedback')._audio._correct._media.mp3;
+                    } catch(e) {
+                        console.log('An error has occured loading audio');
+                    }
+
                 // Partly correct
                 } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
-                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/ogg')) this.audioFile = this.model.get("_audio")._audio._partlyCorrect._final._media.ogg;
-                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._partlyCorrect._final._media.mp3;
+
+                    try {
+                        this.model.get('_feedback')._audio._partlyCorrect._final._media.mp3;
+                    } catch(e) {
+                        console.log('An error has occured loading audio');
+                    }
+
                 // Incorrect
                 } else {
-                    // Determine which file to play
-                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/ogg')) this.audioFile = this.model.get("_feedback")._audio._incorrect._final._media.ogg;
-                    if (Adapt.audio.audioClip[this.audioChannel].canPlayType('audio/mpeg')) this.audioFile = this.model.get("_feedback")._audio._incorrect._final._media.mp3;
-                    //
+
+                    try {
+                        this.audioFile = this.model.get('_feedback')._audio._incorrect._final._media.mp3;
+                    } catch(e) {
+                        console.log('An error has occured loading audio');
+                    }
                 }
-                // Trigger audio
-                // Check if audio is set to on
                 if(Adapt.audio.audioClip[this.audioChannel].status==1){
                     Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.audioChannel);
                 }
@@ -102,7 +109,13 @@ define(function(require) {
         },
 
         stopFeedbackAudio: function() {
-            if(this.model.has('_feedback')._audio) {
+            if(this.model.get('_feedback') && this.model.get('_feedback')._audio) {
+                Adapt.trigger('audio:pauseAudio', this.audioChannel);
+            }
+        },
+
+        stopPlayingAudio: function(event) {
+            if (!Adapt.audio.audioClip[this.audioChannel].paused) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             }
         },
@@ -134,7 +147,7 @@ define(function(require) {
 
         toggleAudio: function(event) {
             if (event) event.preventDefault();
-
+ 
             if ($(event.currentTarget).hasClass('playing')) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             } else {
@@ -146,9 +159,7 @@ define(function(require) {
             var hasAccessibility = Adapt.config.has('_accessibility') && Adapt.config.get('_accessibility')._isEnabled;
 
             if (!hasAccessibility) {
-                console.log("Accessibility is off");
             } else {
-                console.log("Accessibility is on");
 
                 for (var i = 0; i < Adapt.audio.numChannels; i++) {
                     Adapt.trigger('audio:updateAudioStatus', this.audioChannel, 0);
