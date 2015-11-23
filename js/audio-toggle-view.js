@@ -48,7 +48,23 @@ define(function(require) {
 
         toggleAudio: function(event) {
             if (event) event.preventDefault();
-            Adapt.trigger("audio:showAudioDrawer");
+            // Pause all channels and set each channel to off
+            if(Adapt.audio.audioStatus == 1){
+                for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                    Adapt.trigger('audio:pauseAudio', i);
+                    Adapt.audio.audioClip[i].status = 0;
+                }
+                // Turn audio off
+                Adapt.audio.audioStatus = 0;
+            } else {
+                for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                    Adapt.trigger('audio:pauseAudio', i);
+                    Adapt.audio.audioClip[i].status = 1;
+                }
+                // Turn audio on
+                Adapt.audio.audioStatus = 1;
+            }
+            this.updateToggle();
         }
 
     });
