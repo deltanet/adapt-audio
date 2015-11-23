@@ -30,7 +30,6 @@ define(function(require) {
                     this.$('.audio-nav-toggle').addClass('fa-volume-off');
                 }
             }
-
             return this;
         },
 
@@ -48,13 +47,8 @@ define(function(require) {
         },
 
         toggleAudio: function(event) {
-
             if (event) event.preventDefault();
-
-            console.log("Adapt.audio.audioStatus = "+Adapt.audio.audioStatus);
-
             Adapt.trigger("audio:showAudioDrawer");
-
         }
 
     });
