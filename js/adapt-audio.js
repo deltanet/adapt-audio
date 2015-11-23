@@ -81,7 +81,7 @@ define([
       // Play clip
       if(Adapt.audio.audioClip[channel].status==1){
         try {
-          setTimeout(function() {Adapt.audio.audioClip[channel].play();},1000);
+          setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
           Adapt.audio.audioClip[channel].isPlaying = true;
           this.showAudioIcon(channel);
         } catch(e) {

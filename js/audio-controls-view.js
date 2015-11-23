@@ -56,6 +56,7 @@ define(function(require) {
             // Set clip ID
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
             // Set listener for when clip ends
+            // TODO this should not be in the render function as it is called for each instance on the page
             $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
 
             _.defer(_.bind(function() {
@@ -114,7 +115,9 @@ define(function(require) {
         },
 
         stopPlayingAudio: function(event) {
-            Adapt.trigger('audio:pauseAudio', this.audioChannel);
+            if (!Adapt.audio.audioClip[this.audioChannel].paused) {
+                Adapt.trigger('audio:pauseAudio', this.audioChannel);
+            }
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
