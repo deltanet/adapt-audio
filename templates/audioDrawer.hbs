@@ -1,28 +1,4 @@
 <div class="audio-inner" role="complementary">
-	<div class="audio-filter clearfix audio-col-{{return_column_layout_from_collection_length audio '_type'}}">
-		{{! If the audio collection contains only one type of resource (narration, effects or music) don't show anything}}
-		{{#if_collection_contains_only_one_item audio '_type'}}
-		{{else}}
-			<a href="#" class="audio-show-all selected" data-filter="all" aria-label="{{model._ariaLabels.allAria}}" tabindex="0" role="button">
-				<span>{{model._filterButtons.all}}</span>
-			</a>
-			{{#if_collection_contains audio '_type' 'narration'}}
-			<a href="#" class="audio-show-narration" data-filter="narration" aria-label="{{model._ariaLabels.narrationAria}}" tabindex="0" role="button">
-				<span>{{model._filterButtons.narration}}</span>
-			</a>
-			{{/if_collection_contains}}
-			{{#if_collection_contains audio '_type' 'effects'}}
-			<a href="#" class="audio-show-effects" data-filter="effects" aria-label="{{model._ariaLabels.effectsAria}}" tabindex="0" role="button">
-				<span>{{model._filterButtons.effects}}</span>
-			</a>
-			{{/if_collection_contains}}
-			{{#if_collection_contains audio '_type' 'music'}}
-			<a href="#" class="audio-show-music" data-filter="music" aria-label="{{model._ariaLabels.musicAria}}" tabindex="0" role="button">
-				<span>{{model._filterButtons.music}}</span>
-			</a>
-			{{/if_collection_contains}}
-		{{/if_collection_contains_only_one_item}}
-	</div>
 	<div role="list">
 	{{#each audio}}
 	<div class="audio-item drawer-item {{_type}}">
@@ -34,7 +10,7 @@
 				<div class="drawer-item-description-inner">{{{description}}}</div>
 			</div>
 			<div class="drawer-audio-toggle-inner">
-				<a href="#" class="drawer-audio-toggle speaker-icon item-{{@index}}" data-id="{{@index}}" role="button"></a>
+				<button href="#" class="base drawer-audio-toggle speaker-icon item-{{@index}}" data-id="{{@index}}" role="button"></button>
 			</div>
 		</div>
 	</div>

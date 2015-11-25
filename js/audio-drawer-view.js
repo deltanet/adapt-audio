@@ -14,7 +14,6 @@ define(function(require) {
         },
 
         events: {
-            'click .audio-filter a': 'onFilterClicked',
             "click .drawer-audio-toggle":"toggleAudio"
         },
 
@@ -39,24 +38,6 @@ define(function(require) {
 
         postRender: function() {
             this.listenTo(Adapt, 'drawer:triggerCustomView', this.remove);
-        },
-
-        onFilterClicked: function(event) {
-            event.preventDefault();
-            var $currentTarget = $(event.currentTarget);
-            this.$('.audio-filter a').removeClass('selected');
-            var filter = $currentTarget.addClass('selected').attr('data-filter');
-            var items = [];
-
-            if (filter === 'all') {
-                items = this.$('.audio-item').removeClass('display-none');
-            } else {
-                this.$('.audio-item').removeClass('display-none').not("." + filter).addClass('display-none');
-                items = this.$('.audio-item.' + filter);
-            }
-
-            if (items.length === 0) return;
-            $(items[0]).a11y_focus();
         },
 
         toggleAudio: function(event) {

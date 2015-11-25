@@ -17,35 +17,19 @@
     },
     "title": "Audio",
     "description": "Click here to view the audio settings for this course.",
-    "_filterButtons": {
-        "all": "All",
-        "narration": "Narration",
-        "effects": "Sound FX",
-        "music": "Music"
-    },
-    "_ariaLabels": {
-        "allAria": "View all audio settings",
-        "narrationAria": "View narration setting",
-        "effectsAria": "View sound effects setting",
-        "musicAria": "View music setting",
-        "audioEnd": "You have reached the end of the list of audio settings."
-    },
     "_audioItems": [
         {
             "_status": 1,
-            "_type": "narration",
             "title": "Narration",
             "description": "This content in this course is narrated. You can save your preference here too."
         },
         {
             "_status": 1,
-            "_type": "effects",
             "title": "Sound FX",
             "description": "If you don't want sound effects to play throughout the course you can switch them off here."
         },
         {
             "_status": 1,
-            "_type": "music",
             "title": "Music",
             "description": "Some areas of the course may contain background music."
         }
