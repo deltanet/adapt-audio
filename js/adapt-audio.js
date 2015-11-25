@@ -23,6 +23,7 @@ define([
       this.listenTo(Adapt, "pageView:ready", this.onPageReady);
       // load article, block, component audio
       this.listenTo(Adapt, "articleView:postRender blockView:postRender componentView:postRender", this.onABCReady);
+      this.listenTo(Adapt, "audio:inviewOff", this.inviewOff);
       this.listenTo(Adapt, "audio:playAudio", this.playAudio);
       this.listenTo(Adapt, "audio:pauseAudio", this.pauseAudio);
       this.listenTo(Adapt, "audio:audioEnded", this.audioEnded);
@@ -65,6 +66,7 @@ define([
         Adapt.audio.audioClip[i].isPlaying = false;
         Adapt.audio.audioClip[i].playingID = "";
         Adapt.audio.audioClip[i].newID = "";
+        Adapt.audio.audioClip[i].prevID = "";
       }
     },
 
@@ -74,9 +76,20 @@ define([
       }
     },
 
+    inviewOff: function(id, channel){
+
+      if(id == Adapt.audio.audioClip[channel].playingID){
+        Adapt.trigger('audio:pauseAudio', channel);
+      }
+
+    },
+
     playAudio: function(audioClip, id, channel) {
+      //
+      console.log("playingID = "+Adapt.audio.audioClip[channel].playingID);
       // Update previous player
       this.hideAudioIcon(channel);
+      Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;
       // Update player to new clip vars
       Adapt.audio.audioClip[channel].src = audioClip;
       Adapt.audio.audioClip[channel].newID = id;
@@ -92,10 +105,11 @@ define([
       }
       // Update player ID to new clip
       Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
-
+      console.log("newID = "+Adapt.audio.audioClip[channel].newID);
     },
 
     pauseAudio: function(channel) {
+      console.log("Pause audio!");
       if (!Adapt.audio.audioClip[channel].paused) {
         Adapt.audio.audioClip[channel].pause();
         this.hideAudioIcon(channel);

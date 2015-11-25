@@ -141,7 +141,7 @@ define(function(require) {
                     }
                 }
             } else {
-                Adapt.trigger('audio:pauseAudio', this.audioChannel);
+                Adapt.trigger('audio:inviewOff', this.elementId, this.audioChannel);   
             }
         },
 
