@@ -188,6 +188,11 @@ define([
 
     onABCReady: function(view) {
 
+      // Pause all channels on view load
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.trigger('audio:pauseAudio', i);
+      }
+
       if (this.audioEnabled  && view.model && view.model.get("_audio")) {
           try{
             new AudioControlsView({model:view.model});
