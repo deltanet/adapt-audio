@@ -29,7 +29,7 @@ define([
       // listen to toggle audio on or off
       this.listenTo(Adapt, "audio:updateAudioStatus", this.updateAudioStatus);
       // setup audio in drawer
-      this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio)
+      this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio);
     },
 
     setupAudio: function() {
@@ -72,7 +72,17 @@ define([
     onPageReady: function(view) {
       if (this.audioEnabled) {
           new AudioToggleView({model:view.model});
+          this.showPrompt();
       }
+    },
+
+    showPrompt: function() {
+      var pushObject = {
+          title: Adapt.course.get('_audio')._prompt.displayTitle,
+          body: Adapt.course.get('_audio')._prompt.body,
+          _timeout: Adapt.course.get('_audio')._prompt._fadeOutTime
+      };
+      Adapt.trigger('notify:push', pushObject);
     },
 
     inviewOff: function(id, channel){
@@ -108,7 +118,6 @@ define([
     },
 
     pauseAudio: function(channel) {
-      console.log("Pause audio!");
       if (!Adapt.audio.audioClip[channel].paused) {
         Adapt.audio.audioClip[channel].pause();
         this.hideAudioIcon(channel);
