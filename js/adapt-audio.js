@@ -85,30 +85,25 @@ define([
 
     playAudio: function(audioClip, id, channel) {
       //
-      console.log("playingID = "+Adapt.audio.audioClip[channel].playingID);
       // Update previous player
       this.hideAudioIcon(channel);
       Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;
       // Update player to new clip vars
       Adapt.audio.audioClip[channel].src = audioClip;
       Adapt.audio.audioClip[channel].newID = id;
-      // Play clip
-      if(Adapt.audio.audioClip[channel].status==1){
-        try {
-          setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
-          Adapt.audio.audioClip[channel].isPlaying = true;
-          this.showAudioIcon(channel);
-        } catch(e) {
-          console.log('Audio play error:' + e);
-        }
+
+      try {
+        setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
+        Adapt.audio.audioClip[channel].isPlaying = true;
+        this.showAudioIcon(channel);
+      } catch(e) {
+        console.log('Audio play error:' + e);
       }
       // Update player ID to new clip
       Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
-      console.log("newID = "+Adapt.audio.audioClip[channel].newID);
     },
 
     pauseAudio: function(channel) {
-      console.log("Pause audio!");
       if (!Adapt.audio.audioClip[channel].paused) {
         Adapt.audio.audioClip[channel].pause();
         this.hideAudioIcon(channel);
