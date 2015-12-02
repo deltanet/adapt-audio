@@ -58,7 +58,7 @@ define(function(require) {
                 Adapt.audio.audioStatus = 0;
             } else {
                 for (var i = 0; i < Adapt.audio.numChannels; i++) {
-                    Adapt.trigger('audio:pauseAudio', i);
+                    //Adapt.trigger('audio:pauseAudio', i);
                     Adapt.audio.audioClip[i].status = 1;
                 }
                 // Turn audio on

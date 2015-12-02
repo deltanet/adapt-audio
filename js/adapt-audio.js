@@ -44,6 +44,10 @@ define([
       Adapt.audio.audioChannel = new Array();
       Adapt.audio.audioClip = new Array();
 
+      // TODO - probably need to improve this test, it's a bit hacky to say the least.
+      // set global course autoplay based on modernizer.touch then course JSON.
+      Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay;
+
       // Set number of audio channels specified in the course JSON
       Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
       // Create audio objects based on the number of channels
@@ -91,11 +95,12 @@ define([
       // Update player to new clip vars
       Adapt.audio.audioClip[channel].src = audioClip;
       Adapt.audio.audioClip[channel].newID = id;
-
+      Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay;
       try {
         setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
         Adapt.audio.audioClip[channel].isPlaying = true;
         this.showAudioIcon(channel);
+
       } catch(e) {
         console.log('Audio play error:' + e);
       }
