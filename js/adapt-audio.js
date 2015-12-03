@@ -29,7 +29,7 @@ define([
       // listen to toggle audio on or off
       this.listenTo(Adapt, "audio:updateAudioStatus", this.updateAudioStatus);
       // setup audio in drawer
-      this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio)
+      this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio);
     },
 
     setupAudio: function() {
@@ -43,6 +43,10 @@ define([
       Adapt.audio = {};
       Adapt.audio.audioChannel = new Array();
       Adapt.audio.audioClip = new Array();
+
+      // TODO - probably need to improve this test, it's a bit hacky to say the least.
+      // set global course autoplay based on modernizer.touch then course JSON.
+      Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay;
 
       // Set number of audio channels specified in the course JSON
       Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
@@ -72,7 +76,17 @@ define([
     onPageReady: function(view) {
       if (this.audioEnabled) {
           new AudioToggleView({model:view.model});
+          this.showPrompt();
       }
+    },
+
+    showPrompt: function() {
+      var pushObject = {
+          title: Adapt.course.get('_audio')._prompt.displayTitle,
+          body: Adapt.course.get('_audio')._prompt.body,
+          _timeout: Adapt.course.get('_audio')._prompt._fadeOutTime
+      };
+      Adapt.trigger('notify:push', pushObject);
     },
 
     inviewOff: function(id, channel){
@@ -85,30 +99,26 @@ define([
 
     playAudio: function(audioClip, id, channel) {
       //
-      console.log("playingID = "+Adapt.audio.audioClip[channel].playingID);
       // Update previous player
       this.hideAudioIcon(channel);
       Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;
       // Update player to new clip vars
       Adapt.audio.audioClip[channel].src = audioClip;
       Adapt.audio.audioClip[channel].newID = id;
-      // Play clip
-      if(Adapt.audio.audioClip[channel].status==1){
-        try {
-          setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
-          Adapt.audio.audioClip[channel].isPlaying = true;
-          this.showAudioIcon(channel);
-        } catch(e) {
-          console.log('Audio play error:' + e);
-        }
+      Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay;
+      try {
+        setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
+        Adapt.audio.audioClip[channel].isPlaying = true;
+        this.showAudioIcon(channel);
+
+      } catch(e) {
+        console.log('Audio play error:' + e);
       }
       // Update player ID to new clip
       Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
-      console.log("newID = "+Adapt.audio.audioClip[channel].newID);
     },
 
     pauseAudio: function(channel) {
-      console.log("Pause audio!");
       if (!Adapt.audio.audioClip[channel].paused) {
         Adapt.audio.audioClip[channel].pause();
         this.hideAudioIcon(channel);

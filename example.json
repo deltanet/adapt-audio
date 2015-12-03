@@ -33,7 +33,12 @@
             "title": "Music",
             "description": "Some areas of the course may contain background music."
         }
-    ]
+    ],
+    "_prompt": {
+        "_fadeOutTime": 15000,
+        "displayTitle": "Audio",
+        "body": "There is audio included in this module. Select the play icon to start the audio."
+    }
 }
 
 // To go in article/block/component.json

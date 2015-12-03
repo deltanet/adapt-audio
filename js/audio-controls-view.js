@@ -57,7 +57,7 @@ define(function(require) {
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
             // Set listener for when clip ends
             // TODO this should not be in the render function as it is called for each instance on the page
-            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
+            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));        
 
             _.defer(_.bind(function() {
                 this.postRender();
@@ -135,13 +135,13 @@ define(function(require) {
                     // Check if audio is set to on
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
                         // Check if audio is set to autoplay
-                        if(this.model.get("_audio")._autoplay){
+                        if(this.model.get("_audio")._autoplay && Adapt.audio.autoPlayGlobal){
                             Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
                         }
                     }
                 }
             } else {
-                Adapt.trigger('audio:inviewOff', this.elementId, this.audioChannel);   
+                Adapt.trigger('audio:inviewOff', this.elementId, this.audioChannel);
             }
         },
 
