@@ -48,3 +48,10 @@
         "ogg": "course/en/audio/music.ogg"
     }
 }
+
+// To go in article/block/component.json
+"displayTitleSkinny": " Skinny title",
+"bodySkinny": "Skinny text",
+    "_skinnyText": {
+        "_isEnabled": true
+    },
