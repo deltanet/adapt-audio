@@ -51,7 +51,8 @@ define(function(require) {
             $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
             // Play audio if set to autoplay
             if(Adapt.audio.audioClip[this.audioChannel].status==1){
-                if(this.model.get("_audio")._autoplay){
+                // TODO - we are using Modernizr.touch to detect mobile devices, this is not great  
+                if(this.model.get("_audio")._autoplay && Adapt.audio.autoPlayGlobal){
                     Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
                 }
             }
