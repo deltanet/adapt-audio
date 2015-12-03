@@ -31,6 +31,8 @@ define([
       this.listenTo(Adapt, "audio:updateAudioStatus", this.updateAudioStatus);
       // setup audio in drawer
       this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio);
+      // listen to text change in nav bar toggle prompt
+      this.listenTo(Adapt, "audio:changeText", this.changeText);
     },
 
     setupAudio: function() {
@@ -44,6 +46,15 @@ define([
       Adapt.audio = {};
       Adapt.audio.audioChannel = new Array();
       Adapt.audio.audioClip = new Array();
+
+      // Skinny text
+      if (Adapt.config.get("_skinnyText") && Adapt.config.get("_skinnyText")._isEnabled) {
+        this.skinnyTextEnabled = Adapt.config.get("_skinnyText")._isEnabled;
+        Adapt.audio.textSize = 1;
+      } else {
+        this.skinnyTextEnabled = {"_isEnabled": false};
+        Adapt.audio.textSize = 0;
+      }
 
       // TODO - probably need to improve this test, it's a bit hacky to say the least.
       // set global course autoplay based on modernizer.touch then course JSON.
@@ -88,6 +99,10 @@ define([
           _timeout: Adapt.course.get('_audio')._prompt._fadeOutTime
       };
       Adapt.trigger('notify:push', pushObject);
+    },
+
+    changeText: function(value) {
+      Adapt.audio.textSize = value;
     },
 
     inviewOff: function(id, channel){

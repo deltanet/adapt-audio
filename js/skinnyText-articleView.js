@@ -15,7 +15,11 @@ define([
         },
 
         _skinnyTextArticlePreRender: function() {
-        	
+        	this._skinnyTextArticleSetupEventListeners();
+		},
+
+		_skinnyTextArticleSetupEventListeners: function() {
+			this.listenTo(Adapt, "audio:changeText", this._replaceText);
 		},
 
 		render: function() {
@@ -52,6 +56,16 @@ define([
 
 		_skinnyTextArticlePostRender: function() {
 			Adapt.trigger(this.constructor.type + 'View:postRender', this);
+        },
+
+        _replaceText: function(value) {
+        	if(value == 0) {
+        		this.$('.article-title-inner').html(this.model.get('displayTitle')).a11y_text();
+            	this.$('.article-body-inner').html(this.model.get('body')).a11y_text();
+        	} else {
+        		this.$('.article-title-inner').html(this.model.get('displayTitleSkinny')).a11y_text();
+            	this.$('.article-body-inner').html(this.model.get('bodySkinny')).a11y_text();
+        	}
         }
 		
 	};

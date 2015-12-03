@@ -14,8 +14,12 @@ define([
 
         },
 
-        _skinnyTextBlockPreRender: function() {
-        	
+		_skinnyTextBlockPreRender: function() {
+        	this._skinnyTextBlockSetupEventListeners();
+		},
+
+		_skinnyTextBlockSetupEventListeners: function() {
+			this.listenTo(Adapt, "audio:changeText", this._replaceText);
 		},
 
 		render: function() {
@@ -52,6 +56,16 @@ define([
 
 		_skinnyTextBlockPostRender: function() {
 			Adapt.trigger(this.constructor.type + 'View:postRender', this);
+        },
+
+        _replaceText: function(value) {
+        	if(value == 0) {
+        		this.$('.block-title-inner').html(this.model.get('displayTitle')).a11y_text();
+            	this.$('.block-body-inner').html(this.model.get('body')).a11y_text();
+        	} else {
+        		this.$('.block-title-inner').html(this.model.get('displayTitleSkinny')).a11y_text();
+            	this.$('.block-body-inner').html(this.model.get('bodySkinny')).a11y_text();
+        	}
         }
 		
 	};
