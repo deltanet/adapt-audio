@@ -1,6 +1,9 @@
 // To go in the config.json file
 "_audio": {
     "_isEnabled": true
+},
+"_skinnyText": {
+    "_isEnabled": true
 }
 
 // To go in the course.json file

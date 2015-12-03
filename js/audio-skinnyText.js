@@ -2,17 +2,13 @@ define([
 	'coreJS/adapt',
 	'coreViews/articleView',
 	'coreViews/blockView',
-	'coreViews/componentView',
 	'coreModels/articleModel',
 	'coreModels/blockModel',
-	'coreModels/componentModel',
 	'./skinnyText-articleView',
 	'./skinnyText-articleModel',
 	'./skinnyText-blockView',
-	'./skinnyText-blockModel',
-	'./skinnyText-componentView',
-	'./skinnyText-componentModel'
-], function(Adapt, ArticleView, BlockView, ComponentView, ArticleModel, BlockModel, ComponentModel, ArticleViewExtension, ArticleModelExtension, BlockViewExtension, BlockModelExtension, ComponentViewExtension, ComponentModelExtension) {
+	'./skinnyText-blockModel'
+], function(Adapt, ArticleView, BlockView, ArticleModel, BlockModel, ArticleViewExtension, ArticleModelExtension, BlockViewExtension, BlockModelExtension) {
 
 	//Extends core/js/views/articleView.js
 	var ArticleViewInitialize = ArticleView.prototype.initialize;
@@ -64,32 +60,6 @@ define([
 		}
 		//initialize the block in the normal manner if no assessment
 		return BlockModelInitialize.apply(this, arguments);
-	};
-
-	//Extends core/js/views/componentView.js
-	var ComponentViewInitialize = ComponentView.prototype.initialize;
-	ComponentView.prototype.initialize = function(options) {
-		if (this.model.get("_skinnyText")) {
-			//extend the componentView with new functionality
-			_.extend(this, ComponentViewExtension);
-		}
-		//initialize the component in the normal manner
-		return ComponentViewInitialize.apply(this, arguments);
-	};
-
-	//Extends core/js/models/componentModel.js
-	var ComponentModelInitialize = ComponentModel.prototype.initialize;
-	ComponentModel.prototype.initialize = function(options) {
-		if (this.get("_skinnyText")) {
-			//extend the componentModel with new functionality
-			_.extend(this, ComponentModelExtension);
-
-			//initialize the component in the normal manner
-			var returnValue = ComponentModelInitialize.apply(this, arguments);
-			return returnValue;
-		}
-		//initialize the component in the normal manner if no assessment
-		return ComponentModelInitialize.apply(this, arguments);
 	};
 
 });

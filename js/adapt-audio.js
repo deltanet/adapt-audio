@@ -2,7 +2,8 @@ define([
     'coreJS/adapt',
     './audio-toggle-view',
     './audio-drawer-view',
-    './audio-controls-view'
+    './audio-controls-view',
+    './audio-skinnyText'
 ], function(Adapt, AudioToggleView, AudioDrawerView, AudioControlsView) {
 
   var AudioController = _.extend({
