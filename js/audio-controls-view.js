@@ -135,7 +135,7 @@ define(function(require) {
                     // Check if audio is set to on
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
                         // Check if audio is set to autoplay
-                        if(this.model.get("_audio")._autoplay && Adapt.audio.autoPlayGlobal){
+                        if(this.model.get("_audio")._autoplay){
                             Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
                         }
                     }

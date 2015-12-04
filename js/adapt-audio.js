@@ -33,6 +33,18 @@ define([
       this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio);
       // listen to text change in nav bar toggle prompt
       this.listenTo(Adapt, "audio:changeText", this.changeText);
+      // Check if skinnyText is enabled
+      if (Adapt.config.get("_skinnyText") && Adapt.config.get("_skinnyText")._isEnabled) {
+        this.listenToOnce(Adapt, "router:location", this.checkForBookmark);
+      }
+    },
+
+    checkForBookmark: function() {
+      console.log(Adapt.offlineStorage.get("location"));
+      // If bookmarking is set, check it is empty
+      if (Adapt.offlineStorage.get("location") == "") {
+        this.showPrompt();
+      }
     },
 
     setupAudio: function() {
@@ -49,10 +61,8 @@ define([
 
       // Skinny text
       if (Adapt.config.get("_skinnyText") && Adapt.config.get("_skinnyText")._isEnabled) {
-        this.skinnyTextEnabled = Adapt.config.get("_skinnyText")._isEnabled;
         Adapt.audio.textSize = 1;
       } else {
-        this.skinnyTextEnabled = {"_isEnabled": false};
         Adapt.audio.textSize = 0;
       }
 
@@ -88,17 +98,68 @@ define([
     onPageReady: function(view) {
       if (this.audioEnabled) {
           new AudioToggleView({model:view.model});
-          this.showPrompt();
       }
     },
 
     showPrompt: function() {
-      var pushObject = {
-          title: Adapt.course.get('_audio')._prompt.displayTitle,
-          body: Adapt.course.get('_audio')._prompt.body,
-          _timeout: Adapt.course.get('_audio')._prompt._fadeOutTime
-      };
-      Adapt.trigger('notify:push', pushObject);
+      // Pause all channels
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.trigger('audio:pauseAudio', i);
+      }
+      Adapt.audio.autoPlayGlobal = false;
+
+      var audioPromptModel = Adapt.course.get('_skinnyText');
+
+      if (!audioPromptModel._buttons) {
+        audioPromptModel._buttons = {
+          full: "Full",
+          small: "Small"
+        };
+      }
+      if (!audioPromptModel._buttons.full) audioPromptModel._buttons.full = "Full";
+      if (!audioPromptModel._buttons.small) audioPromptModel._buttons.small = "Small";
+
+      this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
+      this.listenToOnce(Adapt, "audio:smallText", this.setSmallText);
+
+      var promptObject = {
+        title: audioPromptModel.title,
+        body: audioPromptModel.bodyAudioOff,
+          _prompts:[
+              {
+                  promptText: audioPromptModel._buttons.full,
+                  _callbackEvent: "audio:fullText",
+              },
+              {
+                  promptText: audioPromptModel._buttons.small,
+                  _callbackEvent: "audio:smallText",
+              }
+          ],
+          _showIcon: false
+      }
+      Adapt.trigger('notify:prompt', promptObject);
+    },
+
+    setFullText: function() {
+      Adapt.audio.autoPlayGlobal = true;
+      Adapt.audio.audioStatus = 1;
+      Adapt.trigger('audio:changeText', 0);
+      this.playCurrentAudio(0);
+      this.stopListening(Adapt, "audio:fullText");
+    },
+
+    setSmallText: function() {
+      Adapt.audio.autoPlayGlobal = true;
+      Adapt.audio.audioStatus = 1;
+      Adapt.trigger('audio:changeText', 1);
+      this.playCurrentAudio(0);
+      this.stopListening(Adapt, "audio:smallText");
+    },
+
+    playCurrentAudio: function(channel){
+      Adapt.audio.audioClip[channel].play();
+      Adapt.audio.audioClip[channel].isPlaying = true;
+      this.showAudioIcon(channel);
     },
 
     changeText: function(value) {
@@ -106,29 +167,27 @@ define([
     },
 
     inviewOff: function(id, channel){
-
       if(id == Adapt.audio.audioClip[channel].playingID){
         Adapt.trigger('audio:pauseAudio', channel);
       }
-
     },
 
     playAudio: function(audioClip, id, channel) {
-      //
       // Update previous player
       this.hideAudioIcon(channel);
       Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;
       // Update player to new clip vars
       Adapt.audio.audioClip[channel].src = audioClip;
       Adapt.audio.audioClip[channel].newID = id;
-      Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay;
-      try {
-        setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
-        Adapt.audio.audioClip[channel].isPlaying = true;
-        this.showAudioIcon(channel);
+      if(Adapt.audio.autoPlayGlobal){
+        try {
+          setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
+          Adapt.audio.audioClip[channel].isPlaying = true;
+          this.showAudioIcon(channel);
 
-      } catch(e) {
-        console.log('Audio play error:' + e);
+        } catch(e) {
+          console.log('Audio play error:' + e);
+        }
       }
       // Update player ID to new clip
       Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
@@ -169,8 +228,6 @@ define([
 
     updateAudioStatus: function(channel, value) {
       Adapt.audio.audioClip[channel].status = value;
-      //this.pauseAudio(channel);
-
       // Check for any channel being on
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         if(Adapt.audio.audioClip[i].status==1){
@@ -179,10 +236,8 @@ define([
           Adapt.audio.audioStatus = 0;
         }
       }
-
       // store audio preference, 
       Adapt.offlineStorage.set("audio_level", Adapt.audio.audioStatus);
-
     },
 
     addAudioDrawerItem: function() {
