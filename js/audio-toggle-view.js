@@ -22,13 +22,11 @@ define(function(require) {
             var template = Handlebars.templates["audioToggle"];
             this.$el.html(template(data)).appendTo('#wrapper'+'>.navigation'+'>.navigation-inner');
 
-            // Check for any channel being on
-            for (var i = 0; i < Adapt.audio.numChannels; i++) {
-                if(Adapt.audio.audioClip[i].status==1){
-                    this.$('.audio-nav-toggle').addClass('fa-volume-up');
-                } else {
-                    this.$('.audio-nav-toggle').addClass('fa-volume-off');
-                }
+            // Check for audio being on
+            if(Adapt.audio.audioStatus == 1){
+                this.$('.audio-nav-toggle').addClass('fa-volume-up');
+            } else {
+                this.$('.audio-nav-toggle').addClass('fa-volume-off');
             }
             return this;
         },
@@ -42,24 +40,12 @@ define(function(require) {
                 this.$('.audio-nav-toggle').removeClass('fa-volume-up');
                 this.$('.audio-nav-toggle').addClass('fa-volume-off');
             }
-            /*
-            // Check for any channel being on
-            for (var i = 0; i < Adapt.audio.numChannels; i++) {
-                if(Adapt.audio.audioClip[i].status==1){
-                    this.$('.audio-nav-toggle').removeClass('fa-volume-off');
-                    this.$('.audio-nav-toggle').addClass('fa-volume-up');
-                } else {
-                    this.$('.audio-nav-toggle').removeClass('fa-volume-up');
-                    this.$('.audio-nav-toggle').addClass('fa-volume-off');
-                }
-            }
-            */
         },
 
         toggleAudio: function(event) {
             if (event) event.preventDefault();
-            // Check if skinnyText is enabled
-            if(Adapt.config.get("_skinnyText") && Adapt.config.get("_skinnyText")._isEnabled){
+            // Check if reducedText is enabled
+            if(Adapt.config.get("_reducedText") && Adapt.config.get("_reducedText")._isEnabled){
                 // Init notify confirm
                 this.showPrompt();
             } else {
@@ -84,7 +70,7 @@ define(function(require) {
         },
 
         showPrompt: function() {
-            var audioPromptModel = Adapt.course.get('_skinnyText');
+            var audioPromptModel = Adapt.course.get('_reducedText');
             // Determine audio status
             if(Adapt.audio.audioStatus == 1){
                 // Turn audio off and show alert with just a confirm button
@@ -114,14 +100,14 @@ define(function(require) {
                 if (!audioPromptModel._buttons) {
                     audioPromptModel._buttons = {
                         full: "Full",
-                        small: "Small"
+                        small: "Reduced"
                     };
                 }
                 if (!audioPromptModel._buttons.full) audioPromptModel._buttons.full = "Full";
-                if (!audioPromptModel._buttons.small) audioPromptModel._buttons.small = "Small";
+                if (!audioPromptModel._buttons.small) audioPromptModel._buttons.small = "Reduced";
                 // Set listeners
                 this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
-                this.listenToOnce(Adapt, "audio:smallText", this.setSmallText);
+                this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
 
                 var promptObject = {
                     title: audioPromptModel.title,
@@ -133,7 +119,7 @@ define(function(require) {
                         },
                         {
                             promptText: audioPromptModel._buttons.small,
-                            _callbackEvent: "audio:smallText",
+                            _callbackEvent: "audio:reducedText",
                         }
                     ],
                     _showIcon: false
@@ -144,8 +130,13 @@ define(function(require) {
         },
 
         confirmText: function() {
-            // Turn audio off and update toggle
+            // Turn audio off
             Adapt.audio.audioStatus = 0;
+            // Turn all audio channels off
+            for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                Adapt.audio.audioClip[i].status = 0;
+            }
+            // Update toggle
             this.updateToggle();
             // Set text to full
             if(Adapt.audio.textSize == 1){
@@ -156,8 +147,13 @@ define(function(require) {
         },
 
         setFullText: function() {
-            // Turn audio on and update toggle
+            // Turn audio on
             Adapt.audio.audioStatus = 1;
+            // Turn all audio channels on
+            for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                Adapt.audio.audioClip[i].status = 1;
+            }
+            // Update toggle
             this.updateToggle();
             // Set text to full
             Adapt.trigger('audio:changeText', 0);
@@ -165,14 +161,19 @@ define(function(require) {
             this.stopListening(Adapt, "audio:fullText");
         },
 
-        setSmallText: function() {
-            // Turn audio on and update toggle
+        setReducedText: function() {
+            // Turn audio on
             Adapt.audio.audioStatus = 1;
+            // Turn all audio channels on
+            for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                Adapt.audio.audioClip[i].status = 1;
+            }
+            // Update toggle
             this.updateToggle();
             // Set text to small
             Adapt.trigger('audio:changeText', 1);
             //
-            this.stopListening(Adapt, "audio:smallText");
+            this.stopListening(Adapt, "audio:reducedText");
         }
 
     });

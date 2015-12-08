@@ -2,7 +2,7 @@
 "_audio": {
     "_isEnabled": true
 },
-"_skinnyText": {
+"_reducedText": {
     "_isEnabled": true
 }
 
@@ -58,8 +58,8 @@
 }
 
 // To go in article/block/component.json
-"displayTitleSkinny": " Skinny title",
-"bodySkinny": "Skinny text",
-    "_skinnyText": {
+"displayTitleReduced": " Reduced title",
+"bodyReduced": "Reduced text",
+    "_reducedText": {
         "_isEnabled": true
     },

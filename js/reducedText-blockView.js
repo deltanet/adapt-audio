@@ -3,58 +3,58 @@ define([
 	'coreViews/blockView'
 ], function(Adapt, AdaptBlockView) {
 
-	var SkinnyTextBlockView = {
+	var ReducedTextBlockView = {
 
 		events: {},
 
 		preRender: function() {
 
             AdaptBlockView.prototype.preRender.call(this);
-            if (this.model.isSkinnyTextEnabled()) this._skinnyTextBlockPreRender();
+            if (this.model.isReducedTextEnabled()) this._reducedTextBlockPreRender();
 
         },
 
-		_skinnyTextBlockPreRender: function() {
-        	this._skinnyTextBlockSetupEventListeners();
+		_reducedTextBlockPreRender: function() {
+        	this._reducedTextBlockSetupEventListeners();
 		},
 
-		_skinnyTextBlockSetupEventListeners: function() {
+		_reducedTextBlockSetupEventListeners: function() {
 			this.listenTo(Adapt, "audio:changeText", this._replaceText);
 		},
 
 		render: function() {
 
-			if (this.model.isSkinnyTextEnabled()) {
+			if (this.model.isReducedTextEnabled()) {
 
-				this._skinnyTextBlockRender();
+				this._reducedTextBlockRender();
 
 			} else AdaptBlockView.prototype.render.call(this);
 		
 		},
 
-		_skinnyTextBlockRender: function() {
+		_reducedTextBlockRender: function() {
 
             Adapt.trigger(this.constructor.type + 'View:preRender', this);
 
             var data = this.model.toJSON();
-            var template = Handlebars.templates['skinnyText-block'];
+            var template = Handlebars.templates['reducedText-block'];
             this.$el.html(template(data));
 
             this.addChildren();
 
             _.defer(_.bind(function() {
-            	this._skinnyTextBlockPostRender();
+            	this._reducedTextBlockPostRender();
 
             }, this));
 
-            this.$el.addClass('skinnyText-enabled');
+            this.$el.addClass('reducedText-enabled');
 
             this.delegateEvents();
 
             return this;
 		},
 
-		_skinnyTextBlockPostRender: function() {
+		_reducedTextBlockPostRender: function() {
 			Adapt.trigger(this.constructor.type + 'View:postRender', this);
         },
 
@@ -63,13 +63,13 @@ define([
         		this.$('.block-title-inner').html(this.model.get('displayTitle')).a11y_text();
             	this.$('.block-body-inner').html(this.model.get('body')).a11y_text();
         	} else {
-        		this.$('.block-title-inner').html(this.model.get('displayTitleSkinny')).a11y_text();
-            	this.$('.block-body-inner').html(this.model.get('bodySkinny')).a11y_text();
+        		this.$('.block-title-inner').html(this.model.get('displayTitleReduced')).a11y_text();
+            	this.$('.block-body-inner').html(this.model.get('bodyReduced')).a11y_text();
         	}
         }
 		
 	};
 
-	return SkinnyTextBlockView;
+	return ReducedTextBlockView;
 
 });

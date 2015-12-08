@@ -3,7 +3,7 @@ define([
     './audio-toggle-view',
     './audio-drawer-view',
     './audio-controls-view',
-    './audio-skinnyText'
+    './audio-reducedText'
 ], function(Adapt, AudioToggleView, AudioDrawerView, AudioControlsView) {
 
   var AudioController = _.extend({
@@ -33,18 +33,6 @@ define([
       this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio);
       // listen to text change in nav bar toggle prompt
       this.listenTo(Adapt, "audio:changeText", this.changeText);
-      // Check if skinnyText is enabled
-      if (Adapt.config.get("_skinnyText") && Adapt.config.get("_skinnyText")._isEnabled) {
-        this.listenToOnce(Adapt, "router:location", this.checkForBookmark);
-      }
-    },
-
-    checkForBookmark: function() {
-      console.log(Adapt.offlineStorage.get("location"));
-      // If bookmarking is set, check it is empty
-      if (Adapt.offlineStorage.get("location") == "") {
-        this.showPrompt();
-      }
     },
 
     setupAudio: function() {
@@ -58,13 +46,6 @@ define([
       Adapt.audio = {};
       Adapt.audio.audioChannel = new Array();
       Adapt.audio.audioClip = new Array();
-
-      // Skinny text
-      if (Adapt.config.get("_skinnyText") && Adapt.config.get("_skinnyText")._isEnabled) {
-        Adapt.audio.textSize = 1;
-      } else {
-        Adapt.audio.textSize = 0;
-      }
 
       // TODO - probably need to improve this test, it's a bit hacky to say the least.
       // set global course autoplay based on modernizer.touch then course JSON.
@@ -93,6 +74,27 @@ define([
         Adapt.audio.audioClip[i].newID = "";
         Adapt.audio.audioClip[i].prevID = "";
       }
+
+      // Reduced text - Only available if audio is enabled
+      if (Adapt.config.get("_reducedText") && Adapt.config.get("_reducedText")._isEnabled && this.audioEnabled) {
+        // Detrermine text size based on audio preference
+        // If audio is off then show full text
+        if (Adapt.audio.audioStatus == 0) {
+          Adapt.audio.textSize = 0;
+        } else {
+          // If audio is on then show reduced text
+          Adapt.audio.textSize = 1;
+        }
+        // If bookmarking is empty then show the prompt
+        if (Adapt.offlineStorage.get("location") == "") {
+          Adapt.audio.textSize = 1;
+          this.showPrompt();
+        }
+      } else {
+        // If reduced text is disabled then set size to full
+        Adapt.audio.textSize = 0;
+      }
+
     },
 
     onPageReady: function(view) {
@@ -108,19 +110,19 @@ define([
       }
       Adapt.audio.autoPlayGlobal = false;
 
-      var audioPromptModel = Adapt.course.get('_skinnyText');
+      var audioPromptModel = Adapt.course.get('_reducedText');
 
       if (!audioPromptModel._buttons) {
         audioPromptModel._buttons = {
           full: "Full",
-          small: "Small"
+          small: "Reduced"
         };
       }
       if (!audioPromptModel._buttons.full) audioPromptModel._buttons.full = "Full";
-      if (!audioPromptModel._buttons.small) audioPromptModel._buttons.small = "Small";
+      if (!audioPromptModel._buttons.small) audioPromptModel._buttons.small = "Reduced";
 
       this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
-      this.listenToOnce(Adapt, "audio:smallText", this.setSmallText);
+      this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
 
       var promptObject = {
         title: audioPromptModel.title,
@@ -132,7 +134,7 @@ define([
               },
               {
                   promptText: audioPromptModel._buttons.small,
-                  _callbackEvent: "audio:smallText",
+                  _callbackEvent: "audio:reducedText",
               }
           ],
           _showIcon: false
@@ -148,12 +150,12 @@ define([
       this.stopListening(Adapt, "audio:fullText");
     },
 
-    setSmallText: function() {
+    setReducedText: function() {
       Adapt.audio.autoPlayGlobal = true;
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 1);
       this.playCurrentAudio(0);
-      this.stopListening(Adapt, "audio:smallText");
+      this.stopListening(Adapt, "audio:reducedText");
     },
 
     playCurrentAudio: function(channel){
@@ -268,7 +270,6 @@ define([
     },
 
     onABCReady: function(view) {
-
       // Pause all channels on view load
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.trigger('audio:pauseAudio', i);
@@ -284,7 +285,6 @@ define([
     }
 
   }, Backbone.Events);
-
 
     AudioController.initialize();
 

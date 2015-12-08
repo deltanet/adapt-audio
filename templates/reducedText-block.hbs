@@ -1,19 +1,19 @@
 {{! .component-container: Adapt will place the blocks components inside this class}}
 <div class="block-inner">
     {{! Check if a page title exist and render it}}
-    {{#if displayTitleSkinny}}
+    {{#if displayTitleReduced}}
         <div class="block-title">
             <div role="heading" tabindex="0" class="block-title-inner h3"  aria-level="3">
-                {{{displayTitleSkinny}}}
+                {{{displayTitleReduced}}}
             </div>
         </div>
     {{/if}}
 
     {{! Check if page body exists and render it}}
-    {{#if bodySkinny}}
+    {{#if bodyReduced}}
         <div class="block-body">
             <div class="block-body-inner">
-                {{{a11y_text bodySkinny}}}
+                {{{a11y_text bodyReduced}}}
             </div>
         </div>
     {{/if}}

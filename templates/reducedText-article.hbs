@@ -3,19 +3,19 @@
 
     <div class="article-header">
         {{! Check if a page title exist and render it}}
-        {{#if displayTitleSkinny}}
+        {{#if displayTitleReduced}}
         <div class="article-title">
             <div role="heading" tabindex="0" class="article-title-inner h2"  aria-level="2">
-                {{{displayTitleSkinny}}}
+                {{{displayTitleReduced}}}
             </div>
         </div>
         {{/if}}
 
         {{! Check if page body exists and render it}}
-        {{#if bodySkinny}}
+        {{#if bodyReduced}}
         <div class="article-body">
             <div class="article-body-inner">
-                {{{a11y_text bodySkinny}}}
+                {{{a11y_text bodyReduced}}}
             </div>
         </div>
         {{/if}}

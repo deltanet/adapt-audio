@@ -4,16 +4,16 @@ define([
 	'coreViews/blockView',
 	'coreModels/articleModel',
 	'coreModels/blockModel',
-	'./skinnyText-articleView',
-	'./skinnyText-articleModel',
-	'./skinnyText-blockView',
-	'./skinnyText-blockModel'
+	'./reducedText-articleView',
+	'./reducedText-articleModel',
+	'./reducedText-blockView',
+	'./reducedText-blockModel'
 ], function(Adapt, ArticleView, BlockView, ArticleModel, BlockModel, ArticleViewExtension, ArticleModelExtension, BlockViewExtension, BlockModelExtension) {
 
 	//Extends core/js/views/articleView.js
 	var ArticleViewInitialize = ArticleView.prototype.initialize;
 	ArticleView.prototype.initialize = function(options) {
-		if (this.model.get("_skinnyText")) {
+		if (this.model.get("_reducedText")) {
 			//extend the articleView with new functionality
 			_.extend(this, ArticleViewExtension);
 		}
@@ -24,7 +24,7 @@ define([
 	//Extends core/js/models/articleModel.js
 	var ArticleModelInitialize = ArticleModel.prototype.initialize;
 	ArticleModel.prototype.initialize = function(options) {
-		if (this.get("_skinnyText")) {
+		if (this.get("_reducedText")) {
 			//extend the articleModel with new functionality
 			_.extend(this, ArticleModelExtension);
 
@@ -39,7 +39,7 @@ define([
 	//Extends core/js/views/blockView.js
 	var BlockViewInitialize = BlockView.prototype.initialize;
 	BlockView.prototype.initialize = function(options) {
-		if (this.model.get("_skinnyText")) {
+		if (this.model.get("_reducedText")) {
 			//extend the blockView with new functionality
 			_.extend(this, BlockViewExtension);
 		}
@@ -50,7 +50,7 @@ define([
 	//Extends core/js/models/blockModel.js
 	var BlockModelInitialize = BlockModel.prototype.initialize;
 	BlockModel.prototype.initialize = function(options) {
-		if (this.get("_skinnyText")) {
+		if (this.get("_reducedText")) {
 			//extend the blockModel with new functionality
 			_.extend(this, BlockModelExtension);
 

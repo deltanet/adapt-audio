@@ -3,58 +3,58 @@ define([
 	'coreViews/articleView'
 ], function(Adapt, AdaptArticleView) {
 
-	var SkinnyTextArticleView = {
+	var ReducedTextArticleView = {
 
 		events: {},
 
 		preRender: function() {
 
             AdaptArticleView.prototype.preRender.call(this);
-            if (this.model.isSkinnyTextEnabled()) this._skinnyTextArticlePreRender();
+            if (this.model.isReducedTextEnabled()) this._reducedTextArticlePreRender();
 
         },
 
-        _skinnyTextArticlePreRender: function() {
-        	this._skinnyTextArticleSetupEventListeners();
+        _reducedTextArticlePreRender: function() {
+        	this._reducedTextArticleSetupEventListeners();
 		},
 
-		_skinnyTextArticleSetupEventListeners: function() {
+		_reducedTextArticleSetupEventListeners: function() {
 			this.listenTo(Adapt, "audio:changeText", this._replaceText);
 		},
 
 		render: function() {
 
-			if (this.model.isSkinnyTextEnabled()) {
+			if (this.model.isReducedTextEnabled()) {
 
-				this._skinnyTextArticleRender();
+				this._reducedTextArticleRender();
 
 			} else AdaptArticleView.prototype.render.call(this);
 		
 		},
 
-		_skinnyTextArticleRender: function() {
+		_reducedTextArticleRender: function() {
 
             Adapt.trigger(this.constructor.type + 'View:preRender', this);
 
             var data = this.model.toJSON();
-            var template = Handlebars.templates['skinnyText-article'];
+            var template = Handlebars.templates['reducedText-article'];
             this.$el.html(template(data));
 
             this.addChildren();
 
             _.defer(_.bind(function() {
-            	this._skinnyTextArticlePostRender();
+            	this._reducedTextArticlePostRender();
 
             }, this));
 
-            this.$el.addClass('skinnyText-enabled');
+            this.$el.addClass('reducedText-enabled');
 
             this.delegateEvents();
 
             return this;
 		},
 
-		_skinnyTextArticlePostRender: function() {
+		_reducedTextArticlePostRender: function() {
 			Adapt.trigger(this.constructor.type + 'View:postRender', this);
         },
 
@@ -63,13 +63,13 @@ define([
         		this.$('.article-title-inner').html(this.model.get('displayTitle')).a11y_text();
             	this.$('.article-body-inner').html(this.model.get('body')).a11y_text();
         	} else {
-        		this.$('.article-title-inner').html(this.model.get('displayTitleSkinny')).a11y_text();
-            	this.$('.article-body-inner').html(this.model.get('bodySkinny')).a11y_text();
+        		this.$('.article-title-inner').html(this.model.get('displayTitleReduced')).a11y_text();
+            	this.$('.article-body-inner').html(this.model.get('bodyReduced')).a11y_text();
         	}
         }
 		
 	};
 
-	return SkinnyTextArticleView;
+	return ReducedTextArticleView;
 
 });
