@@ -76,12 +76,15 @@ define(function(require) {
                 // Turn audio off and show alert with just a confirm button
                 if (!audioPromptModel._buttons) {
                     audioPromptModel._buttons = {
-                        confirm: "Confirm"
+                        confirm: "Confirm",
+                        cancel: "Cancel"
                     };
                 }
                 if (!audioPromptModel._buttons.confirm) audioPromptModel._buttons.confirm = "Confirm";
+                if (!audioPromptModel._buttons.cancel) audioPromptModel._buttons.cancel = "Cancel";
                 // Set listener
                 this.listenToOnce(Adapt, "audio:confirm", this.confirmText);
+                this.listenToOnce(Adapt, "audio:cancel", this.cancelText);
 
                 var promptObject = {
                     title: audioPromptModel.title,
@@ -89,7 +92,11 @@ define(function(require) {
                     _prompts:[
                         {
                             promptText: audioPromptModel._buttons.confirm,
-                            _callbackEvent: "audio:confirm",
+                            _callbackEvent: "audio:confirm"
+                        },
+                        {
+                            promptText: audioPromptModel._buttons.cancel,
+                            _callbackEvent: "audio:cancel"
                         }
                     ],
                     _showIcon: false
@@ -100,11 +107,11 @@ define(function(require) {
                 if (!audioPromptModel._buttons) {
                     audioPromptModel._buttons = {
                         full: "Full",
-                        small: "Reduced"
+                        reduced: "Reduced"
                     };
                 }
                 if (!audioPromptModel._buttons.full) audioPromptModel._buttons.full = "Full";
-                if (!audioPromptModel._buttons.small) audioPromptModel._buttons.small = "Reduced";
+                if (!audioPromptModel._buttons.reduced) audioPromptModel._buttons.reduced = "Reduced";
                 // Set listeners
                 this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
                 this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
@@ -118,7 +125,7 @@ define(function(require) {
                             _callbackEvent: "audio:fullText",
                         },
                         {
-                            promptText: audioPromptModel._buttons.small,
+                            promptText: audioPromptModel._buttons.reduced,
                             _callbackEvent: "audio:reducedText",
                         }
                     ],
@@ -136,14 +143,18 @@ define(function(require) {
             for (var i = 0; i < Adapt.audio.numChannels; i++) {
                 Adapt.audio.audioClip[i].status = 0;
             }
-            // Update toggle
-            this.updateToggle();
+            // Update audio status
+            Adapt.trigger('audio:updateAudioStatus', 0, 0);
             // Set text to full
             if(Adapt.audio.textSize == 1){
                 Adapt.trigger('audio:changeText', 0);
             }
             //
             this.stopListening(Adapt, "audio:confirm");
+        },
+
+        cancelText: function() {
+            this.stopListening(Adapt, "audio:cancel");
         },
 
         setFullText: function() {
@@ -153,8 +164,8 @@ define(function(require) {
             for (var i = 0; i < Adapt.audio.numChannels; i++) {
                 Adapt.audio.audioClip[i].status = 1;
             }
-            // Update toggle
-            this.updateToggle();
+            // Update audio status
+            Adapt.trigger('audio:updateAudioStatus', 0, 1);
             // Set text to full
             Adapt.trigger('audio:changeText', 0);
             //
@@ -168,8 +179,8 @@ define(function(require) {
             for (var i = 0; i < Adapt.audio.numChannels; i++) {
                 Adapt.audio.audioClip[i].status = 1;
             }
-            // Update toggle
-            this.updateToggle();
+            // Update audio status
+            Adapt.trigger('audio:updateAudioStatus', 0, 1);
             // Set text to small
             Adapt.trigger('audio:changeText', 1);
             //

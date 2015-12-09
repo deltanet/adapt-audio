@@ -33,6 +33,8 @@ define([
       this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio);
       // listen to text change in nav bar toggle prompt
       this.listenTo(Adapt, "audio:changeText", this.changeText);
+      // Listen for bookmark
+      this.listenToOnce(Adapt, "router:location", this.checkBookmark);
     },
 
     setupAudio: function() {
@@ -58,11 +60,10 @@ define([
         Adapt.audio.audioClip[i] = new Audio();
       }
 
-      // set audio status, needs to check if this should be on/off but set to 1 for now. 
-      var audioPreference = Adapt.offlineStorage.get("audio_level");
-      if (audioPreference) {
-        Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
-      } else {
+      // Collect saved audio status 
+      Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
+      // If status is not zero then presume one hasn't been stored and set to default on
+      if(Adapt.audio.audioStatus !== 0) {
         Adapt.audio.audioStatus = 1;
       }
 
@@ -85,11 +86,7 @@ define([
           // If audio is on then show reduced text
           Adapt.audio.textSize = 1;
         }
-        // If bookmarking is empty then show the prompt
-        if (Adapt.offlineStorage.get("location") == "") {
-          Adapt.audio.textSize = 1;
-          this.showPrompt();
-        }
+
       } else {
         // If reduced text is disabled then set size to full
         Adapt.audio.textSize = 0;
@@ -103,43 +100,51 @@ define([
       }
     },
 
-    showPrompt: function() {
+    checkBookmark: function() {
+      if (Adapt.config.get("_reducedText") && Adapt.config.get("_reducedText")._isEnabled && this.audioEnabled) {
+        if((typeof Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") == "")) {
+          this.showAudioPrompt();
+        }
+      }
+    },
+
+    showAudioPrompt: function() {
       // Pause all channels
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.trigger('audio:pauseAudio', i);
       }
       Adapt.audio.autoPlayGlobal = false;
 
-      var audioPromptModel = Adapt.course.get('_reducedText');
+      var audioPromptModel = Adapt.course.get('_audio')._prompt;
 
       if (!audioPromptModel._buttons) {
         audioPromptModel._buttons = {
           full: "Full",
-          small: "Reduced"
+          reduced: "Reduced"
         };
       }
       if (!audioPromptModel._buttons.full) audioPromptModel._buttons.full = "Full";
-      if (!audioPromptModel._buttons.small) audioPromptModel._buttons.small = "Reduced";
+      if (!audioPromptModel._buttons.reduced) audioPromptModel._buttons.reduced = "Reduced";
 
       this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
       this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
 
-      var promptObject = {
+      var audioPromptObject = {
         title: audioPromptModel.title,
-        body: audioPromptModel.bodyAudioOff,
+        body: audioPromptModel.body,
           _prompts:[
               {
                   promptText: audioPromptModel._buttons.full,
                   _callbackEvent: "audio:fullText",
               },
               {
-                  promptText: audioPromptModel._buttons.small,
+                  promptText: audioPromptModel._buttons.reduced,
                   _callbackEvent: "audio:reducedText",
               }
           ],
           _showIcon: false
       }
-      Adapt.trigger('notify:prompt', promptObject);
+      Adapt.trigger('notify:prompt', audioPromptObject);
     },
 
     setFullText: function() {
