@@ -38,9 +38,27 @@
         }
     ],
     "_prompt": {
-        "_fadeOutTime": 15000,
-        "displayTitle": "Audio",
-        "body": "There is audio included in this module. Select the play icon to start the audio."
+        "_isEnabled": true,
+        "title": "Audio setting",
+        "body": "There is audio included in this module. Please select whether you would like full default text or reduced text.",
+        "_buttons": {
+            "full": "Full",
+            "reduced": "Reduced"
+        }
+    }
+}
+
+// To go in the course.json file
+"_reducedText": {
+    "_isEnabled": true,
+    "title": "Audio and text setting",
+    "bodyAudioOn": "The audio will now be turned off and the text on screen will be set to the full default size.",
+    "bodyAudioOff": "The audio will now be turned on. Would you like full default text or reduced text?",
+    "_buttons": {
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "full": "Full",
+        "reduced": "Reduced"
     }
 }
 
