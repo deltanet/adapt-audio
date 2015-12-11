@@ -20,7 +20,7 @@ define([
 
     setupEventListeners: function() {
       // load topnav AudioToggleView
-      this.listenTo(Adapt, "menuView:ready pageView:ready", this.onPageReady);
+      this.listenTo(Adapt, "router:page router:menu", this.onAddToggle);
       // load article, block, component audio
       this.listenTo(Adapt, "articleView:postRender blockView:postRender componentView:postRender", this.onABCReady);
       this.listenTo(Adapt, "audio:inviewOff", this.inviewOff);
@@ -94,9 +94,9 @@ define([
 
     },
 
-    onPageReady: function(view) {
+    onAddToggle: function(pageModel) {
       if (this.audioEnabled) {
-          new AudioToggleView({model:view.model});
+          new AudioToggleView({model:pageModel});
       }
     },
 
