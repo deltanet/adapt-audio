@@ -51,7 +51,7 @@ define([
 
       // TODO - probably need to improve this test, it's a bit hacky to say the least.
       // set global course autoplay based on modernizer.touch then course JSON.
-      Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay;
+      Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? true : false;
 
       // Set number of audio channels specified in the course JSON
       Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
@@ -113,7 +113,6 @@ define([
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.trigger('audio:pauseAudio', i);
       }
-      Adapt.audio.autoPlayGlobal = false;
 
       var audioPromptModel = Adapt.course.get('_audio')._prompt;
 
@@ -148,7 +147,6 @@ define([
     },
 
     setFullText: function() {
-      Adapt.audio.autoPlayGlobal = true;
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 0);
       this.playCurrentAudio(0);
@@ -156,7 +154,6 @@ define([
     },
 
     setReducedText: function() {
-      Adapt.audio.autoPlayGlobal = true;
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 1);
       this.playCurrentAudio(0);
@@ -186,15 +183,13 @@ define([
       // Update player to new clip vars
       Adapt.audio.audioClip[channel].src = audioClip;
       Adapt.audio.audioClip[channel].newID = id;
-      if(Adapt.audio.autoPlayGlobal){
-        try {
-          setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
-          Adapt.audio.audioClip[channel].isPlaying = true;
-          this.showAudioIcon(channel);
+      try {
+        setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
+        Adapt.audio.audioClip[channel].isPlaying = true;
+        this.showAudioIcon(channel);
 
-        } catch(e) {
-          console.log('Audio play error:' + e);
-        }
+      } catch(e) {
+        console.log('Audio play error:' + e);
       }
       // Update player ID to new clip
       Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
