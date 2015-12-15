@@ -1,20 +1,15 @@
 // To go in the config.json file
 "_audio": {
     "_isEnabled": true
+},
+"_reducedText": {
+    "_isEnabled": true
 }
 
 // To go in the course.json file
 "_audio": {
-    "_enableAudioDrawer": true,
     "_isEnabled": true,
-    "_showControls": true,
-    "_autoplay": true,
-    "_channel": 0,
-    "_location": "top-right",
-    "_media": {
-        "mp3": "course/en/audio/***.mp3",
-        "ogg": "course/en/audio/***.ogg"
-    },
+    "_enableAudioDrawer": true,
     "title": "Audio",
     "description": "Click here to view the audio settings for this course.",
     "_audioItems": [
@@ -35,9 +30,27 @@
         }
     ],
     "_prompt": {
-        "_fadeOutTime": 15000,
-        "displayTitle": "Audio",
-        "body": "There is audio included in this module. Select the play icon to start the audio."
+        "_isEnabled": true,
+        "title": "Audio setting",
+        "body": "There is audio included in this module. Please select whether you would like full default text or reduced text.",
+        "_buttons": {
+            "full": "Full",
+            "reduced": "Reduced"
+        }
+    }
+}
+
+// To go in the course.json file
+"_reducedText": {
+    "_isEnabled": true,
+    "title": "Audio and text setting",
+    "bodyAudioOn": "The audio will now be turned off and the text on screen will be set to the full default size.",
+    "bodyAudioOff": "The audio will now be turned on. Would you like full default text or reduced text?",
+    "_buttons": {
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "full": "Full",
+        "reduced": "Reduced"
     }
 }
 
@@ -53,3 +66,10 @@
         "ogg": "course/en/audio/music.ogg"
     }
 }
+
+// To go in article/block/component.json
+"displayTitleReduced": " Reduced title",
+"bodyReduced": "Reduced text",
+    "_reducedText": {
+        "_isEnabled": true
+    },

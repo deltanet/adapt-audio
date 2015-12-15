@@ -11,8 +11,6 @@ define(function(require) {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
-            // stop playing audio on any notify 
-            //this.listenTo(Adapt, 'notify:alert notify:prompt notify:popup notify:push', this.stopPlayingAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
@@ -29,7 +27,7 @@ define(function(require) {
         render: function () {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioControls"];
-            if (this.model.get('_audio') || this.model.get('_audio')._isEnabled) {
+            if (this.model.get('_audio') && this.model.get('_audio')._isEnabled) {
                 if(this.model.get('_audio')._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
                     $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ."+this.model.get("_type")+"-inner");
                 } else {
@@ -135,7 +133,7 @@ define(function(require) {
                     // Check if audio is set to on
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
                         // Check if audio is set to autoplay
-                        if(this.model.get("_audio")._autoplay && Adapt.audio.autoPlayGlobal){
+                        if(this.model.get("_audio")._autoplay){
                             Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
                         }
                     }
