@@ -119,7 +119,7 @@ define(function(require) {
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
-            if (visible) {
+            if (visible && Adapt.audio.autoPlayGlobal && this.model.get("_audio")._autoplay) {
                 if (visiblePartY === 'top') {
                     this._isVisibleTop = true;
                 } else if (visiblePartY === 'bottom') {
@@ -132,10 +132,7 @@ define(function(require) {
                 if (this._isVisibleTop && this._isVisibleBottom) {
                     // Check if audio is set to on
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
-                        // Check if audio is set to autoplay
-                        if(this.model.get("_audio")._autoplay){
-                            Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
-                        }
+                        Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
                     }
                 }
             } else {
