@@ -41,7 +41,7 @@ define([
       if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._isEnabled) {
         this.audioEnabled = Adapt.config.get("_audio")._isEnabled;
       } else {
-        this.audioEnabled = {"_isEnabled": false};
+        this.audioEnabled = false;
       }
 
       // Define audio model for all other views and components to reference
@@ -49,8 +49,7 @@ define([
       Adapt.audio.audioChannel = new Array();
       Adapt.audio.audioClip = new Array();
 
-      // TODO - probably need to improve this test, it's a bit hacky to say the least.
-      // set global course autoplay based on modernizer.touch then course JSON.
+      // Set global course autoplay based on modernizer.touch then course JSON.
       Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? true : false;
 
       // Set number of audio channels specified in the course JSON
@@ -177,22 +176,24 @@ define([
     },
 
     playAudio: function(audioClip, id, channel) {
-      // Update previous player
-      this.hideAudioIcon(channel);
-      Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;
-      // Update player to new clip vars
-      Adapt.audio.audioClip[channel].src = audioClip;
-      Adapt.audio.audioClip[channel].newID = id;
-      try {
-        setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
-        Adapt.audio.audioClip[channel].isPlaying = true;
-        this.showAudioIcon(channel);
+      if(this.audioEnabled){
+        // Update previous player
+        this.hideAudioIcon(channel);
+        Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;
+        // Update player to new clip vars
+        Adapt.audio.audioClip[channel].src = audioClip;
+        Adapt.audio.audioClip[channel].newID = id;
+        try {
+          setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
+          Adapt.audio.audioClip[channel].isPlaying = true;
+          this.showAudioIcon(channel);
 
-      } catch(e) {
-        console.log('Audio play error:' + e);
+        } catch(e) {
+          console.log('Audio play error:' + e);
+        }
+        // Update player ID to new clip
+        Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
       }
-      // Update player ID to new clip
-      Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
     },
 
     pauseAudio: function(channel) {
@@ -275,7 +276,7 @@ define([
         Adapt.trigger('audio:pauseAudio', i);
       }
 
-      if (this.audioEnabled  && view.model && view.model.get("_audio")) {
+      if (this.audioEnabled && view.model && view.model.get("_audio")) {
           try{
             new AudioControlsView({model:view.model});
           } catch(e){
