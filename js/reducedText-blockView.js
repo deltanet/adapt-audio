@@ -24,7 +24,7 @@ define([
 
 		render: function() {
 
-			if (this.model.isReducedTextEnabled()) {
+			if (this.model.isReducedTextEnabled() && Adapt.audio.textSize == 1) {
 
 				this._reducedTextBlockRender();
 
