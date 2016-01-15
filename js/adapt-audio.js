@@ -3,8 +3,9 @@ define([
     './audio-toggle-view',
     './audio-drawer-view',
     './audio-controls-view',
+    './audio-results-view',
     './audio-reducedText'
-], function(Adapt, AudioToggleView, AudioDrawerView, AudioControlsView) {
+], function(Adapt, AudioToggleView, AudioDrawerView, AudioControlsView, AudioResultsView) {
 
   var AudioController = _.extend({
 
@@ -283,6 +284,15 @@ define([
             console.log(e);
           }
       }
+
+      if (this.audioEnabled && view.model && view.model.get("_audioAssessment")) {
+          try{
+            new AudioResultsView({model:view.model});
+          } catch(e){
+            console.log(e);
+          }
+      }
+
     }
 
   }, Backbone.Events);
