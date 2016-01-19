@@ -9,6 +9,7 @@ define(function(require) {
 
         initialize: function () {
             this.listenTo(Adapt, 'remove', this.remove);
+            this.listenTo(Adapt, 'device:changed', this.reRender);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
@@ -45,11 +46,8 @@ define(function(require) {
             if(this.model.get('_audio')._showControls==false){
                 this.$('.audio-toggle').addClass('hidden');
             }
-            try {
-                this.audioFile = this.model.get("_audio")._media.mp3;
-            } catch(e) {
-                console.log('An error has occured loading audio');
-            }
+            // Set audio file
+            this.setAudioFile();
 
             // Set clip ID
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
@@ -65,6 +63,29 @@ define(function(require) {
         postRender: function() {
             // Add inview listener on audio element
             this.$('.audio-inner').on('inview', _.bind(this.inview, this));
+        },
+
+        reRender: function() {
+            this.setAudioFile();
+        },
+
+        setAudioFile: function() {
+            // Set audio file based on the device size
+            if (Adapt.device.screenSize === 'large') {
+                console.log("desktop");
+                try {
+                    this.audioFile = this.model.get("_audio")._media.desktop;
+                } catch(e) {
+                    console.log('An error has occured loading audio');
+                }
+            } else {
+                console.log("mobile");
+                try {
+                    this.audioFile = this.model.get("_audio")._media.mobile;
+                } catch(e) {
+                    console.log('An error has occured loading audio');
+                }
+            }
         },
 
         onAudioEnded: function() {
