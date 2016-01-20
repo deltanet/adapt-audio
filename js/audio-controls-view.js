@@ -98,7 +98,7 @@ define(function(require) {
                 if (this.model.get('_isCorrect')) {
 
                     try {
-                        this.audioFile = this.model.get('_feedback')._audio._correct._media.mp3;
+                        this.audioFile = this.model.get('_feedback')._audio._correct._media.src;
                     } catch(e) {
                         console.log('An error has occured loading audio');
                     }
@@ -107,7 +107,7 @@ define(function(require) {
                 } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
 
                     try {
-                        this.model.get('_feedback')._audio._partlyCorrect._final._media.mp3;
+                        this.model.get('_feedback')._audio._partlyCorrect._final._media.src;
                     } catch(e) {
                         console.log('An error has occured loading audio');
                     }
@@ -116,7 +116,7 @@ define(function(require) {
                 } else {
 
                     try {
-                        this.audioFile = this.model.get('_feedback')._audio._incorrect._final._media.mp3;
+                        this.audioFile = this.model.get('_feedback')._audio._incorrect._final._media.src;
                     } catch(e) {
                         console.log('An error has occured loading audio');
                     }
