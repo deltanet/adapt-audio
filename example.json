@@ -31,8 +31,8 @@
     ],
     "_prompt": {
         "_isEnabled": true,
-        "title": "Audio setting",
-        "body": "There is audio included in this module. Please select whether you would like full default text or reduced text.",
+        "title": "Audio settings",
+        "body": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon.<br><br><b>Text settings</b><br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change you preference at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon.",
         "_buttons": {
             "full": "Full",
             "reduced": "Reduced"
@@ -44,8 +44,8 @@
 "_reducedText": {
     "_isEnabled": true,
     "title": "Audio and text setting",
-    "bodyAudioOn": "The audio will now be turned off and the text on screen will be set to the full default size.",
-    "bodyAudioOff": "The audio will now be turned on. Would you like full default text or reduced text?",
+    "bodyAudioOn": "You have chosen to turn audio off. The on-screen text will default to full text.",
+    "bodyAudioOff": "You have chosen to turn audio on. Please select whether you would like to view full or reduced text.",
     "_buttons": {
         "confirm": "Confirm",
         "cancel": "Cancel",

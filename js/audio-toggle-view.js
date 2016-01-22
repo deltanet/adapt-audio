@@ -107,14 +107,17 @@ define(function(require) {
                 if (!audioPromptModel._buttons) {
                     audioPromptModel._buttons = {
                         full: "Full",
-                        reduced: "Reduced"
+                        reduced: "Reduced",
+                        cancel: "Cancel"
                     };
                 }
                 if (!audioPromptModel._buttons.full) audioPromptModel._buttons.full = "Full";
                 if (!audioPromptModel._buttons.reduced) audioPromptModel._buttons.reduced = "Reduced";
+                if (!audioPromptModel._buttons.cancel) audioPromptModel._buttons.cancel = "Cancel";
                 // Set listeners
                 this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
                 this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
+                this.listenToOnce(Adapt, "audio:cancelReducedText", this.closeNotify);
 
                 var promptObject = {
                     title: audioPromptModel.title,
@@ -127,6 +130,10 @@ define(function(require) {
                         {
                             promptText: audioPromptModel._buttons.reduced,
                             _callbackEvent: "audio:reducedText",
+                        },
+                        {
+                            promptText: audioPromptModel._buttons.cancel,
+                            _callbackEvent: "audio:cancelReducedText",
                         }
                     ],
                     _showIcon: false
@@ -185,6 +192,10 @@ define(function(require) {
             Adapt.trigger('audio:changeText', 1);
             //
             this.stopListening(Adapt, "audio:reducedText");
+        },
+
+        closeNotify: function() {
+            Adapt.trigger('popup:closed');
         }
 
     });
