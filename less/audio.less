@@ -17,7 +17,7 @@
     position: relative;
     z-index: 1;
     .audio-toggle {
-        color: @white;
+        color: @item-text-color;
         background-color: @item-color;
         padding: @item-padding;
         .transition-all-colors;
@@ -33,13 +33,6 @@
     &.block-audio {
     }
     &.component-audio {
-        .audio-toggle {
-            margin-top: -@component-padding;
-            margin-right: -@component-padding;
-        }
-        .dir-rtl & {
-          margin-left: -@component-padding;
-        }
     }
 }
 
