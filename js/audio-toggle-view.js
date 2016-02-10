@@ -5,7 +5,7 @@ define(function(require) {
 
     var AudioToggleView = Backbone.View.extend({
 
-        className: 'audioToggle',
+        className: 'audio-toggle',
 
         initialize: function() {
             this.listenTo(Adapt, 'remove', this.remove);
