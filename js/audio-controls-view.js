@@ -72,14 +72,12 @@ define(function(require) {
         setAudioFile: function() {
             // Set audio file based on the device size
             if (Adapt.device.screenSize === 'large') {
-                console.log("desktop");
                 try {
                     this.audioFile = this.model.get("_audio")._media.desktop;
                 } catch(e) {
                     console.log('An error has occured loading audio');
                 }
             } else {
-                console.log("mobile");
                 try {
                     this.audioFile = this.model.get("_audio")._media.mobile;
                 } catch(e) {
