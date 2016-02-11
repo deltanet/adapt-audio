@@ -20,7 +20,7 @@ define(function(require) {
         render: function() {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioToggle"];
-            this.$el.html(template(data)).appendTo('#wrapper'+'>.navigation'+'>.navigation-inner');
+            this.$el.html(template(data)).prependTo('#wrapper'+'>.navigation'+'>.navigation-inner');
 
             // Check for audio being on
             if(Adapt.audio.audioStatus == 1){
