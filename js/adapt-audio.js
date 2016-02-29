@@ -122,6 +122,7 @@ define([
           reduced: "Reduced"
         };
       }
+
       if (!audioPromptModel._buttons.full) audioPromptModel._buttons.full = "Full";
       if (!audioPromptModel._buttons.reduced) audioPromptModel._buttons.reduced = "Reduced";
 
@@ -129,19 +130,20 @@ define([
       this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
 
       var audioPromptObject = {
+        header: Adapt.course.get('_audio')._prompt._graphic.src,
         title: audioPromptModel.title,
         body: audioPromptModel.body,
-          _prompts:[
-              {
-                  promptText: audioPromptModel._buttons.full,
-                  _callbackEvent: "audio:fullText",
-              },
-              {
-                  promptText: audioPromptModel._buttons.reduced,
-                  _callbackEvent: "audio:reducedText",
-              }
-          ],
-          _showIcon: false
+        _prompts:[
+            {
+                promptText: audioPromptModel._buttons.full,
+                _callbackEvent: "audio:fullText",
+            },
+            {
+                promptText: audioPromptModel._buttons.reduced,
+                _callbackEvent: "audio:reducedText",
+            }
+        ],
+        _showIcon: false
       }
       Adapt.trigger('notify:prompt', audioPromptObject);
     },

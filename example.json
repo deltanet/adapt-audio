@@ -8,7 +8,6 @@
 
 // To go in the course.json file
 "_audio": {
-    "_isEnabled": true,
     "_enableAudioDrawer": true,
     "title": "Audio",
     "description": "Click here to view the audio settings for this course.",
@@ -36,13 +35,15 @@
         "_buttons": {
             "full": "Full",
             "reduced": "Reduced"
+        },
+        "_graphic": {
+            "src": "adapt/css/assets/audio-icon.png"
         }
     }
 }
 
 // To go in the course.json file
 "_reducedText": {
-    "_isEnabled": true,
     "title": "Audio and text setting",
     "bodyAudioOn": "You have chosen to turn audio off. The on-screen text will default to full text.",
     "bodyAudioOff": "You have chosen to turn audio on. Please select whether you would like to view full or reduced text.",
@@ -51,6 +52,9 @@
         "cancel": "Cancel",
         "full": "Full",
         "reduced": "Reduced"
+    },
+    "_graphic": {
+        "src": "adapt/css/assets/audio-icon.png"
     }
 }
 

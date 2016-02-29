@@ -10,7 +10,7 @@ define(function(require) {
         initialize: function () {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'device:changed', this.reRender);
-            this.listenTo(Adapt, 'questionView:showFeedback', this.initQuestionFeedbackAudio);
+            this.listenTo(Adapt, 'questionView:showFeedback', this.initFeedback);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
@@ -90,38 +90,45 @@ define(function(require) {
             Adapt.trigger('audio:audioEnded', this.audioChannel);
         },
 
+        initFeedback: function() {
+            // Run a check to trigger only the current clip's feedback
+            if(this.elementId == Adapt.audio.audioClip[this.audioChannel].newID) {
+                if(this.model.has('_feedback') && this.model.get('_feedback')._audio) {
+                    this.initQuestionFeedbackAudio();
+                }
+            }
+        },
+
         initQuestionFeedbackAudio: function() {
-            if(this.model.get('_feedback') && this.model.get('_feedback')._audio) {
-                // Correct
-                if (this.model.get('_isCorrect')) {
+            // Correct
+            if (this.model.get('_isCorrect')) {
 
-                    try {
-                        this.audioFile = this.model.get('_feedback')._audio._correct._media.src;
-                    } catch(e) {
-                        console.log('An error has occured loading audio');
-                    }
-
-                // Partly correct
-                } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
-
-                    try {
-                        this.model.get('_feedback')._audio._partlyCorrect._final._media.src;
-                    } catch(e) {
-                        console.log('An error has occured loading audio');
-                    }
-
-                // Incorrect
-                } else {
-
-                    try {
-                        this.audioFile = this.model.get('_feedback')._audio._incorrect._final._media.src;
-                    } catch(e) {
-                        console.log('An error has occured loading audio');
-                    }
+                try {
+                    this.audioFile = this.model.get('_feedback')._audio._correct._media.src;
+                } catch(e) {
+                    console.log('An error has occured loading audio');
                 }
-                if(Adapt.audio.audioClip[this.audioChannel].status==1){
-                    Adapt.trigger('audio:playAudio', this.audioFile, this.model.get('_id'), this.audioChannel);
+
+            // Partly correct
+            } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
+
+                try {
+                    this.model.get('_feedback')._audio._partlyCorrect._final._media.src;
+                } catch(e) {
+                    console.log('An error has occured loading audio');
                 }
+
+            // Incorrect
+            } else {
+
+                try {
+                    this.audioFile = this.model.get('_feedback')._audio._incorrect._final._media.src;
+                } catch(e) {
+                    console.log('An error has occured loading audio');
+                }
+            }
+            if(Adapt.audio.audioClip[this.audioChannel].status==1){
+                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
         },
 

@@ -20,7 +20,7 @@ define(function(require) {
         render: function() {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioToggle"];
-            this.$el.html(template(data)).prependTo('#wrapper'+'>.navigation'+'>.navigation-inner');
+            this.$el.html(template(data)).appendTo('#wrapper'+'>.navigation'+'>.navigation-inner');
 
             // Check for audio being on
             if(Adapt.audio.audioStatus == 1){
@@ -87,6 +87,7 @@ define(function(require) {
                 this.listenToOnce(Adapt, "audio:cancel", this.cancelText);
 
                 var promptObject = {
+                    header: Adapt.course.get('_reducedText')._graphic.src,
                     title: audioPromptModel.title,
                     body: audioPromptModel.bodyAudioOn,
                     _prompts:[
@@ -101,7 +102,6 @@ define(function(require) {
                     ],
                     _showIcon: false
                 }
-                Adapt.trigger('notify:prompt', promptObject);
             } else {
                 // Turn audio off and show alert with just a confirm button
                 if (!audioPromptModel._buttons) {
@@ -120,6 +120,7 @@ define(function(require) {
                 this.listenToOnce(Adapt, "audio:cancelReducedText", this.closeNotify);
 
                 var promptObject = {
+                    header: Adapt.course.get('_reducedText')._graphic.src,
                     title: audioPromptModel.title,
                     body: audioPromptModel.bodyAudioOff,
                     _prompts:[
@@ -138,8 +139,11 @@ define(function(require) {
                     ],
                     _showIcon: false
                 }
-                Adapt.trigger('notify:prompt', promptObject);
             }
+
+            Adapt.trigger('notify:prompt', promptObject);
+
+            $('.notify-popup-body-inner').css('text-align','center');
             
         },
 
