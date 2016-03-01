@@ -102,22 +102,19 @@ define(function(require) {
         initQuestionFeedbackAudio: function() {
             // Correct
             if (this.model.get('_isCorrect')) {
-
                 try {
                     this.audioFile = this.model.get('_feedback')._audio._correct._media.src;
                 } catch(e) {
                     console.log('An error has occured loading audio');
                 }
-
             // Partly correct
             } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
 
                 try {
-                    this.model.get('_feedback')._audio._partlyCorrect._final._media.src;
+                    this.audioFile = this.model.get('_feedback')._audio._partlyCorrect._final._media.src;
                 } catch(e) {
                     console.log('An error has occured loading audio');
                 }
-
             // Incorrect
             } else {
 
