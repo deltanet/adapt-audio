@@ -102,11 +102,13 @@ define(function(require) {
         initQuestionFeedbackAudio: function() {
             // Correct
             if (this.model.get('_isCorrect')) {
+
                 try {
                     this.audioFile = this.model.get('_feedback')._audio._correct._media.src;
                 } catch(e) {
                     console.log('An error has occured loading audio');
                 }
+
             // Partly correct
             } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
 
@@ -115,6 +117,7 @@ define(function(require) {
                 } catch(e) {
                     console.log('An error has occured loading audio');
                 }
+
             // Incorrect
             } else {
 
@@ -155,6 +158,7 @@ define(function(require) {
                 if (this._isVisibleTop && this._isVisibleBottom) {
                     // Check if audio is set to on
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
+                        this.setAudioFile();
                         Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
                     }
                 }
@@ -165,7 +169,7 @@ define(function(require) {
 
         toggleAudio: function(event) {
             if (event) event.preventDefault();
- 
+            this.setAudioFile();
             if ($(event.currentTarget).hasClass('playing')) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             } else {
