@@ -70,24 +70,17 @@ define(function(require) {
         },
 
         showPrompt: function() {
-            var audioPromptModel = Adapt.course.get('_reducedText');
+            var audioPromptModel = Adapt.course.get('_audio')._togglePrompt;
             // Determine audio status
             if(Adapt.audio.audioStatus == 1){
                 // Turn audio off and show alert with just a confirm button
-                if (!audioPromptModel._buttons) {
-                    audioPromptModel._buttons = {
-                        confirm: "Confirm",
-                        cancel: "Cancel"
-                    };
-                }
-                if (!audioPromptModel._buttons.confirm) audioPromptModel._buttons.confirm = "Confirm";
-                if (!audioPromptModel._buttons.cancel) audioPromptModel._buttons.cancel = "Cancel";
+
                 // Set listener
                 this.listenToOnce(Adapt, "audio:confirm", this.confirmText);
                 this.listenToOnce(Adapt, "audio:cancel", this.cancelText);
 
                 var promptObject = {
-                    header: Adapt.course.get('_reducedText')._graphic.src,
+                    header: audioPromptModel._graphic.src,
                     title: audioPromptModel.title,
                     body: audioPromptModel.bodyAudioOn,
                     _prompts:[
@@ -104,23 +97,14 @@ define(function(require) {
                 }
             } else {
                 // Turn audio off and show alert with just a confirm button
-                if (!audioPromptModel._buttons) {
-                    audioPromptModel._buttons = {
-                        full: "Full",
-                        reduced: "Reduced",
-                        cancel: "Cancel"
-                    };
-                }
-                if (!audioPromptModel._buttons.full) audioPromptModel._buttons.full = "Full";
-                if (!audioPromptModel._buttons.reduced) audioPromptModel._buttons.reduced = "Reduced";
-                if (!audioPromptModel._buttons.cancel) audioPromptModel._buttons.cancel = "Cancel";
+
                 // Set listeners
                 this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
                 this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
                 this.listenToOnce(Adapt, "audio:cancelReducedText", this.closeNotify);
 
                 var promptObject = {
-                    header: Adapt.course.get('_reducedText')._graphic.src,
+                    header: audioPromptModel._graphic.src,
                     title: audioPromptModel.title,
                     body: audioPromptModel.bodyAudioOff,
                     _prompts:[

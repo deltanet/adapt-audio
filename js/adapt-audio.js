@@ -51,7 +51,7 @@ define([
       Adapt.audio.audioClip = new Array();
 
       // Set global course autoplay based on modernizer.touch then course JSON.
-      Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? true : false;
+      Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? false : true;
 
       // Set number of audio channels specified in the course JSON
       Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
@@ -101,7 +101,7 @@ define([
     },
 
     checkBookmark: function() {
-      if (Adapt.config.get("_reducedText") && Adapt.config.get("_reducedText")._isEnabled && this.audioEnabled) {
+      if (this.audioEnabled) {
         if((typeof Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") == "")) {
           this.showAudioPrompt();
         }
@@ -116,34 +116,46 @@ define([
 
       var audioPromptModel = Adapt.course.get('_audio')._prompt;
 
-      if (!audioPromptModel._buttons) {
-        audioPromptModel._buttons = {
-          full: "Full",
-          reduced: "Reduced"
-        };
-      }
-
-      if (!audioPromptModel._buttons.full) audioPromptModel._buttons.full = "Full";
-      if (!audioPromptModel._buttons.reduced) audioPromptModel._buttons.reduced = "Reduced";
-
       this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
       this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
 
-      var audioPromptObject = {
-        header: Adapt.course.get('_audio')._prompt._graphic.src,
-        title: audioPromptModel.title,
-        body: audioPromptModel.body,
-        _prompts:[
-            {
-                promptText: audioPromptModel._buttons.full,
-                _callbackEvent: "audio:fullText",
-            },
-            {
-                promptText: audioPromptModel._buttons.reduced,
-                _callbackEvent: "audio:reducedText",
-            }
-        ],
-        _showIcon: false
+      this.listenToOnce(Adapt, "audio:selectContinue", this.setContinue);
+      this.listenToOnce(Adapt, "audio:selectOff", this.setAudioOff);
+
+      if(Adapt.config.get("_reducedText") && Adapt.config.get("_reducedText")._isEnabled) {
+        var audioPromptObject = {
+          header: Adapt.course.get('_audio')._prompt._graphic.src,
+          title: audioPromptModel.title,
+          body: audioPromptModel.body,
+          _prompts:[
+              {
+                  promptText: audioPromptModel._buttons.full,
+                  _callbackEvent: "audio:fullText",
+              },
+              {
+                  promptText: audioPromptModel._buttons.reduced,
+                  _callbackEvent: "audio:reducedText",
+              }
+          ],
+          _showIcon: false
+        }
+      } else {
+        var audioPromptObject = {
+          header: Adapt.course.get('_audio')._prompt._graphic.src,
+          title: audioPromptModel.titleNoReduced,
+          body: audioPromptModel.bodyNoReduced,
+          _prompts:[
+              {
+                  promptText: audioPromptModel._buttons.continue,
+                  _callbackEvent: "audio:selectContinue",
+              },
+              {
+                  promptText: audioPromptModel._buttons.turnOff,
+                  _callbackEvent: "audio:selectOff",
+              }
+          ],
+          _showIcon: false
+        }
       }
       Adapt.trigger('notify:prompt', audioPromptObject);
     },
@@ -160,6 +172,23 @@ define([
       Adapt.trigger('audio:changeText', 1);
       this.playCurrentAudio(0);
       this.stopListening(Adapt, "audio:reducedText");
+    },
+
+    setContinue: function() {
+      Adapt.audio.audioStatus = 1;
+      Adapt.trigger('audio:changeText', 0);
+      this.playCurrentAudio(0);
+      this.stopListening(Adapt, "audio:selectContinue");
+    },
+
+    setAudioOff: function() {
+      Adapt.audio.audioStatus = 0;
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
+      }
+      Adapt.trigger('audio:updateAudioStatus', 0,0);
+      Adapt.trigger('audio:changeText', 0);
+      this.stopListening(Adapt, "audio:selectOff");
     },
 
     playCurrentAudio: function(channel){
