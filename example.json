@@ -8,6 +8,7 @@
 
 // To go in the course.json file
 "_audio": {
+    "_autoplay": true,
     "_enableAudioDrawer": true,
     "title": "Audio",
     "description": "Click here to view the audio settings for this course.",

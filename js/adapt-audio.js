@@ -51,7 +51,7 @@ define([
       Adapt.audio.audioClip = new Array();
 
       // Set global course autoplay based on modernizer.touch then course JSON.
-      Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? false : true;
+      Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? true : false;
 
       // Set number of audio channels specified in the course JSON
       Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
