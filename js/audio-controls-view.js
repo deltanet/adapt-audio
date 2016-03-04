@@ -46,13 +46,19 @@ define(function(require) {
             if(this.model.get('_audio')._showControls==false){
                 this.$('.audio-toggle').addClass('hidden');
             }
+
+            // Hide icon if audio is turned off
+            if(Adapt.audio.audioClip[this.audioChannel].status==0){
+                this.$('.audio-inner button').hide();
+            }
+            
             // Set audio file
             this.setAudioFile();
 
             // Set clip ID
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
+
             // Set listener for when clip ends
-            // TODO this should not be in the render function as it is called for each instance on the page
             $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));        
 
             _.defer(_.bind(function() {
