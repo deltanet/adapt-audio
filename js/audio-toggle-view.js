@@ -36,11 +36,9 @@ define(function(require) {
             if(Adapt.audio.audioStatus == 1){
                 this.$('.audio-nav-toggle').removeClass('fa-volume-off');
                 this.$('.audio-nav-toggle').addClass('fa-volume-up');
-                $('.audio-inner button').show();
             } else {
                 this.$('.audio-nav-toggle').removeClass('fa-volume-up');
                 this.$('.audio-nav-toggle').addClass('fa-volume-off');
-                $('.audio-inner button').hide();
             }
         },
 

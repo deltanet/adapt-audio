@@ -14,17 +14,14 @@
     "description": "Click here to view the audio settings for this course.",
     "_audioItems": [
         {
-            "_status": 1,
             "title": "Narration",
             "description": "This content in this course is narrated. You can save your preference here too."
         },
         {
-            "_status": 1,
             "title": "Sound FX",
             "description": "If you don't want sound effects to play throughout the course you can switch them off here."
         },
         {
-            "_status": 1,
             "title": "Music",
             "description": "Some areas of the course may contain background music."
         }
@@ -73,7 +70,7 @@
     "_showControls": false,
     "_autoplay": true,
     "_channel": 0, // channels represent the number of items defined in the course.json settings, by default there are 0, 1 and 2 available (3 _audioItems in the array)
-    "_location": "", // pre-defined styles are "top-left", "top-right", "bottom-left", "bottom-right"
+    "_location": "top-right", // pre-defined styles are "top-left", "top-right", "bottom-left", "bottom-right"
     "_media": {
         "desktop": "course/en/audio/***.mp3",
         "mobile": "course/en/audio/***.mp3"

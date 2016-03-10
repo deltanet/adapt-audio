@@ -13,6 +13,7 @@ define(function(require) {
             this.listenTo(Adapt, 'questionView:showFeedback', this.initFeedback);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
+            this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
             this.render();
@@ -192,6 +193,14 @@ define(function(require) {
                 for (var i = 0; i < Adapt.audio.numChannels; i++) {
                     Adapt.trigger('audio:updateAudioStatus', this.audioChannel, 0);
                 }
+            }
+        },
+
+        updateToggle: function(){
+            if(Adapt.audio.audioStatus == 1 && this.model.get('_audio')._showControls==true){
+                this.$('.audio-toggle').removeClass('hidden');
+            } else {
+                this.$('.audio-toggle').addClass('hidden');
             }
         },
 
