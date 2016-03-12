@@ -57,7 +57,9 @@ define([
       Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
 
       // Set number of audio channels specified in the course JSON
-      Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
+      //Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
+      Adapt.audio.numChannels = 2; //HAD TO HARD CODE VALUE IN OTHER WISE IN THE AUTHORING TOOL GIVES _audioItems ERROR EVEN WITH EXTENSION NOT ENABLED ON COURSE
+
       // Create audio objects based on the number of channels
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.audio.audioClip[i] = new Audio();
