@@ -54,11 +54,12 @@ define([
       //Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? true : false;
 
       // Set global course autoplay based on course JSON.
-      Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
+      //Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
+      Adapt.audio.autoPlayGlobal = true; //HAD TO HARD CODE VALUE IN OTHER WISE IN THE AUTHORING TOOL GIVES _autoplay ERROR EVEN WITH EXTENSION IS NOT ENABLED ON COURSE
 
       // Set number of audio channels specified in the course JSON
       //Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
-      Adapt.audio.numChannels = 2; //HAD TO HARD CODE VALUE IN OTHER WISE IN THE AUTHORING TOOL GIVES _audioItems ERROR EVEN WITH EXTENSION NOT ENABLED ON COURSE
+      Adapt.audio.numChannels = 2; //HAD TO HARD CODE VALUE IN OTHER WISE IN THE AUTHORING TOOL GIVES _audioItems ERROR EVEN WITH EXTENSION IS NOT ENABLED ON COURSE
 
       // Create audio objects based on the number of channels
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
