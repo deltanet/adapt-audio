@@ -9,22 +9,514 @@
       "required":true,
       "properties":{
         "config": {
-          "type":"object"
+          "type":"object",
+          "properties":{
+            "_audio": {
+              "type":"object",
+              "required":false,
+              "legend": "Audio Extension",
+              "properties":{
+                "_isEnabled": {
+                  "type":"boolean",
+                  "required":true,
+                  "default": "true",
+                  "title":"Is Enabled",
+                  "inputType": {"type": "Boolean", "options": [true, false]},
+                  "validators": [],
+                  "help": "Enables Audio Extension"
+                }
+              }
+            }
+          }
         },
         "course": {
-          "type":"object"
+          "type":"object",
+          "properties":{
+            "_audio": {
+              "type":"object",
+              "required":true,
+              "legend": "Audio Extension Options",
+              "properties":{
+                "_enableAudioDrawer": {
+                  "type":"boolean",
+                  "required":true,
+                  "default": "true",
+                  "title": "Enable Audio Drawer",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": []
+                },
+                "title": {
+                  "type": "string",
+                  "required": false,
+                  "default": "Audio",
+                  "title": "Audio Title",
+                  "inputType": "Text",
+                  "validators": [],
+                  "help": "Audio Title"
+                },
+                "description": {
+                  "type": "string",
+                  "required": false,
+                  "default": "Click here to view the audio settings for this course.",
+                  "title": "Audio Description",
+                  "inputType": "Text",
+                  "validators": [],
+                  "help": "Audio Description"
+                },
+                "_audioItems": {
+                  "type": "array",
+                  "required": false,
+                  "title": "Resources Items",
+                  "items": {
+                    "type": "object",
+                    "required": false,
+                    "title": "Items",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "require": false,
+                        "title": "Type",
+                        "inputType": { "type": "Select", "options": ["narration", "soundfx", "music"]},
+                        "validators": ["required"]
+                      },
+                      "_status": {
+                        "type":"number",
+                        "required":false,
+                        "default": 1,
+                        "title": "Status",
+                        "inputType": "Number",
+                        "validators": ["required", "number"]
+                      },
+                      "description": {
+                        "type": "string",
+                        "require": false,
+                        "title": "Description",
+                        "inputType": "Text",
+                        "validators": []
+                      }
+                    }
+                  }
+                },
+                "_prompt": {
+                  "type":"object",
+                  "required":false,
+                  "title": "Prompt",
+                  "properties":{
+                    "title": {
+                      "type": "string",
+                      "require": false,
+                      "default": "Audio and text settings",
+                      "title": "Title",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "body": {
+                      "type": "string",
+                      "require": false,
+                      "default": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon).",
+                      "title": "Body",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "titleNoReduced": {
+                      "type": "string",
+                      "require": false,
+                      "default": "Audio setting",
+                      "title": "Title",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "bodyNoReduced": {
+                      "type": "string",
+                      "require": false,
+                      "default": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon).",
+                      "title": "Title",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "_buttons": {
+                      "type":"object",
+                      "required":true,
+                      "title": "Button Names",
+                      "properties":{
+                        "full": {
+                          "type": "string",
+                          "require": false,
+                          "default": "Full",
+                          "title": "Full",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "reduced": {
+                          "type": "string",
+                          "require": false,
+                          "default": "Reduced",
+                          "title": "Reduced",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "continue": {
+                          "type": "string",
+                          "require": false,
+                          "default": "Continue",
+                          "title": "Continue",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "turnOff": {
+                          "type": "string",
+                          "require": false,
+                          "default": "Turn audio off",
+                          "title": "Turn audio off",
+                          "inputType": "Text",
+                          "validators": []
+                        }
+                      }
+                    },
+                    "_graphic": {
+                      "type":"object",
+                      "required":true,
+                      "title": "Choose your Audio icon image",
+                      "properties":{
+                        "src": {
+                          "type":"string",
+                          "required":true,
+                          "default": "",
+                          "title": "Audio icon Select",
+                          "inputType": "Asset:image",
+                          "validators": ["required"],
+                          "help": "This is the audio icon used"
+                        }
+                      }
+                    }
+                  }
+                },
+                "_togglePrompt": {
+                  "type":"object",
+                  "required":false,
+                  "title": "Prompt",
+                  "properties":{
+                    "title": {
+                      "type": "string",
+                      "require": false,
+                      "default": "Audio and text settings",
+                      "title": "Title",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "bodyAudioOn": {
+                      "type": "string",
+                      "require": false,
+                      "default": "You have chosen to turn audio off. The on-screen text will default to full text.",
+                      "title": "Body Audio On",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "bodyAudioOff": {
+                      "type": "string",
+                      "require": false,
+                      "default": "You have chosen to turn audio on. Please select whether you would like to view full or reduced text.",
+                      "title": "Body Audio Off",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "_buttons": {
+                      "type":"object",
+                      "required":true,
+                      "title": "Button Names",
+                      "properties":{
+                        "confirm": {
+                          "type": "string",
+                          "require": false,
+                          "default": "Confirm",
+                          "title": "Confirm",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "cancel": {
+                          "type": "string",
+                          "require": false,
+                          "default": "Cancel",
+                          "title": "Cancel",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "full": {
+                          "type": "string",
+                          "require": false,
+                          "default": "Full",
+                          "title": "Full",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "reduced": {
+                          "type": "string",
+                          "require": false,
+                          "default": "Reduced",
+                          "title": "Reduced",
+                          "inputType": "Text",
+                          "validators": []
+                        }
+                      }
+                    },
+                    "_graphic": {
+                      "type":"object",
+                      "required":true,
+                      "title": "Choose your Audio icon image",
+                      "properties":{
+                        "src": {
+                          "type":"string",
+                          "required":true,
+                          "default": "",
+                          "title": "Audio icon Select",
+                          "inputType": "Asset:image",
+                          "validators": ["required"],
+                          "help": "This is the audio icon used"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         },
         "contentobject": {
           "type":"object"
         },
         "article": {
-          "type":"object"
+          "type":"object",
+          "properties":{
+            "_audio": {
+              "type":"object",
+              "required":true,
+              "legend": "Audio Extension",
+              "properties":{
+                "_isEnabled": {
+                  "type":"boolean",
+                  "required":true,
+                  "title": "Enabled",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Turns Audio on and off. Acceptable values are true and false."
+                },
+                "_showControls": {
+                  "type":"boolean",
+                  "required":true,
+                  "title": "Show Audio Controls",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Turns Audio Countrols on and off. Acceptable values are true and false."
+                },
+                "_autoplay": {
+                  "type":"boolean",
+                  "required":true,
+                  "title": "Autoplays Audio",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Turns Audio Autoplay on and off. Acceptable values are true and false."
+                },
+                "_channel": {
+                  "type":"number",
+                  "required":true,
+                  "default": 0,
+                  "title": "Channel Number",
+                  "inputType": "Number",
+                  "validators": ["required", "number"],
+                  "help": "channels represent the number of items defined in the course.json settings, by default there are 0, 1 and 2 available (3 _audioItems in the array)"
+                },
+                "_location": {
+                  "type": "string",
+                  "required": true,
+                  "enum": ["top-left", "top-right", "bottom-left", "bottom-right"],
+                  "inputType": {"type": "Select", "options": ["top-left", "top-right", "bottom-left", "bottom-right"]},
+                  "title": "Set position for audio controls",
+                  "validators": ["required"],
+                  "help": "pre-defined styles are top-left, top-right, bottom-left, bottom-right"
+                },
+                "_media": {
+                  "type":"object",
+                  "required":true,
+                  "properties":{
+                    "mobile": {
+                      "type":"string",
+                      "required":true,
+                      "title": "Mobile MP3 Audio Select",
+                      "default": "",
+                      "inputType": "Asset:audio",
+                      "validators": ["required"],
+                      "help": "This is the audio source used when page is viewed at mobile resolution"
+                    },
+                    "desktop": {
+                      "type":"string",
+                      "required":true,
+                      "title": "Desktop MP3 Audio Select",
+                      "default": "",
+                      "inputType": "Asset:audio",
+                      "validators": ["required"],
+                      "help": "This is the audio source used when page is viewed at desktop resolution"
+                    }
+                  }
+                }
+              }
+            }  
+          }
         },
         "block": {
-          "type":"object"
+          "type":"object",
+          "properties":{
+            "_audio": {
+              "type":"object",
+              "required":true,
+              "legend": "Audio Extension",
+              "properties":{
+                "_isEnabled": {
+                  "type":"boolean",
+                  "required":true,
+                  "title": "Enabled",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Turns Audio on and off. Acceptable values are true and false."
+                },
+                "_showControls": {
+                  "type":"boolean",
+                  "required":true,
+                  "title": "Show Audio Controls",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Turns Audio Countrols on and off. Acceptable values are true and false."
+                },
+                "_autoplay": {
+                  "type":"boolean",
+                  "required":true,
+                  "title": "Autoplays Audio",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Turns Audio Autoplay on and off. Acceptable values are true and false."
+                },
+                "_channel": {
+                  "type":"number",
+                  "required":true,
+                  "default": 0,
+                  "title": "Channel Number",
+                  "inputType": "Number",
+                  "validators": ["required", "number"],
+                  "help": "channels represent the number of items defined in the course.json settings, by default there are 0, 1 and 2 available (3 _audioItems in the array)"
+                },
+                "_location": {
+                  "type": "string",
+                  "required": true,
+                  "enum": ["top-left", "top-right", "bottom-left", "bottom-right"],
+                  "inputType": {"type": "Select", "options": ["top-left", "top-right", "bottom-left", "bottom-right"]},
+                  "title": "Set position for audio controls",
+                  "validators": ["required"],
+                  "help": "pre-defined styles are top-left, top-right, bottom-left, bottom-right"
+                },
+                "_media": {
+                  "type":"object",
+                  "required":true,
+                  "properties":{
+                    "mobile": {
+                      "type":"string",
+                      "required":true,
+                      "title": "Mobile MP3 Audio Select",
+                      "default": "",
+                      "inputType": "Asset:audio",
+                      "validators": ["required"],
+                      "help": "This is the audio source used when page is viewed at mobile resolution"
+                    },
+                    "desktop": {
+                      "type":"string",
+                      "required":true,
+                      "title": "Desktop MP3 Audio Select",
+                      "default": "",
+                      "inputType": "Asset:audio",
+                      "validators": ["required"],
+                      "help": "This is the audio source used when page is viewed at desktop resolution"
+                    }
+                  }
+                }
+              }
+            } 
+          }
         },
         "component": {
-          "type":"object"
+          "type":"object",
+          "properties":{
+            "_audio": {
+              "type":"object",
+              "required":true,
+              "legend": "Audio Extension",
+              "properties":{
+                "_isEnabled": {
+                  "type":"boolean",
+                  "required":true,
+                  "title": "Enabled",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Turns Audio on and off. Acceptable values are true and false."
+                },
+                "_showControls": {
+                  "type":"boolean",
+                  "required":true,
+                  "title": "Show Audio Controls",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Turns Audio Countrols on and off. Acceptable values are true and false."
+                },
+                "_autoplay": {
+                  "type":"boolean",
+                  "required":true,
+                  "title": "Autoplays Audio",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Turns Audio Autoplay on and off. Acceptable values are true and false."
+                },
+                "_channel": {
+                  "type":"number",
+                  "required":true,
+                  "default": 0,
+                  "title": "Channel Number",
+                  "inputType": "Number",
+                  "validators": ["required", "number"],
+                  "help": "channels represent the number of items defined in the course.json settings, by default there are 0, 1 and 2 available (3 _audioItems in the array)"
+                },
+                "_location": {
+                  "type": "string",
+                  "required": true,
+                  "enum": ["top-left", "top-right", "bottom-left", "bottom-right"],
+                  "inputType": {"type": "Select", "options": ["top-left", "top-right", "bottom-left", "bottom-right"]},
+                  "title": "Set position for audio controls",
+                  "validators": ["required"],
+                  "help": "pre-defined styles are top-left, top-right, bottom-left, bottom-right"
+                },
+                "_media": {
+                  "type":"object",
+                  "required":true,
+                  "properties":{
+                    "mobile": {
+                      "type":"string",
+                      "required":true,
+                      "title": "Mobile MP3 Audio Select",
+                      "default": "",
+                      "inputType": "Asset:audio",
+                      "validators": ["required"],
+                      "help": "This is the audio source used when page is viewed at mobile resolution"
+                    },
+                    "desktop": {
+                      "type":"string",
+                      "required":true,
+                      "title": "Desktop MP3 Audio Select",
+                      "default": "",
+                      "inputType": "Asset:audio",
+                      "validators": ["required"],
+                      "help": "This is the audio source used when page is viewed at desktop resolution"
+                    }
+                  }
+                }
+              }
+            }  
+          }
         }
       }
     }
