@@ -246,7 +246,7 @@ define([
     showAudioIcon: function(channel) {
       var audioHTMLId = '#'+Adapt.audio.audioClip[channel].newID;
       try {
-        $(audioHTMLId).removeClass('fa-play');
+        $(audioHTMLId).removeClass('fa-volume-up');
         $(audioHTMLId).addClass('fa-pause');
         $(audioHTMLId).addClass('playing');
       } catch(e) {
@@ -257,7 +257,7 @@ define([
     hideAudioIcon: function(channel) {
       try {
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-pause');
-        $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-play');
+        $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-volume-up');
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
       } catch(e) {
         console.error("audio error");
