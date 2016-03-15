@@ -8,7 +8,7 @@
 **Author / maintainer:** DeltaNet with [contributors](https://github.com/deltanet/adapt-audio/graphs/contributors)     
 **Accessibility support:** Yes  
 **RTL support:** Yes     
-**Authoring tool support:** no
+**Authoring tool support:** Yes
 
 ----------------------------
 
