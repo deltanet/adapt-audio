@@ -185,6 +185,7 @@ define([
       Adapt.trigger('audio:changeText', 0);
       this.playCurrentAudio(0);
       this.stopListening(Adapt, "audio:selectContinue");
+      $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //MIKE REMOVED BLOCK NEXT
     },
 
     setAudioOff: function() {
@@ -195,6 +196,7 @@ define([
       Adapt.trigger('audio:updateAudioStatus', 0,0);
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOff");
+      $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //MIKE REMOVED BLOCK NEXT
     },
 
     playCurrentAudio: function(channel){
@@ -252,6 +254,7 @@ define([
         $(audioHTMLId).removeClass('fa-play');
         $(audioHTMLId).addClass('fa-pause');
         $(audioHTMLId).addClass('playing');
+        $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").attr( "disabled", "disabled" ).addClass( "disabled" ).css("pointer-events","none"); //MIKE ADDED BLOCK NEXT
       } catch(e) {
         console.error("audio error");
       }
@@ -262,6 +265,7 @@ define([
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-pause');
         $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-play');
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
+        $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //MIKE REMOVED BLOCK NEXT
       } catch(e) {
         console.error("audio error");
       }
