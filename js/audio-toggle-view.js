@@ -64,7 +64,7 @@ define(function(require) {
                     // Turn audio on
                     Adapt.audio.audioStatus = 1;
                 }
-            this.updateToggle();
+            Adapt.trigger('audio:updateAudioStatus', 0, Adapt.audio.audioStatus);
             }
 
         },
