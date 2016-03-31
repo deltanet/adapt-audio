@@ -163,7 +163,7 @@ define([
           _showIcon: false
         }
       }
-      Adapt.trigger('notify:prompt', audioPromptObject);
+      //Adapt.trigger('notify:prompt', audioPromptObject); TURNED OFF PROMPT
     },
 
     setFullText: function() {
@@ -186,7 +186,7 @@ define([
       this.playCurrentAudio(0);
       this.stopListening(Adapt, "audio:selectContinue");
       $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //REMOVED DISABLING ON RIGHT SLIDER BUTTON
-      $('#'+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "disabled" ); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
+      $(".article-block-slider-enabled #"+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "fa-play" ).addClass( "fa-replay" ).css("opacity","1"); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
     },
 
     setAudioOff: function() {
@@ -198,7 +198,7 @@ define([
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOff");
       $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //REMOVED DISABLING ON RIGHT SLIDER BUTTON
-      $('#'+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "disabled" ); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
+      $(".article-block-slider-enabled #"+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "fa-play" ).addClass( "fa-replay" ).css("opacity","1"); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
     },
 
     playCurrentAudio: function(channel){
@@ -256,8 +256,8 @@ define([
         $(audioHTMLId).removeClass('fa-play');
         $(audioHTMLId).addClass('fa-pause');
         $(audioHTMLId).addClass('playing');
-        $(audioHTMLId).attr( "disabled", "disabled" ).addClass( "disabled" ); //ADDED DISABLING OF THE AUDIO PLAY BUTTON
         $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").attr( "disabled", "disabled" ).addClass( "disabled" ).css("pointer-events","none"); //ADDED DISABLING ON RIGHT SLIDER BUTTON
+        $(".article-block-slider-enabled "+audioHTMLId).attr( "disabled", "disabled" ).removeClass( "fa-replay" ).addClass( "fa-play" ).css("opacity","0"); //ADDED DISABLING OF THE AUDIO PLAY BUTTON
       } catch(e) {
         console.error("audio error");
       }
@@ -268,8 +268,8 @@ define([
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-pause');
         $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-play');
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
-        $('#'+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "disabled" ); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
         $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //REMOVED DISABLING ON RIGHT SLIDER BUTTON
+        $(".article-block-slider-enabled #"+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "fa-play" ).addClass( "fa-replay" ).css("opacity","1"); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
       } catch(e) {
         console.error("audio error");
       }
