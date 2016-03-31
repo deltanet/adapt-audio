@@ -40,7 +40,11 @@ define(function(require) {
             $(this.el).addClass(this.model.get("_type")+"-audio");
 
             // Set vars
-            this.audioChannel = this.model.get('_audio')._channel;
+            if (this.model.get('_audio') && this.model.get('_audio')._channel) {
+                this.audioChannel = this.model.get('_audio')._channel;
+            } else {
+                this.audioChannel = 0;
+            }
             this.elementId = this.model.get("_id");
 
             // Hide controls
