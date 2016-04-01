@@ -163,7 +163,7 @@ define([
           _showIcon: false
         }
       }
-      //Adapt.trigger('notify:prompt', audioPromptObject); TURNED OFF PROMPT
+      Adapt.trigger('notify:prompt', audioPromptObject);
     },
 
     setFullText: function() {
