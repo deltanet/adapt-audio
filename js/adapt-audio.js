@@ -185,7 +185,7 @@ define([
       Adapt.trigger('audio:changeText', 0);
       this.playCurrentAudio(0);
       this.stopListening(Adapt, "audio:selectContinue");
-      $('.menu .menu-item-button button').trigger('click'); // ADDED THIS LINE TO LAUNCH INTO COURES FROM AUDIO PROMPT CONTINUE BUTTON SO IT WILL WORK ON IPAD
+      $('.menu .menu-item-button .menu-audio-course').trigger('click'); // ADDED THIS LINE TO LAUNCH INTO COURES FROM AUDIO PROMPT CONTINUE BUTTON SO IT WILL WORK ON IPAD
     },
 
     setAudioOff: function() {
@@ -196,6 +196,7 @@ define([
       Adapt.trigger('audio:updateAudioStatus', 0,0);
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOff");
+      $('.menu .menu-item-button .menu-audio-course').trigger('click'); // ADDED THIS LINE TO LAUNCH INTO COURES FROM AUDIO PROMPT CONTINUE BUTTON SO IT WILL WORK ON IPAD
     },
 
     playCurrentAudio: function(channel){
