@@ -185,8 +185,7 @@ define([
       Adapt.trigger('audio:changeText', 0);
       this.playCurrentAudio(0);
       this.stopListening(Adapt, "audio:selectContinue");
-      $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //REMOVED DISABLING ON RIGHT SLIDER BUTTON
-      $(".article-block-slider-enabled #"+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "fa-play" ).addClass( "fa-replay" ).css("opacity","1"); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
+      $('.menu .menu-item-button button').trigger('click'); // ADDED THIS LINE TO LAUNCH INTO COURES FROM AUDIO PROMPT CONTINUE BUTTON SO IT WILL WORK ON IPAD
     },
 
     setAudioOff: function() {
@@ -197,8 +196,6 @@ define([
       Adapt.trigger('audio:updateAudioStatus', 0,0);
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOff");
-      $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //REMOVED DISABLING ON RIGHT SLIDER BUTTON
-      $(".article-block-slider-enabled #"+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "fa-play" ).addClass( "fa-replay" ).css("opacity","1"); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
     },
 
     playCurrentAudio: function(channel){
