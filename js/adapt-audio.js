@@ -54,10 +54,13 @@ define([
       //Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? true : false;
 
       // Set global course autoplay based on course JSON.
-      Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
+      //Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
+      Adapt.audio.autoPlayGlobal = true; //HAD TO HARD CODE VALUE IN OTHER WISE IN THE AUTHORING TOOL GIVES _autoplay ERROR EVEN WITH EXTENSION IS NOT ENABLED ON COURSE
 
       // Set number of audio channels specified in the course JSON
-      Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
+      //Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
+      Adapt.audio.numChannels = 2; //HAD TO HARD CODE VALUE IN OTHER WISE IN THE AUTHORING TOOL GIVES _audioItems ERROR EVEN WITH EXTENSION IS NOT ENABLED ON COURSE
+
       // Create audio objects based on the number of channels
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.audio.audioClip[i] = new Audio();
@@ -182,6 +185,7 @@ define([
       Adapt.trigger('audio:changeText', 0);
       this.playCurrentAudio(0);
       this.stopListening(Adapt, "audio:selectContinue");
+      $('.menu .menu-item-button .menu-audio-course').trigger('click'); // ADDED THIS LINE TO LAUNCH INTO COURES FROM AUDIO PROMPT CONTINUE BUTTON SO IT WILL WORK ON IPAD
     },
 
     setAudioOff: function() {
@@ -192,6 +196,7 @@ define([
       Adapt.trigger('audio:updateAudioStatus', 0,0);
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOff");
+      $('.menu .menu-item-button .menu-audio-course').trigger('click'); // ADDED THIS LINE TO LAUNCH INTO COURES FROM AUDIO PROMPT CONTINUE BUTTON SO IT WILL WORK ON IPAD
     },
 
     playCurrentAudio: function(channel){
@@ -249,6 +254,8 @@ define([
         $(audioHTMLId).removeClass('fa-volume-up');
         $(audioHTMLId).addClass('fa-pause');
         $(audioHTMLId).addClass('playing');
+        $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").attr( "disabled", "disabled" ).addClass( "disabled" ).css("pointer-events","none"); //ADDED DISABLING ON RIGHT SLIDER BUTTON
+        $(".article-block-slider-enabled "+audioHTMLId).attr( "disabled", "disabled" ).removeClass( "fa-replay" ).addClass( "fa-play" ).css("opacity","0"); //ADDED DISABLING OF THE AUDIO PLAY BUTTON
       } catch(e) {
         console.error("audio error");
       }
@@ -259,6 +266,8 @@ define([
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-pause');
         $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-volume-up');
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
+        $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //REMOVED DISABLING ON RIGHT SLIDER BUTTON
+        $(".article-block-slider-enabled #"+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "fa-play" ).addClass( "fa-replay" ).css("opacity","1"); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
       } catch(e) {
         console.error("audio error");
       }
