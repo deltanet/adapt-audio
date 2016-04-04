@@ -279,8 +279,14 @@ define([
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         if(Adapt.audio.audioClip[i].status==1){
           Adapt.audio.audioStatus = 1;
+          $(".article-block-slider-enabled .article-audio").removeClass( "no-audio-controls" ).addClass( "audio-controls" ); //ADDED PLAYING FUNCTION OF AUDIO ON ARTICLE
+          $(".article-block-slider-enabled .block-audio").removeClass( "no-audio-controls" ).addClass( "audio-controls" ); //ADDED PLAYING FUNCTION OF AUDIO ON BLOCK
+          $(".article-block-slider-enabled .component-audio").removeClass( "no-audio-controls" ).addClass( "audio-controls" ); //ADDED PLAYING FUNCTION OF AUDIO ON COMPONENT
         } else {
           Adapt.audio.audioStatus = 0;
+          $(".article-block-slider-enabled .article-audio").removeClass( "audio-controls" ).addClass( "no-audio-controls" ); //REMOVED PLAYING FUNCTION OF AUDIO ON ARTICLE
+          $(".article-block-slider-enabled .block-audio").removeClass( "audio-controls" ).addClass( "no-audio-controls" ); //REMOVED PLAYING FUNCTION OF AUDIO ON BLOCK
+          $(".article-block-slider-enabled .component-audio").removeClass( "audio-controls" ).addClass( "no-audio-controls" ); //REMOVED PLAYING FUNCTION OF AUDIO ON COMPONENT
         }
       }
       // store audio preference, 
