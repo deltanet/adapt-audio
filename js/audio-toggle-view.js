@@ -136,6 +136,7 @@ define(function(require) {
             Adapt.audio.audioStatus = 0;
             // Turn all audio channels off
             for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                Adapt.trigger('audio:pauseAudio', i);
                 Adapt.audio.audioClip[i].status = 0;
             }
             // Update audio status
