@@ -1,9 +1,9 @@
 // To go in the config.json file
 "_audio": {
-    "_isEnabled": true
-},
-"_reducedText": {
-    "_isEnabled": true
+    "_isEnabled": true,
+    "_reducedText": {
+        "_isEnabled": true
+    }
 }
 
 // To go in the course.json file
@@ -63,11 +63,6 @@
 
 // To go in article/block/component.json
 
-"displayTitleReduced": "Reduced title",
-"bodyReduced": "Reduced text",
-"_reducedText": {
-    "_isEnabled": true
-},
 "_audio": {
     "_isEnabled": true,
     "_showControls": false,
@@ -77,5 +72,10 @@
     "_media": {
         "desktop": "course/en/audio/***.mp3",
         "mobile": "course/en/audio/***.mp3"
+    },
+    "_reducedText": {
+        "displayTitleReduced": "Reduced title",
+        "bodyReduced": "Reduced text",
+        "_isEnabled": true
     }
 },
