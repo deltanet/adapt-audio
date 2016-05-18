@@ -76,3 +76,16 @@
         "mobile": "course/en/audio/***.mp3"
     }
 },
+
+// To go on menu page element in contentObjects.json
+
+"_audio": {
+    "_isEnabled": true,
+    "_showControls": true,
+    "_autoplay": true,
+    "_channel": 0,
+    "_location": "top-right",
+    "_media": {
+        "src": "course/en/audio/co-02.mp3"
+    }
+},
