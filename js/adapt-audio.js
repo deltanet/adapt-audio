@@ -2,10 +2,11 @@ define([
     'coreJS/adapt',
     './audio-toggle-view',
     './audio-drawer-view',
+    './audio-menu-view',
     './audio-controls-view',
     './audio-results-view',
     './audio-reducedText'
-], function(Adapt, AudioToggleView, AudioDrawerView, AudioControlsView, AudioResultsView) {
+], function(Adapt, AudioToggleView, AudioDrawerView, AudioMenuView, AudioControlsView, AudioResultsView) {
 
   var AudioController = _.extend({
 
@@ -22,6 +23,8 @@ define([
     setupEventListeners: function() {
       // load topnav AudioToggleView
       this.listenTo(Adapt, "router:page router:menu", this.onAddToggle);
+      // load menu audio
+      this.listenTo(Adapt, "menuView:postRender", this.onMenuReady);
       // load article, block, component audio
       this.listenTo(Adapt, "articleView:postRender blockView:postRender componentView:postRender", this.onABCReady);
       this.listenTo(Adapt, "audio:inviewOff", this.inviewOff);
@@ -303,6 +306,22 @@ define([
         model: audioDrawerModel, 
         collection: audioDrawerCollection
       }).$el);
+    },
+
+    onMenuReady: function(view) {
+      // Pause all channels on view load
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.trigger('audio:pauseAudio', i);
+      }
+
+      if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get('_type') == "menu") {
+          try{
+            new AudioMenuView({model:view.model});
+          } catch(e){
+            console.log(e);
+          }
+      }
+
     },
 
     onABCReady: function(view) {
