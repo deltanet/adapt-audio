@@ -39,6 +39,8 @@ define([
       this.listenTo(Adapt, "audio:changeText", this.changeText);
       // Listen for bookmark
       this.listenToOnce(Adapt, "router:location", this.checkBookmark);
+      // Listen for notify closing
+      this.listenTo(Adapt, 'notify:closed', this.stopAllChannels);
     },
 
     setupAudio: function() {
@@ -244,6 +246,13 @@ define([
     audioEnded: function(channel) {
       Adapt.audio.audioClip[channel].isPlaying = false;
       this.hideAudioIcon(channel);
+    },
+
+    stopAllChannels: function() {
+      // Pause all channels
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.trigger('audio:pauseAudio', i);
+      }
     },
 
     showAudioIcon: function(channel) {
