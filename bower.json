@@ -1,10 +1,6 @@
 {
   "name": "adapt-audio",
-<<<<<<< HEAD
-  "version": "2.0.8",
-=======
   "version": "2.0.11",
->>>>>>> refs/remotes/origin/master
   "framework": "2.0.6",
   "homepage": "https://github.com/deltanet/adapt-audio",
   "issues": "https://github.com/deltanet/adapt-audio/issues",
