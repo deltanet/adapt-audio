@@ -71,9 +71,9 @@
         "mobile": "course/en/audio/***.mp3"
     },
     "_reducedText": {
+        "_isEnabled": true,
         "displayTitleReduced": "Reduced title",
-        "bodyReduced": "Reduced text",
-        "_isEnabled": true
+        "bodyReduced": "Reduced text"
     }
 },
 
@@ -86,6 +86,6 @@
     "_channel": 0,
     "_location": "top-right",
     "_media": {
-        "src": "course/en/audio/co-02.mp3"
+        "src": "course/en/audio/***.mp3"
     }
 },

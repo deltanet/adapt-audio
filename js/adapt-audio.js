@@ -50,6 +50,12 @@ define([
         this.audioEnabled = false;
       }
 
+      if (Adapt.config.get("_audio")._reducedText && Adapt.config.get("_audio")._reducedText._isEnabled) {
+        this.reducedTextEnabled = Adapt.config.get("_audio")._reducedText._isEnabled;
+      } else {
+        this.reducedTextEnabled = false;
+      }
+
       // Define audio model for all other views and components to reference
       Adapt.audio = {};
       Adapt.audio.audioChannel = new Array();
@@ -85,7 +91,7 @@ define([
       }
 
       // Reduced text - Only available if audio is enabled
-      if (Adapt.config.get("_reducedText") && Adapt.config.get("_reducedText")._isEnabled && this.audioEnabled) {
+      if (this.reducedTextEnabled && this.audioEnabled) {
         // Detrermine text size based on audio preference
         // If audio is off then show full text
         if (Adapt.audio.audioStatus == 0) {
@@ -130,7 +136,7 @@ define([
       this.listenToOnce(Adapt, "audio:selectContinue", this.setContinue);
       this.listenToOnce(Adapt, "audio:selectOff", this.setAudioOff);
 
-      if(Adapt.config.get("_reducedText") && Adapt.config.get("_reducedText")._isEnabled) {
+      if(this.reducedTextEnabled) {
         var audioPromptObject = {
           header: Adapt.course.get('_audio')._prompt._graphic.src,
           title: audioPromptModel.title,

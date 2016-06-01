@@ -63,8 +63,8 @@ define([
         		this.$('.block-title-inner').html(this.model.get('displayTitle')).a11y_text();
             	this.$('.block-body-inner').html(this.model.get('body')).a11y_text();
         	} else {
-        		this.$('.block-title-inner').html(this.model.get('displayTitleReduced')).a11y_text();
-            	this.$('.block-body-inner').html(this.model.get('bodyReduced')).a11y_text();
+                this.$('.block-title-inner').html(this.model.get('_audio')._reducedText.displayTitleReduced).a11y_text();
+                this.$('.block-body-inner').html(this.model.get('_audio')._reducedText.bodyReduced).a11y_text();
         	}
         }
 		

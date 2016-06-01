@@ -13,7 +13,7 @@ define([
 	//Extends core/js/views/articleView.js
 	var ArticleViewInitialize = ArticleView.prototype.initialize;
 	ArticleView.prototype.initialize = function(options) {
-		if (this.model.get("_reducedText")) {
+		if (this.model.get("_audio")) {
 			//extend the articleView with new functionality
 			_.extend(this, ArticleViewExtension);
 		}
@@ -24,7 +24,7 @@ define([
 	//Extends core/js/models/articleModel.js
 	var ArticleModelInitialize = ArticleModel.prototype.initialize;
 	ArticleModel.prototype.initialize = function(options) {
-		if (this.get("_reducedText")) {
+		if (this.get("_audio")) {
 			//extend the articleModel with new functionality
 			_.extend(this, ArticleModelExtension);
 
@@ -39,7 +39,7 @@ define([
 	//Extends core/js/views/blockView.js
 	var BlockViewInitialize = BlockView.prototype.initialize;
 	BlockView.prototype.initialize = function(options) {
-		if (this.model.get("_reducedText")) {
+		if (this.model.get("_audio")) {
 			//extend the blockView with new functionality
 			_.extend(this, BlockViewExtension);
 		}
@@ -50,7 +50,7 @@ define([
 	//Extends core/js/models/blockModel.js
 	var BlockModelInitialize = BlockModel.prototype.initialize;
 	BlockModel.prototype.initialize = function(options) {
-		if (this.get("_reducedText")) {
+		if (this.get("_audio")) {
 			//extend the blockModel with new functionality
 			_.extend(this, BlockModelExtension);
 
