@@ -9,10 +9,301 @@
       "required":true,
       "properties":{
         "config": {
-          "type":"object"
+          "type":"object",
+          "properties":{
+            "_audio": {
+              "type":"object",
+              "required":false,
+              "properties":{
+                "_isEnabled": {
+                  "type":"boolean",
+                  "required":false,
+                  "default": "false",
+                  "title": "Audio Enabled",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Enables Audio Extension"
+                }
+              }
+            },
+            "_reducedText": {
+              "type":"object",
+              "required":false,
+              "properties":{
+                "_isEnabled": {
+                  "type":"boolean",
+                  "required":false,
+                  "title": "Reduced Text Enabled",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": []
+                }
+              }
+            }
+          }
         },
         "course": {
-          "type":"object"
+          "type":"object",
+          "properties":{
+            "_audio": {
+              "type":"object",
+              "required":false,
+              "legend": "Audio",
+              "properties":{
+                "_autoplay": {
+                  "type":"boolean",
+                  "required":false,
+                  "title": "Autoplay Enabled",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": []
+                },
+                "_enableAudioDrawer": {
+                  "type":"boolean",
+                  "required":false,
+                  "title": "Audio Drawer Enabled",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Show audio functions in drawer"
+                },
+                "title": {
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "inputType": "Text",
+                  "validators": [],
+                  "help": "Optional title for audio drawer"
+                },
+                "description": {
+                  "type": "string",
+                  "required": false,
+                  "default": "",
+                  "inputType": "Text",
+                  "validators": [],
+                  "help": "Optional description for audio drawer"
+                },
+                "_audioItems": {
+                  "type":"array",
+                  "required":true,
+                  "title": "Audio Items",
+                  "items": {
+                    "type":"object",
+                    "required":true,
+                    "properties":{
+                      "_status": {
+                        "type":"number",
+                        "required":true,
+                        "default":1,
+                        "title": "Enable in drawer",
+                        "inputType":"Number",
+                        "validators": ["required", "number"],
+                        "help": "Set value to 1 to enable this audio channel in the drawer"
+                      },
+                      "title": {
+                        "type": "string",
+                        "required": false,
+                        "default": "",
+                        "title": "Title",
+                        "inputType": "Text",
+                        "validators": []
+                      },
+                      "description": {
+                        "type": "string",
+                        "required": false,
+                        "default": "",
+                        "title": "Description",
+                        "inputType": "Text",
+                        "validators": []
+                      }
+                    }
+                  }
+                },
+                "_prompt": {
+                  "type":"object",
+                  "required":true,
+                  "title": "Initial Audio Preference Prompt",
+                  "properties":{
+                    "title": {
+                      "type": "string",
+                      "required": false,
+                      "default": "",
+                      "title": "Title",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "body": {
+                      "type": "string",
+                      "required": true,
+                      "default": "",
+                      "title": "Prompt Message",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "titleNoReduced": {
+                      "type": "string",
+                      "required": false,
+                      "default": "",
+                      "title": "reduced Text Title",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "bodyNoReduced": {
+                      "type": "string",
+                      "required": false,
+                      "default": "",
+                      "title": "Reduced Text Prompt Message",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "_buttons": {
+                      "type":"object",
+                      "required":true,
+                      "properties":{
+                        "full": {
+                          "type": "string",
+                          "required": true,
+                          "default": "Full",
+                          "title": "Full Text Button",
+                          "inputType": "Text",
+                          "validators": [],
+                          "help": "Enter the text for the button to select full text"
+                        },
+                        "reduced": {
+                          "type": "string",
+                          "required": true,
+                          "default": "Reduced",
+                          "title": "Reduced Text Button",
+                          "inputType": "Text",
+                          "validators": [],
+                          "help": "Enter the text for the button to select reduced text"
+                        },
+                        "continue": {
+                          "type": "string",
+                          "required": true,
+                          "default": "Continue",
+                          "title": "Continue Button",
+                          "inputType": "Text",
+                          "validators": [],
+                          "help": "Enter the text for the button to select continue"
+                        },
+                        "turnOff": {
+                          "type": "string",
+                          "required": true,
+                          "default": "Turn audio off",
+                          "title": "Turn Off Button",
+                          "inputType": "Text",
+                          "validators": [],
+                          "help": "Enter the text for the button to turn audio off"
+                        }
+                      }
+                    },
+                    "_graphic": {
+                      "type":"object",
+                      "required":false,
+                      "title": "Graphic",
+                      "properties":{
+                        "src": {
+                          "type":"string",
+                          "required":true,
+                          "default": "",
+                          "inputType": "Asset:image",
+                          "validators": []
+                        }
+                      }
+                    }
+                  }
+                },
+
+                "_togglePrompt": {
+                  "type":"object",
+                  "required":true,
+                  "title": "Toggle Audio Preference Prompt",
+                  "properties":{
+                    "title": {
+                      "type": "string",
+                      "required": false,
+                      "default": "",
+                      "title": "Title",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "bodyAudioOn": {
+                      "type": "string",
+                      "required": true,
+                      "default": "",
+                      "title": "Audio on message",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "bodyAudioOff": {
+                      "type": "string",
+                      "required": true,
+                      "default": "",
+                      "title": "Audio off message",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "_buttons": {
+                      "type":"object",
+                      "required":true,
+                      "properties":{
+                        "confirm": {
+                          "type": "string",
+                          "required": true,
+                          "default": "Confirm",
+                          "title": "Confirm Button",
+                          "inputType": "Text",
+                          "validators": [],
+                          "help": "Enter the text for the button to select full text"
+                        },
+                        "reduced": {
+                          "type": "string",
+                          "required": true,
+                          "default": "Reduced",
+                          "title": "Reduced Text",
+                          "inputType": "Text",
+                          "validators": [],
+                          "help": "Enter the text for the button to select reduced text"
+                        },
+                        "continue": {
+                          "type": "string",
+                          "required": true,
+                          "default": "Continue",
+                          "title": "Continue",
+                          "inputType": "Text",
+                          "validators": [],
+                          "help": "Enter the text for the button to select continue"
+                        },
+                        "turnOff": {
+                          "type": "string",
+                          "required": true,
+                          "default": "Turn audio off",
+                          "title": "Turn off",
+                          "inputType": "Text",
+                          "validators": [],
+                          "help": "Enter the text for the button to turn audio off"
+                        }
+                      }
+                    },
+                    "_graphic": {
+                      "type":"object",
+                      "required":false,
+                      "title": "Graphic",
+                      "properties":{
+                        "src": {
+                          "type":"string",
+                          "required":true,
+                          "default": "",
+                          "inputType": "Asset:image",
+                          "validators": []
+                        }
+                      }
+                    }
+                  }
+                }
+
+
+
+              }
+            }
         },
         "contentobject": {
           "type":"object"

@@ -8,6 +8,10 @@
   "extension" : "audio",
   "description": "An extension to add audio to a course via Articles, Blocks and Components.",
   "main": "/js/adapt-audio.js",
+  "assetFields": [
+        "_media.desktop",
+        "_media.mobile"
+  ],
   "keywords": [
     "adapt-plugin",
     "adapt-extension"
