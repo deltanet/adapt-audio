@@ -50,8 +50,8 @@ define([
         this.audioEnabled = false;
       }
 
-      if (Adapt.config.get("_audio")._reducedText && Adapt.config.get("_audio")._reducedText._isEnabled) {
-        this.reducedTextEnabled = Adapt.config.get("_audio")._reducedText._isEnabled;
+      if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._isReducedTextEnabled) {
+        this.reducedTextEnabled = Adapt.config.get("_audio")._isReducedTextEnabled;
       } else {
         this.reducedTextEnabled = false;
       }

@@ -23,19 +23,15 @@
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Enables Audio Extension"
-                }
-              }
-            },
-            "_reducedText": {
-              "type":"object",
-              "required":false,
-              "properties":{
-                "_isEnabled": {
+                },
+                "_isReducedTextEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "title": "Reduced Text Enabled",
+                  "default": "false",
+                  "title": "Reduced text Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
-                  "validators": []
+                  "validators": [],
+                  "help": "Enables Reduced Text Functionality"
                 }
               }
             }

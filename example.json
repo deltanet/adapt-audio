@@ -1,9 +1,7 @@
 // To go in the config.json file
 "_audio": {
     "_isEnabled": true,
-    "_reducedText": {
-        "_isEnabled": true
-    }
+    "_isReducedTextEnabled": true
 }
 
 // To go in the course.json file
