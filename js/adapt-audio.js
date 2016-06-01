@@ -2,10 +2,11 @@ define([
     'coreJS/adapt',
     './audio-toggle-view',
     './audio-drawer-view',
+    './audio-menu-view',
     './audio-controls-view',
     './audio-results-view',
     './audio-reducedText'
-], function(Adapt, AudioToggleView, AudioDrawerView, AudioControlsView, AudioResultsView) {
+], function(Adapt, AudioToggleView, AudioDrawerView, AudioMenuView, AudioControlsView, AudioResultsView) {
 
   var AudioController = _.extend({
 
@@ -22,6 +23,8 @@ define([
     setupEventListeners: function() {
       // load topnav AudioToggleView
       this.listenTo(Adapt, "router:page router:menu", this.onAddToggle);
+      // load menu audio
+      this.listenTo(Adapt, "menuView:postRender", this.onMenuReady);
       // load article, block, component audio
       this.listenTo(Adapt, "articleView:postRender blockView:postRender componentView:postRender", this.onABCReady);
       this.listenTo(Adapt, "audio:inviewOff", this.inviewOff);
@@ -36,6 +39,8 @@ define([
       this.listenTo(Adapt, "audio:changeText", this.changeText);
       // Listen for bookmark
       this.listenToOnce(Adapt, "router:location", this.checkBookmark);
+      // Listen for notify closing
+      this.listenTo(Adapt, 'notify:closed', this.stopAllChannels);
     },
 
     setupAudio: function() {
@@ -51,7 +56,10 @@ define([
       Adapt.audio.audioClip = new Array();
 
       // Set global course autoplay based on modernizer.touch then course JSON.
-      Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? true : false;
+      //Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? true : false;
+
+      // Set global course autoplay based on course JSON.
+      Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
 
       // Set number of audio channels specified in the course JSON
       Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
@@ -240,10 +248,17 @@ define([
       this.hideAudioIcon(channel);
     },
 
+    stopAllChannels: function() {
+      // Pause all channels
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.trigger('audio:pauseAudio', i);
+      }
+    },
+
     showAudioIcon: function(channel) {
       var audioHTMLId = '#'+Adapt.audio.audioClip[channel].newID;
       try {
-        $(audioHTMLId).removeClass('fa-play');
+        $(audioHTMLId).removeClass('fa-volume-up');
         $(audioHTMLId).addClass('fa-pause');
         $(audioHTMLId).addClass('playing');
       } catch(e) {
@@ -254,7 +269,7 @@ define([
     hideAudioIcon: function(channel) {
       try {
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-pause');
-        $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-play');
+        $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-volume-up');
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
       } catch(e) {
         console.error("audio error");
@@ -300,6 +315,22 @@ define([
         model: audioDrawerModel, 
         collection: audioDrawerCollection
       }).$el);
+    },
+
+    onMenuReady: function(view) {
+      // Pause all channels on view load
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.trigger('audio:pauseAudio', i);
+      }
+
+      if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get('_type') == "menu") {
+          try{
+            new AudioMenuView({model:view.model});
+          } catch(e){
+            console.log(e);
+          }
+      }
+
     },
 
     onABCReady: function(view) {

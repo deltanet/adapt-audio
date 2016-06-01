@@ -36,11 +36,9 @@ define(function(require) {
             if(Adapt.audio.audioStatus == 1){
                 this.$('.audio-nav-toggle').removeClass('fa-volume-off');
                 this.$('.audio-nav-toggle').addClass('fa-volume-up');
-                $('.audio-inner button').show();
             } else {
                 this.$('.audio-nav-toggle').removeClass('fa-volume-up');
                 this.$('.audio-nav-toggle').addClass('fa-volume-off');
-                $('.audio-inner button').hide();
             }
         },
 
@@ -66,7 +64,7 @@ define(function(require) {
                     // Turn audio on
                     Adapt.audio.audioStatus = 1;
                 }
-            this.updateToggle();
+            Adapt.trigger('audio:updateAudioStatus', 0, Adapt.audio.audioStatus);
             }
 
         },
@@ -138,6 +136,7 @@ define(function(require) {
             Adapt.audio.audioStatus = 0;
             // Turn all audio channels off
             for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                Adapt.trigger('audio:pauseAudio', i);
                 Adapt.audio.audioClip[i].status = 0;
             }
             // Update audio status
