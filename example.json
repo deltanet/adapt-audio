@@ -1,7 +1,7 @@
 // To go in the config.json file
 "_audio": {
     "_isEnabled": true,
-    "_isReducedTextEnabled": true
+    "_reducedTextisEnabled": true
 }
 
 // To go in the course.json file
@@ -68,11 +68,9 @@
         "desktop": "course/en/audio/***.mp3",
         "mobile": "course/en/audio/***.mp3"
     },
-    "_reducedText": {
-        "_isEnabled": true,
-        "displayTitleReduced": "Reduced title",
-        "bodyReduced": "Reduced text"
-    }
+    "_reducedTextisEnabled": true,
+    "displayTitleReduced": "Reduced title",
+    "bodyReduced": "Reduced text"
 },
 
 // To go on menu page element in contentObjects.json

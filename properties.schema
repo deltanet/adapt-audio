@@ -24,7 +24,7 @@
                   "validators": [],
                   "help": "Enables Audio Extension"
                 },
-                "_isReducedTextEnabled": {
+                "_reducedTextisEnabled": {
                   "type":"boolean",
                   "required":false,
                   "default": "false",

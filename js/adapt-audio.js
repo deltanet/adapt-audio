@@ -4,8 +4,7 @@ define([
     './audio-drawer-view',
     './audio-menu-view',
     './audio-controls-view',
-    './audio-results-view',
-    './audio-reducedText'
+    './audio-results-view'
 ], function(Adapt, AudioToggleView, AudioDrawerView, AudioMenuView, AudioControlsView, AudioResultsView) {
 
   var AudioController = _.extend({
@@ -50,8 +49,8 @@ define([
         this.audioEnabled = false;
       }
 
-      if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._isReducedTextEnabled) {
-        this.reducedTextEnabled = Adapt.config.get("_audio")._isReducedTextEnabled;
+      if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._reducedTextisEnabled) {
+        this.reducedTextEnabled = Adapt.config.get("_audio")._reducedTextisEnabled;
       } else {
         this.reducedTextEnabled = false;
       }
@@ -356,6 +355,19 @@ define([
       if (this.audioEnabled && view.model && view.model.get("_audioAssessment")) {
           try{
             new AudioResultsView({model:view.model});
+          } catch(e){
+            console.log(e);
+          }
+      }
+    },
+
+      onComponentReady: function(view) {
+      // Pause all channels on view load
+
+      if (this.audioEnabled && view.model && view.model.get("_audio")) {
+          try{
+            new ReducedTextComponentView({model:view.model});
+            console.log("onComponentReady");
           } catch(e){
             console.log(e);
           }

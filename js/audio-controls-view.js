@@ -14,6 +14,7 @@ define(function(require) {
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
+            this.listenTo(Adapt, "audio:changeText", this.replaceText);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
             this.render();
@@ -70,6 +71,8 @@ define(function(require) {
         postRender: function() {
             // Add inview listener on audio element
             this.$('.audio-inner').on('inview', _.bind(this.inview, this));
+            // Run function to check for reduced text
+            this.replaceText(Adapt.audio.textSize);
         },
 
         reRender: function() {
@@ -207,6 +210,46 @@ define(function(require) {
         removeInViewListeners: function () { 
             this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
+        },
+
+        replaceText: function(value) {
+            // If enabled
+            if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._reducedTextisEnabled && this.model.get('_audio') && this.model.get('_audio')._reducedTextisEnabled) {
+                
+                // Article
+                if(this.model.get("_type") == "article"){
+                    if(value == 0) {
+                        $('.'+this.model.get('_id')).find('.article-title-inner').html(this.model.get('displayTitle')).a11y_text();
+                        $('.'+this.model.get('_id')).find('.article-body-inner').html(this.model.get('body')).a11y_text();
+                    } else {
+                        $('.'+this.model.get('_id')).find('.article-title-inner').html(this.model.get('_audio').displayTitleReduced).a11y_text();
+                        $('.'+this.model.get('_id')).find('.article-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
+                    }
+                }
+
+                // Block
+                if(this.model.get("_type") == "block"){
+                    if(value == 0) {
+                        $('.'+this.model.get('_id')).find('.block-title-inner').html(this.model.get('displayTitle')).a11y_text();
+                        $('.'+this.model.get('_id')).find('.block-body-inner').html(this.model.get('body')).a11y_text();
+                    } else {
+                        $('.'+this.model.get('_id')).find('.block-title-inner').html(this.model.get('_audio').displayTitleReduced).a11y_text();
+                        $('.'+this.model.get('_id')).find('.block-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
+                    }
+                }
+
+                // Component
+                if(this.model.get("_type") == "component"){
+                    if(value == 0) {
+                        $('.'+this.model.get('_id')).find('.component-title-inner').html(this.model.get('displayTitle')).a11y_text();
+                        $('.'+this.model.get('_id')).find('.component-body-inner').html(this.model.get('body')).a11y_text();
+                    } else {
+                        $('.'+this.model.get('_id')).find('.component-title-inner').html(this.model.get('_audio').displayTitleReduced).a11y_text();
+                        $('.'+this.model.get('_id')).find('.component-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
+                    }
+                }
+                
+            }
         }
 
     });
