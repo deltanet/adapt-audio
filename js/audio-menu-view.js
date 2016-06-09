@@ -26,12 +26,10 @@ define(function(require) {
         render: function () {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioMenu"];
-            if (this.model.get('_audio') && this.model.get('_audio')._isEnabled) {
-                if(this.model.get('_audio')._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
-                    $(this.el).html(template(data)).appendTo('.menu');
-                } else {
-                    $(this.el).html(template(data)).prependTo('.menu');
-                }
+            if(this.model.get('_audio')._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
+                $(this.el).html(template(data)).appendTo('.menu');
+            } else {
+                $(this.el).html(template(data)).prependTo('.menu');
             }
 
             // Set vars
@@ -90,7 +88,6 @@ define(function(require) {
 
             if (!hasAccessibility) {
             } else {
-
                 for (var i = 0; i < Adapt.audio.numChannels; i++) {
                     Adapt.trigger('audio:updateAudioStatus', this.audioChannel, 0);
                 }
@@ -105,13 +102,12 @@ define(function(require) {
             }
         },
 
-        removeInViewListeners: function () { 
+        removeInViewListeners: function () {
             this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         }
-
     });
-    
+
     return AudioMenuView;
 
 });

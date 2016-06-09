@@ -30,14 +30,12 @@ define(function(require) {
         render: function () {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioControls"];
-            if (this.model.get('_audio') && this.model.get('_audio')._isEnabled) {
-                if(this.model.get('_audio')._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
-                    $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ."+this.model.get("_type")+"-inner");
-                } else {
-                    $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
-                }
+            if(this.model.get('_audio')._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
+                $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ."+this.model.get("_type")+"-inner");
+            } else {
+                $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
             }
-            // Add class so it can be referenced in the theme if needed 
+            // Add class so it can be referenced in the theme if needed
             $(this.el).addClass(this.model.get("_type")+"-audio");
 
             // Set vars
@@ -53,7 +51,7 @@ define(function(require) {
             if(Adapt.audio.audioClip[this.audioChannel].status==0){
                 this.$('.audio-inner button').hide();
             }
-            
+
             // Set audio file
             this.setAudioFile();
 
@@ -61,7 +59,7 @@ define(function(require) {
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
 
             // Set listener for when clip ends
-            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));        
+            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
 
             _.defer(_.bind(function() {
                 this.postRender();
@@ -207,7 +205,7 @@ define(function(require) {
             }
         },
 
-        removeInViewListeners: function () { 
+        removeInViewListeners: function () {
             this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         },
@@ -215,7 +213,7 @@ define(function(require) {
         replaceText: function(value) {
             // If enabled
             if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._reducedTextisEnabled && this.model.get('_audio') && this.model.get('_audio')._reducedTextisEnabled) {
-                
+
                 // Article
                 if(this.model.get("_type") == "article"){
                     if(value == 0) {
@@ -248,12 +246,12 @@ define(function(require) {
                         $('.'+this.model.get('_id')).find('.component-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
                     }
                 }
-                
+
             }
         }
 
     });
-    
+
     return AudioControlsView;
 
 });

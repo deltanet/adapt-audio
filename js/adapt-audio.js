@@ -104,7 +104,6 @@ define([
         // If reduced text is disabled then set size to full
         Adapt.audio.textSize = 0;
       }
-
     },
 
     onAddToggle: function(pageModel) {
@@ -123,9 +122,7 @@ define([
 
     showAudioPrompt: function() {
       // Pause all channels
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        this.pauseAudio(i);
-      }
+      this.stopAllChannels();
 
       var audioPromptModel = Adapt.course.get('_audio')._prompt;
 
@@ -323,41 +320,36 @@ define([
     },
 
     onMenuReady: function(view) {
-      // Pause all channels on view load
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        this.pauseAudio(i);
-      }
-
       if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get('_type') == "menu" && view.model.get("_audio")._isEnabled) {
-          try{
-            new AudioMenuView({model:view.model});
-          } catch(e){
-            console.log(e);
-          }
+        // Pause all channels on view load
+        this.stopAllChannels();
+        try{
+          new AudioMenuView({model:view.model});
+        } catch(e){
+          console.log(e);
+        }
       }
-
     },
 
     onABCReady: function(view) {
-      // Pause all channels on view load
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        this.pauseAudio(i);
-      }
-
       if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get("_audio")._isEnabled) {
-          try{
-            new AudioControlsView({model:view.model});
-          } catch(e){
-            console.log(e);
-          }
+        // Pause all channels on view load
+        this.stopAllChannels();
+        try{
+          new AudioControlsView({model:view.model});
+        } catch(e){
+          console.log(e);
+        }
       }
 
       if (this.audioEnabled && view.model && view.model.get("_audioAssessment") && view.model.get("_audioAssessment")._isEnabled) {
-          try{
-            new AudioResultsView({model:view.model});
-          } catch(e){
-            console.log(e);
-          }
+        // Pause all channels on view load
+        this.stopAllChannels();
+        try{
+          new AudioResultsView({model:view.model});
+        } catch(e){
+          console.log(e);
+        }
       }
     }
   }, Backbone.Events);
