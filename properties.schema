@@ -19,7 +19,7 @@
                 "_isEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Audio Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -28,7 +28,7 @@
                 "_reducedTextisEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Reduced text Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -49,7 +49,7 @@
                 "_autoplay": {
                   "type":"boolean",
                   "required":false,
-                  "default": "true",
+                  "default": true,
                   "title": "Autoplay Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": []
@@ -57,7 +57,7 @@
                 "_enableAudioDrawer": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Audio Drawer Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -303,7 +303,7 @@
                 "_isEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Audio Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -312,7 +312,7 @@
                 "_showControls": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Show Controls",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -321,7 +321,7 @@
                 "_autoplay": {
                   "type":"boolean",
                   "required":false,
-                  "default": "true",
+                  "default": true,
                   "title": "Autoplay",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -375,7 +375,7 @@
                 "_isEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Audio Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -384,7 +384,7 @@
                 "_showControls": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Show Controls",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -393,7 +393,7 @@
                 "_autoplay": {
                   "type":"boolean",
                   "required":false,
-                  "default": "true",
+                  "default": true,
                   "title": "Autoplay",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -444,7 +444,7 @@
                 "_reducedTextisEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Reduced Text Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -483,7 +483,7 @@
                 "_isEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Audio Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -492,7 +492,7 @@
                 "_showControls": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Show Controls",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -501,7 +501,7 @@
                 "_autoplay": {
                   "type":"boolean",
                   "required":false,
-                  "default": "true",
+                  "default": true,
                   "title": "Autoplay",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -552,7 +552,7 @@
                 "_reducedTextisEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Reduced Text Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -591,7 +591,7 @@
                 "_isEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Audio Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -600,7 +600,7 @@
                 "_showControls": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Show Controls",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -609,7 +609,7 @@
                 "_autoplay": {
                   "type":"boolean",
                   "required":false,
-                  "default": "true",
+                  "default": true,
                   "title": "Autoplay",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -660,7 +660,7 @@
                 "_reducedTextisEnabled": {
                   "type":"boolean",
                   "required":false,
-                  "default": "false",
+                  "default": false,
                   "title": "Reduced Text Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
