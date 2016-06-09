@@ -1,59 +1,65 @@
-// To go in the config.json file
-"_audio": {
-    "_isEnabled": true,
-    "_reducedTextisEnabled": true
-}
-
 // To go in the course.json file
-"_audio": {
-    "_autoplay": true,
-    "_enableAudioDrawer": true,
-    "title": "Audio",
-    "description": "Click here to view the audio settings for this course.",
-    "_audioItems": [
-        {
-            "title": "Narration",
-            "description": "This content in this course is narrated. You can save your preference here too."
+    "_audio": {
+        "_isEnabled": true,
+        "_reducedTextisEnabled": true,
+        "_autoplay": true,
+        "_showOnNavbar": false,
+        "title": "Audio",
+        "description": "Click here to view the audio settings for this course.",
+        "_channels": {
+            "_narration": {
+                "_isEnabled": true,
+                "_status": 1,
+                "title": "Audio setting",
+                "descriptionOn": "Audio is currently turned on. Select the icon below to turn the audio off.",
+                "descriptionOff": "Audio is currently turned off. Select the icon below to turn the audio on."
+            },
+            "_effects": {
+                "_isEnabled": true,
+                "_status": 1,
+                "title": "Sound effects",
+                "descriptionOn": "Sound effects are currently turned on. Select the icon below to turn the sound effects off.",
+                "descriptionOff": "Sound effects are currently turned off. Select the icon below to turn the sound effects on."
+            },
+            "_music": {
+                "_isEnabled": true,
+                "_status": 1,
+                "title": "Music",
+                "descriptionOn": "Music is currently turned on. Select the icon below to turn the music off.",
+                "descriptionOff": "Music is currently turned off. Select the icon below to turn the music on."
+            }
         },
-        {
-            "title": "Sound FX",
-            "description": "If you don't want sound effects to play throughout the course you can switch them off here."
+        "_reducedText": {
+            "title": "Text setting",
+            "descriptionFull": "The text is set to full. Select the button below if you would like the text to summarise the audio.",
+            "descriptionReduced": "The text is set to reduced. Select the button below if you would like the text to match the audio exactly.",
+            "_buttons": {
+                "full": "Set to full text",
+                "reduced": "Set to reduced text"
+            }
         },
-        {
-            "title": "Music",
-            "description": "Some areas of the course may contain background music."
-        }
-    ],
-    "_prompt": {
-        "title": "Audio and text settings",
-        "body": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon).",
-        "titleNoReduced": "Audio setting",
-        "bodyNoReduced": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon).",
-        "_buttons": {
-            "full": "Full",
-            "reduced": "Reduced",
-            "continue": "Continue",
-            "turnOff": "Turn audio off"
+        "_icons": {
+            "_audioOn": "icon-audio-on",
+            "_audioOff": "icon-audio-off",
+            "_audioPause": "icon-audio-pause"
         },
-        "_graphic": {
-            "src": "adapt/css/assets/audio-icon.png"
+        "_prompt": {
+            "_isEnabled": true,
+            "title": "Audio and text settings",
+            "body": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
+            "titleNoReduced": "Audio setting",
+            "bodyNoReduced": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
+            "_buttons": {
+                "full": "Full",
+                "reduced": "Reduced",
+                "continue": "Continue",
+                "turnOff": "Turn audio off"
+            },
+            "_graphic": {
+                "src": "adapt/css/assets/audio-icon.png"
+            }
         }
     },
-    "_togglePrompt": {
-        "title": "Audio and text settings",
-        "bodyAudioOn": "You have chosen to turn audio off. The on-screen text will default to full text.",
-        "bodyAudioOff": "You have chosen to turn audio on. Please select whether you would like to view full or reduced text.",
-        "_buttons": {
-            "confirm": "Confirm",
-            "cancel": "Cancel",
-            "full": "Full",
-            "reduced": "Reduced"
-        },
-        "_graphic": {
-            "src": "adapt/css/assets/audio-icon.png"
-        }
-    }
-},
 
 
 // To go in article/block/component.json

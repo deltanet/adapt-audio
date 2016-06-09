@@ -25,9 +25,6 @@
             background-color: @item-color-hover;
         }
     }
-    .hidden {
-        display: none;
-    }
     &.article-audio {
     }
     &.block-audio {
@@ -38,33 +35,29 @@
 
 .audio-drawer {
     .drawer-audio-toggle {
-        color: @drawer-icon-color;
+        color: @drawer-item-text-color;
         .transition-color;
         .no-touch &:hover {
             color: @drawer-icon-color-hover;
         }
+        margin-top: @drawer-item-padding-top;
+        margin-bottom: @drawer-item-padding-bottom;
     }
     .drawer-item-open {
         padding-bottom: 0px !important;
         width: 86% !important;
     }
+    .drawer-audio-button {
+        background-color: @drawer-color;
+        color: @button-color;
+        margin-top: @drawer-item-padding-top;
+        margin-bottom: @drawer-item-padding-bottom;
+        width: 100%;
+    }
 }
 
 ///// Styling classes /////
-.top-left {
-    float:left;
-    .dir-rtl & {
-        float:right;
-    }
-}
-
-.top-right {
-    float:right;
-    .dir-rtl & {
-      float:left;
-    }
-}
-
+.top-left,
 .bottom-left {
     float:left;
     .dir-rtl & {
@@ -72,6 +65,7 @@
     }
 }
 
+.top-right,
 .bottom-right {
     float:right;
     .dir-rtl & {
@@ -79,84 +73,7 @@
     }
 }
 
-.speaker-icon {
-    font-family: 'FontAwesome';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    font-size: @icon-size;
-    text-transform: none;
-    line-height: 1;
-    text-decoration: none;
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    width: (@navigation-padding * 2) + @icon-size;
-    height: (@navigation-padding * 2) + @icon-size;
-
-    
-}
-
-.play-pause-icon {
-    font-family: 'FontAwesome';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    font-size: @icon-size;
-    text-transform: none;
-    line-height: 1;
-    text-decoration: none;
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    width: (@item-padding * 2) + @icon-size;
-    height: (@item-padding * 2) + @icon-size;
-}
-
 .audio-notify-icon {
     padding-left: 10px;
     padding-right: 10px;
-}
-
-/*!
- *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
- *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
- */
-/* FONT PATH
- * -------------------------- */
-@font-face {
-  font-family: 'FontAwesome';
-  src: url('fonts/fontawesome-webfont.eot?v=4.4.0');
-  src: url('fonts/fontawesome-webfont.eot?#iefix&v=4.4.0') format('embedded-opentype'),
-       url('fonts/fontawesome-webfont.woff2?v=4.4.0') format('woff2'),
-       url('fonts/fontawesome-webfont.woff?v=4.4.0') format('woff'),
-       url('fonts/fontawesome-webfont.ttf?v=4.4.0') format('truetype'),
-       url('fonts/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.fa-headphones:before {
-  content: "\f025";
-}
-.fa-volume-off:before {
-  content: "\f026";
-}
-.fa-volume-down:before {
-  content: "\f027";
-}
-.fa-volume-up:before {
-  content: "\f028";
-}
-
-.fa-play:before {
-  content: "\f04b";
-}
-
-.fa-pause:before {
-  content: "\f04c";
 }
