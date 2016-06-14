@@ -59,9 +59,7 @@ define(function(require) {
                 this.$('.item-'+currentItem).addClass('fa-volume-off');
                 Adapt.trigger('audio:updateAudioStatus', currentItem, 0);
             }
-
         }
-
     });
 
     return AudioDrawerView;

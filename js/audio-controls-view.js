@@ -14,6 +14,7 @@ define(function(require) {
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
+            this.listenTo(Adapt, "audio:changeText", this.replaceText);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
             this.render();
@@ -29,14 +30,12 @@ define(function(require) {
         render: function () {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioControls"];
-            if (this.model.get('_audio') && this.model.get('_audio')._isEnabled) {
-                if(this.model.get('_audio')._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
-                    $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ."+this.model.get("_type")+"-inner");
-                } else {
-                    $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
-                }
+            if(this.model.get('_audio')._location=="bottom-left" || this.model.get("_audio")._location=="bottom-right") {
+                $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ."+this.model.get("_type")+"-inner");
+            } else {
+                $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
             }
-            // Add class so it can be referenced in the theme if needed 
+            // Add class so it can be referenced in the theme if needed
             $(this.el).addClass(this.model.get("_type")+"-audio");
 
             // Set vars
@@ -52,7 +51,7 @@ define(function(require) {
             if(Adapt.audio.audioClip[this.audioChannel].status==0){
                 this.$('.audio-inner button').hide();
             }
-            
+
             // Set audio file
             this.setAudioFile();
 
@@ -60,7 +59,7 @@ define(function(require) {
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
 
             // Set listener for when clip ends
-            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));        
+            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
 
             _.defer(_.bind(function() {
                 this.postRender();
@@ -70,6 +69,8 @@ define(function(require) {
         postRender: function() {
             // Add inview listener on audio element
             this.$('.audio-inner').on('inview', _.bind(this.inview, this));
+            // Run function to check for reduced text
+            this.replaceText(Adapt.audio.textSize);
         },
 
         reRender: function() {
@@ -204,13 +205,53 @@ define(function(require) {
             }
         },
 
-        removeInViewListeners: function () { 
+        removeInViewListeners: function () {
             this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
+        },
+
+        replaceText: function(value) {
+            // If enabled
+            if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._reducedTextisEnabled && this.model.get('_audio') && this.model.get('_audio')._reducedTextisEnabled) {
+
+                // Article
+                if(this.model.get("_type") == "article"){
+                    if(value == 0) {
+                        $('.'+this.model.get('_id')).find('.article-title-inner').html(this.model.get('displayTitle')).a11y_text();
+                        $('.'+this.model.get('_id')).find('.article-body-inner').html(this.model.get('body')).a11y_text();
+                    } else {
+                        $('.'+this.model.get('_id')).find('.article-title-inner').html(this.model.get('_audio').displayTitleReduced).a11y_text();
+                        $('.'+this.model.get('_id')).find('.article-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
+                    }
+                }
+
+                // Block
+                if(this.model.get("_type") == "block"){
+                    if(value == 0) {
+                        $('.'+this.model.get('_id')).find('.block-title-inner').html(this.model.get('displayTitle')).a11y_text();
+                        $('.'+this.model.get('_id')).find('.block-body-inner').html(this.model.get('body')).a11y_text();
+                    } else {
+                        $('.'+this.model.get('_id')).find('.block-title-inner').html(this.model.get('_audio').displayTitleReduced).a11y_text();
+                        $('.'+this.model.get('_id')).find('.block-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
+                    }
+                }
+
+                // Component
+                if(this.model.get("_type") == "component"){
+                    if(value == 0) {
+                        $('.'+this.model.get('_id')).find('.component-title-inner').html(this.model.get('displayTitle')).a11y_text();
+                        $('.'+this.model.get('_id')).find('.component-body-inner').html(this.model.get('body')).a11y_text();
+                    } else {
+                        $('.'+this.model.get('_id')).find('.component-title-inner').html(this.model.get('_audio').displayTitleReduced).a11y_text();
+                        $('.'+this.model.get('_id')).find('.component-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
+                    }
+                }
+
+            }
         }
 
     });
-    
+
     return AudioControlsView;
 
 });

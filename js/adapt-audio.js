@@ -4,8 +4,7 @@ define([
     './audio-drawer-view',
     './audio-menu-view',
     './audio-controls-view',
-    './audio-results-view',
-    './audio-reducedText'
+    './audio-results-view'
 ], function(Adapt, AudioToggleView, AudioDrawerView, AudioMenuView, AudioControlsView, AudioResultsView) {
 
   var AudioController = _.extend({
@@ -50,8 +49,8 @@ define([
         this.audioEnabled = false;
       }
 
-      if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._isReducedTextEnabled) {
-        this.reducedTextEnabled = Adapt.config.get("_audio")._isReducedTextEnabled;
+      if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._reducedTextisEnabled) {
+        this.reducedTextEnabled = Adapt.config.get("_audio")._reducedTextisEnabled;
       } else {
         this.reducedTextEnabled = false;
       }
@@ -74,7 +73,7 @@ define([
         Adapt.audio.audioClip[i] = new Audio();
       }
 
-      // Collect saved audio status 
+      // Collect saved audio status
       Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
       // If status is not zero then presume one hasn't been stored and set to default on
       if(Adapt.audio.audioStatus !== 0) {
@@ -105,7 +104,6 @@ define([
         // If reduced text is disabled then set size to full
         Adapt.audio.textSize = 0;
       }
-
     },
 
     onAddToggle: function(pageModel) {
@@ -124,9 +122,7 @@ define([
 
     showAudioPrompt: function() {
       // Pause all channels
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.trigger('audio:pauseAudio', i);
-      }
+      this.stopAllChannels();
 
       var audioPromptModel = Adapt.course.get('_audio')._prompt;
 
@@ -217,7 +213,7 @@ define([
 
     inviewOff: function(id, channel){
       if(id == Adapt.audio.audioClip[channel].playingID){
-        Adapt.trigger('audio:pauseAudio', channel);
+        this.pauseAudio(channel);
       }
     },
 
@@ -257,7 +253,7 @@ define([
     stopAllChannels: function() {
       // Pause all channels
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.trigger('audio:pauseAudio', i);
+        this.pauseAudio(i);
       }
     },
 
@@ -292,7 +288,7 @@ define([
           Adapt.audio.audioStatus = 0;
         }
       }
-      // store audio preference, 
+      // store audio preference,
       Adapt.offlineStorage.set("audio_level", Adapt.audio.audioStatus);
     },
 
@@ -318,51 +314,44 @@ define([
       var audioDrawerModel = new Backbone.Model(audioDrawerModel);
 
       Adapt.drawer.triggerCustomView(new AudioDrawerView({
-        model: audioDrawerModel, 
+        model: audioDrawerModel,
         collection: audioDrawerCollection
       }).$el);
     },
 
     onMenuReady: function(view) {
-      // Pause all channels on view load
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.trigger('audio:pauseAudio', i);
+      if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get('_type') == "menu" && view.model.get("_audio")._isEnabled) {
+        // Pause all channels on view load
+        this.stopAllChannels();
+        try{
+          new AudioMenuView({model:view.model});
+        } catch(e){
+          console.log(e);
+        }
       }
-
-      if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get('_type') == "menu") {
-          try{
-            new AudioMenuView({model:view.model});
-          } catch(e){
-            console.log(e);
-          }
-      }
-
     },
 
     onABCReady: function(view) {
-      // Pause all channels on view load
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.trigger('audio:pauseAudio', i);
+      if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get("_audio")._isEnabled) {
+        // Pause all channels on view load
+        this.stopAllChannels();
+        try{
+          new AudioControlsView({model:view.model});
+        } catch(e){
+          console.log(e);
+        }
       }
 
-      if (this.audioEnabled && view.model && view.model.get("_audio")) {
-          try{
-            new AudioControlsView({model:view.model});
-          } catch(e){
-            console.log(e);
-          }
+      if (this.audioEnabled && view.model && view.model.get("_audioAssessment") && view.model.get("_audioAssessment")._isEnabled) {
+        // Pause all channels on view load
+        this.stopAllChannels();
+        try{
+          new AudioResultsView({model:view.model});
+        } catch(e){
+          console.log(e);
+        }
       }
-
-      if (this.audioEnabled && view.model && view.model.get("_audioAssessment")) {
-          try{
-            new AudioResultsView({model:view.model});
-          } catch(e){
-            console.log(e);
-          }
-      }
-
     }
-
   }, Backbone.Events);
 
     AudioController.initialize();

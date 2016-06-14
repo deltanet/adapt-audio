@@ -45,7 +45,7 @@ define(function(require) {
         toggleAudio: function(event) {
             if (event) event.preventDefault();
             // Check if reducedText is enabled
-            if(Adapt.config.get("_audio") && Adapt.config.get("_audio")._isReducedTextEnabled){
+            if(Adapt.config.get("_audio") && Adapt.config.get("_audio")._reducedTextisEnabled){
                 // Init notify confirm
                 this.showPrompt();
             } else {
