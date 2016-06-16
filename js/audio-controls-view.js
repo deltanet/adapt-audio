@@ -41,14 +41,13 @@ define(function(require) {
             // Set vars
             this.audioChannel = this.model.get('_audio')._channel;
             this.elementId = this.model.get("_id");
+            this.audioIcon = Adapt.course.get('_audio')._icons._audioOn;
 
-            // Hide controls
-            if(this.model.get('_audio')._showControls==false){
-                this.$('.audio-toggle').addClass('hidden');
-            }
+            // Add audio icon
+            this.$('.audio-toggle').addClass(this.audioIcon);
 
-            // Hide icon if audio is turned off
-            if(Adapt.audio.audioClip[this.audioChannel].status==0){
+            // Hide controls if set in JSON or if audio is turned off
+            if(this.model.get('_audio')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
                 this.$('.audio-inner button').hide();
             }
 
@@ -198,10 +197,11 @@ define(function(require) {
         },
 
         updateToggle: function(){
-            if(Adapt.audio.audioStatus == 1 && this.model.get('_audio')._showControls==true){
-                this.$('.audio-toggle').removeClass('hidden');
+            console.log(this.elementId +" = "+Adapt.audio.audioClip[this.audioChannel].status);
+            if(Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls==true){
+                this.$('.audio-inner button').show();
             } else {
-                this.$('.audio-toggle').addClass('hidden');
+                this.$('.audio-inner button').hide();
             }
         },
 
@@ -212,7 +212,7 @@ define(function(require) {
 
         replaceText: function(value) {
             // If enabled
-            if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._reducedTextisEnabled && this.model.get('_audio') && this.model.get('_audio')._reducedTextisEnabled) {
+            if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._reducedTextisEnabled && this.model.get('_audio') && this.model.get('_audio')._reducedTextisEnabled) {
 
                 // Article
                 if(this.model.get("_type") == "article"){
@@ -246,10 +246,8 @@ define(function(require) {
                         $('.'+this.model.get('_id')).find('.component-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
                     }
                 }
-
             }
         }
-
     });
 
     return AudioControlsView;

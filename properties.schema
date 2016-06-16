@@ -8,7 +8,7 @@
       "type":"object",
       "required":true,
       "properties":{
-        "config": {
+        "course": {
           "type":"object",
           "properties":{
             "_audio": {
@@ -34,18 +34,6 @@
                   "validators": [],
                   "help": "Enables Reduced Text Functionality"
                 }
-              }
-            }
-          }
-        },
-        "course": {
-          "type":"object",
-          "properties":{
-            "_audio": {
-              "type":"object",
-              "required":false,
-              "legend": "Audio",
-              "properties":{
                 "_autoplay": {
                   "type":"boolean",
                   "required":false,

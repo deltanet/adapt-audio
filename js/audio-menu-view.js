@@ -95,7 +95,7 @@ define(function(require) {
         },
 
         updateToggle: function(){
-            if(Adapt.audio.audioStatus == 1 && this.model.get('_audio')._showControls==true){
+            if(Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls==true){
                 this.$('.audio-toggle').removeClass('hidden');
             } else {
                 this.$('.audio-toggle').addClass('hidden');

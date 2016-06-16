@@ -43,14 +43,14 @@ define([
     },
 
     setupAudio: function() {
-      if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._isEnabled) {
-        this.audioEnabled = Adapt.config.get("_audio")._isEnabled;
+      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
+        this.audioEnabled = Adapt.course.get("_audio")._isEnabled;
       } else {
         this.audioEnabled = false;
       }
 
-      if (Adapt.config.get("_audio") && Adapt.config.get("_audio")._reducedTextisEnabled) {
-        this.reducedTextEnabled = Adapt.config.get("_audio")._reducedTextisEnabled;
+      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._reducedTextisEnabled) {
+        this.reducedTextEnabled = Adapt.course.get("_audio")._reducedTextisEnabled;
       } else {
         this.reducedTextEnabled = false;
       }
@@ -60,29 +60,39 @@ define([
       Adapt.audio.audioChannel = new Array();
       Adapt.audio.audioClip = new Array();
 
-      // Set global course autoplay based on modernizer.touch then course JSON.
-      //Adapt.audio.autoPlayGlobal = Modernizr.touch ? false : Adapt.course.get('_audio')._autoplay ? true : false;
-
       // Set global course autoplay based on course JSON.
       Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
 
+      // Get names for icons from course.config
+      Adapt.audio.iconOn = Adapt.course.get('_audio')._icons._audioOn;
+      Adapt.audio.iconOff = Adapt.course.get('_audio')._icons._audioOff;
+      Adapt.audio.iconPause = Adapt.course.get('_audio')._icons._audioPause;
+
       // Set number of audio channels specified in the course JSON
-      Adapt.audio.numChannels = Adapt.course.get('_audio')._audioItems ? Adapt.course.get('_audio')._audioItems.length : 0;
+      Adapt.audio.numChannels = 3;
       // Create audio objects based on the number of channels
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.audio.audioClip[i] = new Audio();
       }
+
+      //Set default audio status for each channel base on the course config
+      Adapt.audio.audioClip[0].status = Adapt.course.get('_audio')._channels._narration._status;
+      Adapt.audio.audioClip[1].status = Adapt.course.get('_audio')._channels._effects._status;
+      Adapt.audio.audioClip[2].status = Adapt.course.get('_audio')._channels._music._status;
 
       // Collect saved audio status
       Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
       // If status is not zero then presume one hasn't been stored and set to default on
       if(Adapt.audio.audioStatus !== 0) {
         Adapt.audio.audioStatus = 1;
+      } else {
+        Adapt.audio.audioClip[0].status = 0;
+        Adapt.audio.audioClip[1].status = 0;
+        Adapt.audio.audioClip[2].status = 0;
       }
 
       // Assign variables to each audio object
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
         Adapt.audio.audioClip[i].isPlaying = false;
         Adapt.audio.audioClip[i].playingID = "";
         Adapt.audio.audioClip[i].newID = "";
@@ -91,7 +101,7 @@ define([
 
       // Reduced text - Only available if audio is enabled
       if (this.reducedTextEnabled && this.audioEnabled) {
-        // Detrermine text size based on audio preference
+        // Determine text size based on audio preference
         // If audio is off then show full text
         if (Adapt.audio.audioStatus == 0) {
           Adapt.audio.textSize = 0;
@@ -99,15 +109,15 @@ define([
           // If audio is on then show reduced text
           Adapt.audio.textSize = 1;
         }
-
       } else {
         // If reduced text is disabled then set size to full
         Adapt.audio.textSize = 0;
       }
+
     },
 
     onAddToggle: function(pageModel) {
-      if (this.audioEnabled) {
+      if (this.audioEnabled && Adapt.course.get('_audio')._showOnNavbar) {
           new AudioToggleView({model:pageModel});
       }
     },
@@ -260,8 +270,8 @@ define([
     showAudioIcon: function(channel) {
       var audioHTMLId = '#'+Adapt.audio.audioClip[channel].newID;
       try {
-        $(audioHTMLId).removeClass('fa-volume-up');
-        $(audioHTMLId).addClass('fa-pause');
+        $(audioHTMLId).removeClass(Adapt.audio.iconOn);
+        $(audioHTMLId).addClass(Adapt.audio.iconPause);
         $(audioHTMLId).addClass('playing');
       } catch(e) {
         console.error("audio error");
@@ -270,8 +280,8 @@ define([
 
     hideAudioIcon: function(channel) {
       try {
-        $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-pause');
-        $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-volume-up');
+        $('#'+Adapt.audio.audioClip[channel].playingID).removeClass(Adapt.audio.iconPause);
+        $('#'+Adapt.audio.audioClip[channel].playingID).addClass(Adapt.audio.iconOn);
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
       } catch(e) {
         console.error("audio error");
@@ -280,55 +290,52 @@ define([
 
     updateAudioStatus: function(channel, value) {
       Adapt.audio.audioClip[channel].status = value;
-      // Check for any channel being on
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        if(Adapt.audio.audioClip[i].status==1){
+      // Pause audio channel
+      Adapt.trigger('audio:pauseAudio', channel);
+      // Check for narration channel being on
+      if(Adapt.audio.audioClip[0].status==1){
           Adapt.audio.audioStatus = 1;
         } else {
           Adapt.audio.audioStatus = 0;
-        }
       }
-      // store audio preference,
+      // Store audio preference
       Adapt.offlineStorage.set("audio_level", Adapt.audio.audioStatus);
     },
 
     addAudioDrawerItem: function() {
       var drawerAudio = Adapt.course.get('_audio');
 
-      if (this.audioEnabled && drawerAudio && drawerAudio._enableAudioDrawer) {
+      if (this.audioEnabled) {
         var drawerObject = {
               title: drawerAudio.title,
               description: drawerAudio.description,
               className: 'audio-drawer'
           };
           Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
-      } else {
-        return console.log('Sorry, audio is disabled or no audio object is set on the course.json file.');
       }
     },
 
     setupDrawerAudio: function() {
       var audioDrawerModel = Adapt.course.get('_audio');
-      var audioItems = audioDrawerModel._audioItems;
-      var audioDrawerCollection = new Backbone.Collection(audioItems);
       var audioDrawerModel = new Backbone.Model(audioDrawerModel);
 
       Adapt.drawer.triggerCustomView(new AudioDrawerView({
-        model: audioDrawerModel,
-        collection: audioDrawerCollection
+        model: audioDrawerModel
       }).$el);
     },
 
     onMenuReady: function(view) {
+
       if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get('_type') == "menu" && view.model.get("_audio")._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
         try{
-          new AudioMenuView({model:view.model});
+         new AudioMenuView({model:view.model});
         } catch(e){
-          console.log(e);
+         console.log(e);
         }
       }
+
     },
 
     onABCReady: function(view) {
@@ -341,7 +348,6 @@ define([
           console.log(e);
         }
       }
-
       if (this.audioEnabled && view.model && view.model.get("_audioAssessment") && view.model.get("_audioAssessment")._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
@@ -352,6 +358,7 @@ define([
         }
       }
     }
+
   }, Backbone.Events);
 
     AudioController.initialize();
