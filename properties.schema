@@ -90,7 +90,7 @@
                           "required": true,
                           "enum": [0, 1],
                           "inputType": {"type": "Select", "options": [0, 1]},
-                          "title": "Set flip type",
+                          "title": "Set Channel On",
                           "default": 1,
                           "validators": ["required", "number"],
                           "help": "Set to 1 to play channel audio"
@@ -99,7 +99,7 @@
                           "type": "string",
                           "required": false,
                           "default": "Narration",
-                          "title": "Title",
+                          "title": "Drawer Title",
                           "inputType": "Text",
                           "validators": []
                         },
@@ -140,7 +140,7 @@
                           "required": true,
                           "enum": [0, 1],
                           "inputType": {"type": "Select", "options": [0, 1]},
-                          "title": "Set flip type",
+                          "title": "Set Channel On",
                           "default": 1,
                           "validators": ["required", "number"],
                           "help": "Set to 1 to play channel audio"
@@ -149,7 +149,7 @@
                           "type": "string",
                           "required": false,
                           "default": "Effects",
-                          "title": "Title",
+                          "title": "Drawer Title",
                           "inputType": "Text",
                           "validators": []
                         },
@@ -190,7 +190,7 @@
                           "required": true,
                           "enum": [0, 1],
                           "inputType": {"type": "Select", "options": [0, 1]},
-                          "title": "Set flip type",
+                          "title": "Set Channel On",
                           "default": 1,
                           "validators": ["required", "number"],
                           "help": "Set to 1 to play channel audio"
@@ -199,7 +199,7 @@
                           "type": "string",
                           "required": false,
                           "default": "Music",
-                          "title": "Title",
+                          "title": "Drawer Title",
                           "inputType": "Text",
                           "validators": []
                         },
