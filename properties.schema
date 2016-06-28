@@ -33,7 +33,7 @@
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Enables Reduced Text Functionality"
-                }
+                },
                 "_autoplay": {
                   "type":"boolean",
                   "required":false,
@@ -42,14 +42,13 @@
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": []
                 },
-                "_enableAudioDrawer": {
+                "_showOnNavbar": {
                   "type":"boolean",
                   "required":false,
-                  "default": false,
-                  "title": "Audio Drawer Enabled",
+                  "default": true,
+                  "title": "Show Audio Pause/Play Icon",
                   "inputType": { "type": "Boolean", "options": [false, true]},
-                  "validators": [],
-                  "help": "Show audio functions in drawer"
+                  "validators": []
                 },
                 "title": {
                   "type": "string",
@@ -67,30 +66,245 @@
                   "validators": [],
                   "help": "Optional description for audio drawer"
                 },
-                "_audioItems": {
-                  "type":"array",
+                "_channels": {
+                  "type":"object",
                   "required":true,
-                  "title": "Audio Items",
-                  "items": {
-                    "type":"object",
-                    "required":true,
-                    "properties":{
-                      "title": {
-                        "type": "string",
-                        "required": false,
-                        "default": "",
-                        "title": "Title",
-                        "inputType": "Text",
-                        "validators": []
-                      },
-                      "description": {
-                        "type": "string",
-                        "required": false,
-                        "default": "",
-                        "title": "Description",
-                        "inputType": "Text",
-                        "validators": []
+                  "title": "Audio Channels",
+                  "properties":{
+                    "_narration": {
+                      "type":"object",
+                      "required":true,
+                      "title": "Narration",
+                      "help": "Default channel for article, block and component audio",
+                      "properties":{
+                        "_isEnabled": {
+                          "type":"boolean",
+                          "required":true,
+                          "default": true,
+                          "title": "Channel Enabled",
+                          "inputType": { "type": "Boolean", "options": [false, true]},
+                          "validators": []
+                        },
+                        "_status": {
+                          "type": "number",
+                          "required": true,
+                          "enum": [0, 1],
+                          "inputType": {"type": "Select", "options": [0, 1]},
+                          "title": "Set flip type",
+                          "default": 1,
+                          "validators": ["required", "number"],
+                          "help": "Set to 1 to play channel audio"
+                        },
+                        "title": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Narration",
+                          "title": "Title",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "descriptionOn": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Audio is currently turned on. Select the icon below to turn the audio off.",
+                          "title": "Drawer Description - Audio On",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "descriptionOff": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Audio is currently turned off. Select the icon below to turn the audio on.",
+                          "title": "Drawer Description - Audio Off",
+                          "inputType": "Text",
+                          "validators": []
+                        }
                       }
+                    },
+                    "_effects": {
+                      "type":"object",
+                      "required":true,
+                      "title": "Effects",
+                      "help": "Effects channel for article, block and component audio",
+                      "properties":{
+                        "_isEnabled": {
+                          "type":"boolean",
+                          "required":true,
+                          "default": true,
+                          "title": "Channel Enabled",
+                          "inputType": { "type": "Boolean", "options": [false, true]},
+                          "validators": []
+                        },
+                        "_status": {
+                          "type": "number",
+                          "required": true,
+                          "enum": [0, 1],
+                          "inputType": {"type": "Select", "options": [0, 1]},
+                          "title": "Set flip type",
+                          "default": 1,
+                          "validators": ["required", "number"],
+                          "help": "Set to 1 to play channel audio"
+                        },
+                        "title": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Effects",
+                          "title": "Title",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "descriptionOn": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Sound effects are currently turned on. Select the icon below to turn the sound effects off.",
+                          "title": "Drawer Description - Audio On",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "descriptionOff": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Sound effects are currently turned off. Select the icon below to turn the sound effects on.",
+                          "title": "Drawer Description - Audio Off",
+                          "inputType": "Text",
+                          "validators": []
+                        }
+                      }
+                    },
+                    "_music": {
+                      "type":"object",
+                      "required":true,
+                      "title": "Music",
+                      "help": "Music channel for article, block and component audio",
+                      "properties":{
+                        "_isEnabled": {
+                          "type":"boolean",
+                          "required":true,
+                          "default": true,
+                          "title": "Channel Enabled",
+                          "inputType": { "type": "Boolean", "options": [false, true]},
+                          "validators": []
+                        },
+                        "_status": {
+                          "type": "number",
+                          "required": true,
+                          "enum": [0, 1],
+                          "inputType": {"type": "Select", "options": [0, 1]},
+                          "title": "Set flip type",
+                          "default": 1,
+                          "validators": ["required", "number"],
+                          "help": "Set to 1 to play channel audio"
+                        },
+                        "title": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Music",
+                          "title": "Title",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "descriptionOn": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Music is currently turned on. Select the icon below to turn the music off.",
+                          "title": "Drawer Description - Audio On",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "descriptionOff": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Music is currently turned off. Select the icon below to turn the music on.",
+                          "title": "Drawer Description - Audio Off",
+                          "inputType": "Text",
+                          "validators": []
+                        }
+                      }
+                    }
+                  }
+                },
+                "_reducedText": {
+                  "type":"object",
+                  "required":true,
+                  "title": "Drawer Reduced Text Settings",
+                  "properties":{
+                    "title": {
+                      "type": "string",
+                      "required": false,
+                      "default": "Text setting",
+                      "title": "Drawer Title",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "descriptionFull": {
+                      "type": "string",
+                      "required": false,
+                      "default": "The text is set to full. Select the button below if you would like the text to summarise the audio.",
+                      "title": "Drawer Description - Full Text",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "descriptionReduced": {
+                      "type": "string",
+                      "required": false,
+                      "default": "The text is set to reduced. Select the button below if you would like the text to match the audio exactly.",
+                      "title": "Drawer Description - Reduced Text",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "_buttons": {
+                      "type":"object",
+                      "required":true,
+                      "title": "Drawer Buttons",
+                      "properties":{
+                        "full": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Set to full text",
+                          "title": "Full Text Button",
+                          "inputType": "Text",
+                          "validators": []
+                        },
+                        "reduced": {
+                          "type": "string",
+                          "required": false,
+                          "default": "Set to reduced text",
+                          "title": "Reduced Text Button",
+                          "inputType": "Text",
+                          "validators": []
+                        }
+                      }
+                    }
+                  }
+                },
+                "_icons": {
+                  "type":"object",
+                  "required":true,
+                  "title": "Audio Icon Classes",
+                  "properties":{
+                    "_audioOn": {
+                      "type": "string",
+                      "required": false,
+                      "default": "icon-audio-on",
+                      "title": "Audio On Icon",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "_audioOff": {
+                      "type": "string",
+                      "required": false,
+                      "default": "icon-audio-off",
+                      "title": "Audio Off Icon",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "_audioPause": {
+                      "type": "string",
+                      "required": false,
+                      "default": "icon-audio-pause",
+                      "title": "Pause Icon",
+                      "inputType": "Text",
+                      "validators": []
                     }
                   }
                 },
@@ -99,6 +313,14 @@
                   "required":true,
                   "title": "Initial Audio Preference Prompt",
                   "properties":{
+                    "_isEnabled": {
+                      "type":"boolean",
+                      "required":false,
+                      "default": true,
+                      "title": "Prompt Enabled",
+                      "inputType": { "type": "Boolean", "options": [false, true]},
+                      "validators": []
+                    },
                     "title": {
                       "type": "string",
                       "required": false,
@@ -170,93 +392,6 @@
                           "inputType": "Text",
                           "validators": [],
                           "help": "Enter the text for the button to turn audio off"
-                        }
-                      }
-                    },
-                    "_graphic": {
-                      "type":"object",
-                      "required":false,
-                      "title": "Graphic",
-                      "properties":{
-                        "src": {
-                          "type":"string",
-                          "required":true,
-                          "default": "",
-                          "inputType": "Asset:image",
-                          "validators": []
-                        }
-                      }
-                    }
-                  }
-                },
-                "_togglePrompt": {
-                  "type":"object",
-                  "required":true,
-                  "title": "Toggle Audio Preference Prompt",
-                  "properties":{
-                    "title": {
-                      "type": "string",
-                      "required": false,
-                      "default": "Audio and text settings",
-                      "title": "Title",
-                      "inputType": "Text",
-                      "validators": []
-                    },
-                    "bodyAudioOn": {
-                      "type": "string",
-                      "required": true,
-                      "default": "You have chosen to turn audio off. The on-screen text will default to full text.",
-                      "title": "Audio on message",
-                      "inputType": "Text",
-                      "validators": []
-                    },
-                    "bodyAudioOff": {
-                      "type": "string",
-                      "required": true,
-                      "default": "You have chosen to turn audio on. Please select whether you would like to view full or reduced text.",
-                      "title": "Audio off message",
-                      "inputType": "Text",
-                      "validators": []
-                    },
-                    "_buttons": {
-                      "type":"object",
-                      "required":true,
-                      "properties":{
-                        "confirm": {
-                          "type": "string",
-                          "required": true,
-                          "default": "Confirm",
-                          "title": "Confirm Button",
-                          "inputType": "Text",
-                          "validators": [],
-                          "help": "Enter the text for the button to select full text"
-                        },
-                        "cancel": {
-                          "type": "string",
-                          "required": true,
-                          "default": "Cancel",
-                          "title": "Cancel Button",
-                          "inputType": "Text",
-                          "validators": [],
-                          "help": "Enter the text for the button to cancel the prompt"
-                        },
-                        "full": {
-                          "type": "string",
-                          "required": true,
-                          "default": "Full",
-                          "title": "Full Text",
-                          "inputType": "Text",
-                          "validators": [],
-                          "help": "Enter the text for the button to select full text"
-                        },
-                        "reduced": {
-                          "type": "string",
-                          "required": true,
-                          "default": "Reduced",
-                          "title": "Reduced Text",
-                          "inputType": "Text",
-                          "validators": [],
-                          "help": "Enter the text for the button to select reduced text"
                         }
                       }
                     },
