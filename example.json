@@ -76,7 +76,19 @@
     },
     "_reducedTextisEnabled": true,
     "displayTitleReduced": "Reduced title",
-    "bodyReduced": "Reduced text"
+    "bodyReduced": "Reduced text",
+    "_feedback": {
+        "_isEnabled": true,
+        "_correct": "course/en/audio/***.mp3",
+        "_incorrect": {
+            "_notFinal": "course/en/audio/***.mp3",
+            "_final": "course/en/audio/***.mp3"
+        },
+        "_partlyCorrect": {
+            "_notFinal": "course/en/audio/***.mp3",
+            "_final": "course/en/audio/***.mp3"
+        }
+    }
 },
 
 // To go on menu page element in contentObjects.json
