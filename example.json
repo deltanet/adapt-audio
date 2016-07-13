@@ -76,7 +76,26 @@
     },
     "_reducedTextisEnabled": true,
     "displayTitleReduced": "Reduced title",
-    "bodyReduced": "Reduced text"
+    "bodyReduced": "Reduced text",
+    "_feedback": {
+        "_isEnabled": true,
+        "_correct": {
+            "correctReduced": "Reduced correct text.",
+            "_correct": "course/en/audio/***.mp3"
+        },
+        "_incorrect": {
+            "notFinalReduced": "Reduced incorrect notFinal text.",
+            "finalReduced": "Reduced incorrect final text.",
+            "_notFinal": "course/en/audio/***.mp3",
+            "_final": "course/en/audio/***.mp3"
+        },
+        "_partlyCorrect": {
+            "notFinalReduced": "Reduced partly correct notFinal text.",
+            "finalReduced": "Reduced partly correct final text.",
+            "_notFinal": "course/en/audio/***.mp3",
+            "_final": "course/en/audio/***.mp3"
+        }
+    }
 },
 
 // To go on menu page element in contentObjects.json

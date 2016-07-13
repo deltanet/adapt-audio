@@ -100,7 +100,7 @@ define(function(require) {
         initFeedback: function() {
             // Run a check to trigger only the current clip's feedback
             if(this.elementId == Adapt.audio.audioClip[this.audioChannel].newID) {
-                if(this.model.has('_feedback') && this.model.get('_feedback')._audio) {
+                if(this.model.get('_audio')._feedback && this.model.get('_audio')._feedback._isEnabled) {
                     this.initQuestionFeedbackAudio();
                 }
             }
@@ -111,36 +111,77 @@ define(function(require) {
             if (this.model.get('_isCorrect')) {
 
                 try {
-                    this.audioFile = this.model.get('_feedback')._audio._correct._media.src;
+                    this.audioFile = this.model.get('_audio')._feedback._correct._correct;
                 } catch(e) {
                     console.log('An error has occured loading audio');
+                }
+                // Reduced text
+                if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
+                    $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._correct.correctReduced).a11y_text();
                 }
 
             // Partly correct
             } else if (this.model.get('_isAtLeastOneCorrectSelection')) {
-
-                try {
-                    this.audioFile = this.model.get('_feedback')._audio._partlyCorrect._final._media.src;
-                } catch(e) {
-                    console.log('An error has occured loading audio');
+                // Final
+                if (this.model.get('_attemptsLeft') === 0) {
+                    try {
+                        this.audioFile = this.model.get('_audio')._feedback._partlyCorrect._final;
+                    } catch(e) {
+                        console.log('An error has occured loading audio');
+                    }
+                    // Reduced text
+                    if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
+                        $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._partlyCorrect.finalReduced).a11y_text();
+                    }
+                // Not final    
+                } else {
+                    try {
+                        this.audioFile = this.model.get('_audio')._feedback._partlyCorrect._notFinal;
+                    } catch(e) {
+                        console.log('An error has occured loading audio');
+                    }
+                    // Reduced text
+                    if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
+                        $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._partlyCorrect.notFinalReduced).a11y_text();
+                    }
                 }
 
             // Incorrect
             } else {
-
-                try {
-                    this.audioFile = this.model.get('_feedback')._audio._incorrect._final._media.src;
-                } catch(e) {
-                    console.log('An error has occured loading audio');
+                // Final
+                if (this.model.get('_attemptsLeft') === 0) {
+                    try {
+                        this.audioFile = this.model.get('_audio')._feedback._incorrect._final;
+                    } catch(e) {
+                        console.log('An error has occured loading audio');
+                    }
+                    // Reduced text
+                    if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
+                        $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._incorrect.finalReduced).a11y_text();
+                    }
+                // Not final    
+                } else {
+                    try {
+                        this.audioFile = this.model.get('_audio')._feedback._incorrect._notFinal;
+                    } catch(e) {
+                        console.log('An error has occured loading audio');
+                    }
+                    // Reduced text
+                    if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
+                        $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._incorrect.notFinalReduced).a11y_text();
+                    }
                 }
+
             }
+            
             if(Adapt.audio.audioClip[this.audioChannel].status==1){
                 Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
+
         },
 
         stopFeedbackAudio: function() {
-            if(this.model.get('_feedback') && this.model.get('_feedback')._audio) {
+            if(this.model.get('_audio')._feedback && this.model.get('_audio')._feedback._isEnabled) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             }
         },

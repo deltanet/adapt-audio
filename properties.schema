@@ -806,6 +806,129 @@
                   "inputType": "TextArea",
                   "validators": [],
                   "help": "Reduced text for the Component body"
+                },
+                "_audio": {
+                  "type": "object",
+                  "required": false,
+                  "title": "Feedback Audio",
+                  "properties": {
+                    "_isEnabled": {
+                      "type":"boolean",
+                      "required":false,
+                      "title": "Enabled",
+                      "inputType": { "type": "Boolean", "options": [false, true]},
+                      "validators": [],
+                      "help": "Turns Rewards on and off. Acceptable values are true and false."
+                    },
+                    "_correct": {
+                      "type":"object",
+                      "required":false,
+                      "properties":{
+                        "correctReduced": {
+                          "type":"string",
+                          "required":false,
+                          "default": "",
+                          "title": "Correct - Reduced Text",
+                          "inputType": "TextArea",
+                          "validators": ["required"],
+                          "help": "Correct feedback for this question when reduced text is shown"
+                        },
+                        "_correct": {
+                          "type": "string",
+                          "required": false,
+                          "default": "",
+                          "title": "Correct Audio",
+                          "inputType": "Asset:audio",
+                          "validators": [],
+                          "help": "Optional audio for correct feedback"
+                        }
+                      }
+                    },
+                    "_incorrect": {
+                      "type":"object",
+                      "required":false,
+                      "properties":{
+                        "notFinalReduced": {
+                          "type":"string",
+                          "required": false,
+                          "default": "",
+                          "title": "Incorrect Not Final - Reduced Text",
+                          "inputType": "TextArea",
+                          "validators": [],
+                          "help": "Incorrect feedback for any attempt apart from the last attempt when reduced text is shown"
+                        },
+                        "finalReduced": {
+                          "type":"string",
+                          "required": true,
+                          "default": "",
+                          "title": "Incorrect Final - Reduced Text",
+                          "inputType": "TextArea",
+                          "validators": ["required"],
+                          "help": "Incorrect feedback for the final attempt when reduced text is shown"
+                        },
+                        "_notFinal": {
+                          "type": "string",
+                          "required": false,
+                          "default": "",
+                          "title": "Incorrect Not Final Audio",
+                          "inputType": "Asset:audio",
+                          "validators": [],
+                          "help": "Optional audio for incorrect not final feedback"
+                        },
+                        "_final": {
+                          "type": "string",
+                          "required": false,
+                          "default": "",
+                          "title": "Incorrect Final Audio",
+                          "inputType": "Asset:audio",
+                          "validators": [],
+                          "help": "Optional audio for incorrect final feedback"
+                        }
+                      }
+                    },
+                    "_partlyCorrect": {
+                      "type":"object",
+                      "required":false,
+                      "properties":{
+                        "notFinalReduced": {
+                          "type":"string",
+                          "required": false,
+                          "default": "",
+                          "title": "Partly Correct Not Final - Reduced Text",
+                          "inputType": "TextArea",
+                          "validators": [],
+                          "help": "Partly correct feedback for any attempt apart from the last attempt when reduced text is shown"
+                        },
+                        "finalReduced": {
+                          "type":"string",
+                          "required": false,
+                          "default": "",
+                          "title": "Partly Correct Final - Reduced Text",
+                          "inputType": "TextArea",
+                          "validators": [],
+                          "help": "Partly correct feedback for the final attempt when reduced text is shown"
+                        },
+                        "_notFinal": {
+                          "type": "string",
+                          "required": false,
+                          "default": "",
+                          "title": "Partly Correct Not Final Audio",
+                          "inputType": "Asset:audio",
+                          "validators": [],
+                          "help": "Optional audio for partly correct not final"
+                        },
+                        "_final": {
+                          "type": "string",
+                          "required": false,
+                          "default": "",
+                          "title": "Partly Correct Final Audio",
+                          "inputType": "Asset:audio",
+                          "validators": [],
+                          "help": "Optional audio for partly correct final"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
