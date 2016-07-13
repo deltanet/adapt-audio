@@ -43,6 +43,14 @@ define(function(require) {
             this.elementId = this.model.get("_id");
             this.audioIcon = Adapt.course.get('_audio')._icons._audioOn;
 
+            this.autoplayOnce = this.model.get('_audio')._autoPlayOnce;
+
+            if(Adapt.audio.autoPlayGlobal && this.model.get("_audio")._autoplay){
+                this.canAutoplay = true;
+            } else {
+                this.canAutoplay = false;
+            }
+
             // Add audio icon
             this.$('.audio-toggle').addClass(this.audioIcon);
 
@@ -193,7 +201,7 @@ define(function(require) {
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
-            if (visible && Adapt.audio.autoPlayGlobal && this.model.get("_audio")._autoplay) {
+            if (visible && this.canAutoplay) {
                 if (visiblePartY === 'top') {
                     this._isVisibleTop = true;
                 } else if (visiblePartY === 'bottom') {
@@ -208,6 +216,10 @@ define(function(require) {
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
                         this.setAudioFile();
                         Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+                    }
+                    // Set to false to stop autoplay when inview again
+                    if(this.autoplayOnce) {
+                        this.canAutoplay = false;
                     }
                 }
             } else {
