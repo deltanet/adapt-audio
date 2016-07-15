@@ -41,7 +41,7 @@ define(function(require) {
             // Set vars
             this.audioChannel = this.model.get('_audio')._channel;
             this.elementId = this.model.get("_id");
-            this.audioIcon = Adapt.course.get('_audio')._icons._audioOn;
+            this.audioIcon = Adapt.audio.iconPlay;
 
             this.autoplayOnce = this.model.get('_audio')._autoPlayOnce;
 
