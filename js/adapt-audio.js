@@ -256,7 +256,7 @@ define([
     setContinueAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 0);
-      this.playCurrentAudio(0);
+      this.initAllChannels();
       this.stopListening(Adapt, "audio:selectContinueAudioOn");
     },
 
@@ -284,6 +284,15 @@ define([
       Adapt.trigger('audio:updateAudioStatus', 0,1);
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOn");
+    },
+
+    initAllChannels: function(){
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.audio.audioClip[i].play();
+        Adapt.audio.audioClip[i].isPlaying = true;
+        Adapt.audio.audioClip[i].pause();
+        Adapt.audio.audioClip[i].isPlaying = false;
+      }
     },
 
     playCurrentAudio: function(channel){
