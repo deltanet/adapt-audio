@@ -284,32 +284,32 @@
                   "properties":{
                     "_audioOn": {
                       "type": "string",
-                      "required": false,
-                      "default": "icon icon-sound",
+                      "required": true,
+                      "default": "icon-audio-on icon-volume-medium",
                       "title": "Audio On Icon",
                       "inputType": "Text",
                       "validators": []
                     },
                     "_audioOff": {
                       "type": "string",
-                      "required": false,
-                      "default": "icon icon-sound-mute",
+                      "required": true,
+                      "default": "icon-audio-off icon-volume-mute2",
                       "title": "Audio Off Icon",
                       "inputType": "Text",
                       "validators": []
                     },
                     "_audioPlay": {
                       "type": "string",
-                      "required": false,
-                      "default": "icon icon-sound",
+                      "required": true,
+                      "default": "icon-audio-play icon-play2",
                       "title": "Play Icon",
                       "inputType": "Text",
                       "validators": []
                     },
                     "_audioPause": {
                       "type": "string",
-                      "required": false,
-                      "default": "icon-audio-pause",
+                      "required": true,
+                      "default": "icon-audio-pause icon-pause",
                       "title": "Pause Icon",
                       "inputType": "Text",
                       "validators": []
