@@ -138,12 +138,16 @@ define([
 
       var audioPromptModel = Adapt.course.get('_audio')._prompt;
 
-      this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
-      this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
+      this.listenToOnce(Adapt, "audio:fullTextAudioOn", this.setFullTextAudioOn);
+      this.listenToOnce(Adapt, "audio:reducedTextAudioOn", this.setReducedTextAudioOn);
 
-      this.listenToOnce(Adapt, "audio:selectContinue", this.setContinue);
+      this.listenToOnce(Adapt, "audio:fullTextAudioOff", this.setFullTextAudioOff);
+      this.listenToOnce(Adapt, "audio:reducedTextAudioOff", this.setReducedTextAudioOff);
+
+      this.listenToOnce(Adapt, "audio:selectContinueAudioOn", this.setContinueAudioOn);
+      this.listenToOnce(Adapt, "audio:selectContinueAudioOff", this.setContinueAudioOff);
+
       this.listenToOnce(Adapt, "audio:selectOff", this.setAudioOff);
-
       this.listenToOnce(Adapt, "audio:selectOn", this.setAudioOn);
 
       // If audio is off
@@ -156,11 +160,11 @@ define([
             _prompts:[
                 {
                     promptText: audioPromptModel._buttons.full,
-                    _callbackEvent: "audio:fullText",
+                    _callbackEvent: "audio:fullTextAudioOff",
                 },
                 {
                     promptText: audioPromptModel._buttons.reduced,
-                    _callbackEvent: "audio:reducedText",
+                    _callbackEvent: "audio:reducedTextAudioOff",
                 }
             ],
             _showIcon: false
@@ -173,7 +177,7 @@ define([
             _prompts:[
                 {
                     promptText: audioPromptModel._buttons.continue,
-                    _callbackEvent: "audio:selectContinue",
+                    _callbackEvent: "audio:selectContinueAudioOff",
                 },
                 {
                     promptText: audioPromptModel._buttons.turnOn,
@@ -192,11 +196,11 @@ define([
             _prompts:[
                 {
                     promptText: audioPromptModel._buttons.full,
-                    _callbackEvent: "audio:fullText",
+                    _callbackEvent: "audio:fullTextAudioOn",
                 },
                 {
                     promptText: audioPromptModel._buttons.reduced,
-                    _callbackEvent: "audio:reducedText",
+                    _callbackEvent: "audio:reducedTextAudioOn",
                 }
             ],
             _showIcon: false
@@ -209,7 +213,7 @@ define([
             _prompts:[
                 {
                     promptText: audioPromptModel._buttons.continue,
-                    _callbackEvent: "audio:selectContinue",
+                    _callbackEvent: "audio:selectContinueAudioOn",
                 },
                 {
                     promptText: audioPromptModel._buttons.turnOff,
@@ -223,25 +227,43 @@ define([
       Adapt.trigger('notify:prompt', audioPromptObject);
     },
 
-    setFullText: function() {
+    setFullTextAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 0);
       this.playCurrentAudio(0);
-      this.stopListening(Adapt, "audio:fullText");
+      this.stopListening(Adapt, "audio:fullTextAudioOn");
     },
 
-    setReducedText: function() {
+    setFullTextAudioOff: function() {
+      Adapt.audio.audioStatus = 0;
+      Adapt.trigger('audio:changeText', 0);
+      this.stopListening(Adapt, "audio:fullTextAudioOff");
+    },
+
+    setReducedTextAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 1);
       this.playCurrentAudio(0);
-      this.stopListening(Adapt, "audio:reducedText");
+      this.stopListening(Adapt, "audio:reducedTextAudioOn");
     },
 
-    setContinue: function() {
+    setReducedTextAudioOff: function() {
+      Adapt.audio.audioStatus = 0;
+      Adapt.trigger('audio:changeText', 1);
+      this.stopListening(Adapt, "audio:reducedTextAudioOff");
+    },
+
+    setContinueAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 0);
       this.playCurrentAudio(0);
-      this.stopListening(Adapt, "audio:selectContinue");
+      this.stopListening(Adapt, "audio:selectContinueAudioOn");
+    },
+
+    setContinueAudioOff: function() {
+      Adapt.audio.audioStatus = 0;
+      Adapt.trigger('audio:changeText', 0);
+      this.stopListening(Adapt, "audio:selectContinueAudioOn");
     },
 
     setAudioOff: function() {
