@@ -254,8 +254,12 @@ define([
         $(audioHTMLId).removeClass('fa-play');
         $(audioHTMLId).addClass('fa-pause');
         $(audioHTMLId).addClass('playing');
-        $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").attr( "disabled", "disabled" ).addClass( "disabled" ).css("pointer-events","none"); //ADDED DISABLING ON RIGHT SLIDER BUTTON
-        $(".article-block-slider-enabled "+audioHTMLId).attr( "disabled", "disabled" ).removeClass( "fa-replay" ).addClass( "fa-play" ).css("opacity","0"); //ADDED DISABLING OF THE AUDIO PLAY BUTTON
+        if ($(".article-block-slider-enabled "+audioHTMLId).hasClass("playedonce")){
+              $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").css("pointer-events","auto").css("opacity","1"); // BLOCK NEXT IS REMOVED AS AUDIO HAS PLAYED ONCE
+          } else {
+              $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").attr( "disabled", "disabled" ).addClass( "disabled" ).css("pointer-events","none").css("opacity","0"); // BLOCK NEXT LEFT IN AS AUDIO HASN'T PLAYED ONCE
+          }
+        $(".article-block-slider-enabled "+audioHTMLId).removeClass( "fa-replay" ).addClass( "fa-play" ).css("opacity","1"); //.attr( "disabled", "disabled" ) ADDED DISABLING OF THE AUDIO PLAY BUTTON
       } catch(e) {
         console.error("audio error");
       }
@@ -266,8 +270,8 @@ define([
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('fa-pause');
         $('#'+Adapt.audio.audioClip[channel].playingID).addClass('fa-play');
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
-        $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto"); //REMOVED DISABLING ON RIGHT SLIDER BUTTON
-        $(".article-block-slider-enabled #"+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "fa-play" ).addClass( "fa-replay" ).css("opacity","1"); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
+        $(".article-block-slider-enabled .item-button-arrow[data-block-slider='right']").removeAttr("disabled").removeClass( "disabled" ).css("pointer-events","auto").css("opacity","1"); //REMOVED DISABLING ON RIGHT SLIDER BUTTON
+        $(".article-block-slider-enabled #"+Adapt.audio.audioClip[channel].playingID).removeAttr("disabled").removeClass( "fa-play" ).addClass( "fa-replay" ).addClass( "playedonce" ).css("opacity","1"); //REMOVED DISABLING OF THE AUDIO PLAY BUTTON
       } catch(e) {
         console.error("audio error");
       }
