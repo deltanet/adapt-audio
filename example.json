@@ -3,7 +3,7 @@
         "_isEnabled": true,
         "_reducedTextisEnabled": true,
         "_autoplay": true,
-        "_showOnNavbar": false,
+        "_showOnNavbar": true,
         "title": "Audio",
         "description": "Click here to view the audio settings for this course.",
         "_channels": {
@@ -39,21 +39,25 @@
             }
         },
         "_icons": {
-            "_audioOn": "icon-audio-on",
-            "_audioOff": "icon-audio-off",
+            "_audioOn": "icon icon-sound",
+            "_audioOff": "icon icon-sound-mute",
+            "_audioPlay": "icon icon-sound",
             "_audioPause": "icon-audio-pause"
         },
         "_prompt": {
             "_isEnabled": true,
             "title": "Audio and text settings",
-            "body": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
             "titleNoReduced": "Audio setting",
-            "bodyNoReduced": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
+            "bodyAudioOn": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
+            "bodyAudioOff": "Audio is turned off by default in this module. You can turn the audio on or off at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
+            "bodyNoReducedAudioOn": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
+            "bodyNoReducedAudioOff": "Audio is turned off by default in this module. Please select Continue or Turn audio on (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
             "_buttons": {
                 "full": "Full",
                 "reduced": "Reduced",
                 "continue": "Continue",
-                "turnOff": "Turn audio off"
+                "turnOff": "Turn audio off",
+                "turnOn": "Turn audio on"
             },
             "_graphic": {
                 "src": "adapt/css/assets/audio-icon.png"

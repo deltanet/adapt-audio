@@ -66,6 +66,7 @@ define([
       // Get names for icons from course.config
       Adapt.audio.iconOn = Adapt.course.get('_audio')._icons._audioOn;
       Adapt.audio.iconOff = Adapt.course.get('_audio')._icons._audioOff;
+      Adapt.audio.iconPlay = Adapt.course.get('_audio')._icons._audioPlay;
       Adapt.audio.iconPause = Adapt.course.get('_audio')._icons._audioPause;
 
       // Set number of audio channels specified in the course JSON
@@ -80,15 +81,16 @@ define([
       Adapt.audio.audioClip[1].status = Adapt.course.get('_audio')._channels._effects._status;
       Adapt.audio.audioClip[2].status = Adapt.course.get('_audio')._channels._music._status;
 
-      // Collect saved audio status
-      Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
-      // If status is not zero then presume one hasn't been stored and set to default on
-      if(Adapt.audio.audioStatus !== 0) {
-        Adapt.audio.audioStatus = 1;
+      // If audio level has not been set
+      if((typeof Adapt.offlineStorage.get("audio_level") === "undefined") || (Adapt.offlineStorage.get("audio_level") == "")) {
+        Adapt.audio.audioStatus = Adapt.audio.audioClip[0].status;
       } else {
-        Adapt.audio.audioClip[0].status = 0;
-        Adapt.audio.audioClip[1].status = 0;
-        Adapt.audio.audioClip[2].status = 0;
+        // Set to saved audio status
+        Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
+        // Set all channels based on saved preference
+        for (var i = 0; i < Adapt.audio.numChannels; i++) {
+          Adapt.audio.audioClip[i].status = Adapt.audio.audioStatus;
+        }
       }
 
       // Assign variables to each audio object
@@ -136,69 +138,132 @@ define([
 
       var audioPromptModel = Adapt.course.get('_audio')._prompt;
 
-      this.listenToOnce(Adapt, "audio:fullText", this.setFullText);
-      this.listenToOnce(Adapt, "audio:reducedText", this.setReducedText);
+      this.listenToOnce(Adapt, "audio:fullTextAudioOn", this.setFullTextAudioOn);
+      this.listenToOnce(Adapt, "audio:reducedTextAudioOn", this.setReducedTextAudioOn);
 
-      this.listenToOnce(Adapt, "audio:selectContinue", this.setContinue);
+      this.listenToOnce(Adapt, "audio:fullTextAudioOff", this.setFullTextAudioOff);
+      this.listenToOnce(Adapt, "audio:reducedTextAudioOff", this.setReducedTextAudioOff);
+
+      this.listenToOnce(Adapt, "audio:selectContinueAudioOn", this.setContinueAudioOn);
+      this.listenToOnce(Adapt, "audio:selectContinueAudioOff", this.setContinueAudioOff);
+
       this.listenToOnce(Adapt, "audio:selectOff", this.setAudioOff);
+      this.listenToOnce(Adapt, "audio:selectOn", this.setAudioOn);
 
-      if(this.reducedTextEnabled) {
-        var audioPromptObject = {
-          header: Adapt.course.get('_audio')._prompt._graphic.src,
-          title: audioPromptModel.title,
-          body: audioPromptModel.body,
-          _prompts:[
-              {
-                  promptText: audioPromptModel._buttons.full,
-                  _callbackEvent: "audio:fullText",
-              },
-              {
-                  promptText: audioPromptModel._buttons.reduced,
-                  _callbackEvent: "audio:reducedText",
-              }
-          ],
-          _showIcon: false
+      // If audio is off
+      if(Adapt.audio.audioStatus == 0) {
+        if(this.reducedTextEnabled) {
+          var audioPromptObject = {
+            header: Adapt.course.get('_audio')._prompt._graphic.src,
+            title: audioPromptModel.title,
+            body: audioPromptModel.bodyAudioOff,
+            _prompts:[
+                {
+                    promptText: audioPromptModel._buttons.full,
+                    _callbackEvent: "audio:fullTextAudioOff",
+                },
+                {
+                    promptText: audioPromptModel._buttons.reduced,
+                    _callbackEvent: "audio:reducedTextAudioOff",
+                }
+            ],
+            _showIcon: false
+          }
+        } else {
+          var audioPromptObject = {
+            header: Adapt.course.get('_audio')._prompt._graphic.src,
+            title: audioPromptModel.titleNoReduced,
+            body: audioPromptModel.bodyNoReducedAudioOff,
+            _prompts:[
+                {
+                    promptText: audioPromptModel._buttons.continue,
+                    _callbackEvent: "audio:selectContinueAudioOff",
+                },
+                {
+                    promptText: audioPromptModel._buttons.turnOn,
+                    _callbackEvent: "audio:selectOn",
+                }
+            ],
+            _showIcon: false
+          }
         }
       } else {
-        var audioPromptObject = {
-          header: Adapt.course.get('_audio')._prompt._graphic.src,
-          title: audioPromptModel.titleNoReduced,
-          body: audioPromptModel.bodyNoReduced,
-          _prompts:[
-              {
-                  promptText: audioPromptModel._buttons.continue,
-                  _callbackEvent: "audio:selectContinue",
-              },
-              {
-                  promptText: audioPromptModel._buttons.turnOff,
-                  _callbackEvent: "audio:selectOff",
-              }
-          ],
-          _showIcon: false
+        if(this.reducedTextEnabled) {
+          var audioPromptObject = {
+            header: Adapt.course.get('_audio')._prompt._graphic.src,
+            title: audioPromptModel.title,
+            body: audioPromptModel.bodyAudioOn,
+            _prompts:[
+                {
+                    promptText: audioPromptModel._buttons.full,
+                    _callbackEvent: "audio:fullTextAudioOn",
+                },
+                {
+                    promptText: audioPromptModel._buttons.reduced,
+                    _callbackEvent: "audio:reducedTextAudioOn",
+                }
+            ],
+            _showIcon: false
+          }
+        } else {
+          var audioPromptObject = {
+            header: Adapt.course.get('_audio')._prompt._graphic.src,
+            title: audioPromptModel.titleNoReduced,
+            body: audioPromptModel.bodyNoReducedAudioOn,
+            _prompts:[
+                {
+                    promptText: audioPromptModel._buttons.continue,
+                    _callbackEvent: "audio:selectContinueAudioOn",
+                },
+                {
+                    promptText: audioPromptModel._buttons.turnOff,
+                    _callbackEvent: "audio:selectOff",
+                }
+            ],
+            _showIcon: false
+          }
         }
       }
       Adapt.trigger('notify:prompt', audioPromptObject);
     },
 
-    setFullText: function() {
+    setFullTextAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 0);
       this.playCurrentAudio(0);
-      this.stopListening(Adapt, "audio:fullText");
+      this.stopListening(Adapt, "audio:fullTextAudioOn");
     },
 
-    setReducedText: function() {
+    setFullTextAudioOff: function() {
+      Adapt.audio.audioStatus = 0;
+      Adapt.trigger('audio:changeText', 0);
+      this.stopListening(Adapt, "audio:fullTextAudioOff");
+    },
+
+    setReducedTextAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 1);
       this.playCurrentAudio(0);
-      this.stopListening(Adapt, "audio:reducedText");
+      this.stopListening(Adapt, "audio:reducedTextAudioOn");
     },
 
-    setContinue: function() {
+    setReducedTextAudioOff: function() {
+      Adapt.audio.audioStatus = 0;
+      Adapt.trigger('audio:changeText', 1);
+      this.stopListening(Adapt, "audio:reducedTextAudioOff");
+    },
+
+    setContinueAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 0);
-      this.playCurrentAudio(0);
-      this.stopListening(Adapt, "audio:selectContinue");
+      this.initAllChannels();
+      this.stopListening(Adapt, "audio:selectContinueAudioOn");
+    },
+
+    setContinueAudioOff: function() {
+      Adapt.audio.audioStatus = 0;
+      Adapt.trigger('audio:changeText', 0);
+      this.stopListening(Adapt, "audio:selectContinueAudioOn");
     },
 
     setAudioOff: function() {
@@ -209,6 +274,26 @@ define([
       Adapt.trigger('audio:updateAudioStatus', 0,0);
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOff");
+    },
+
+    setAudioOn: function() {
+      Adapt.audio.audioStatus = 1;
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
+      }
+      Adapt.trigger('audio:updateAudioStatus', 0,1);
+      Adapt.trigger('audio:changeText', 0);
+      this.stopListening(Adapt, "audio:selectOn");
+    },
+// hack to enable autoplay on iOS devices
+// TODO find a more permenant solution to iOS autoplay
+    initAllChannels: function(){
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.audio.audioClip[i].play();
+        Adapt.audio.audioClip[i].isPlaying = true;
+        Adapt.audio.audioClip[i].pause();
+        Adapt.audio.audioClip[i].isPlaying = false;
+      }
     },
 
     playCurrentAudio: function(channel){
@@ -270,7 +355,7 @@ define([
     showAudioIcon: function(channel) {
       var audioHTMLId = '#'+Adapt.audio.audioClip[channel].newID;
       try {
-        $(audioHTMLId).removeClass(Adapt.audio.iconOn);
+        $(audioHTMLId).removeClass(Adapt.audio.iconPlay);
         $(audioHTMLId).addClass(Adapt.audio.iconPause);
         $(audioHTMLId).addClass('playing');
       } catch(e) {
@@ -281,7 +366,7 @@ define([
     hideAudioIcon: function(channel) {
       try {
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass(Adapt.audio.iconPause);
-        $('#'+Adapt.audio.audioClip[channel].playingID).addClass(Adapt.audio.iconOn);
+        $('#'+Adapt.audio.audioClip[channel].playingID).addClass(Adapt.audio.iconPlay);
         $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
       } catch(e) {
         console.error("audio error");
@@ -292,11 +377,14 @@ define([
       Adapt.audio.audioClip[channel].status = value;
       // Pause audio channel
       Adapt.trigger('audio:pauseAudio', channel);
-      // Check for narration channel being on
-      if(Adapt.audio.audioClip[0].status==1){
+      // Set to off
+      Adapt.audio.audioStatus = 0;
+      // Check for any channel being on
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        console.log("Channel "+i+" = "+Adapt.audio.audioClip[i].status);
+        if(Adapt.audio.audioClip[i].status==1){
           Adapt.audio.audioStatus = 1;
-        } else {
-          Adapt.audio.audioStatus = 0;
+        }
       }
       // Store audio preference
       Adapt.offlineStorage.set("audio_level", Adapt.audio.audioStatus);

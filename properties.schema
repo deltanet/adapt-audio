@@ -46,7 +46,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": true,
-                  "title": "Show Audio Pause/Play Icon",
+                  "title": "Show Audio Pause/Play Icon on the navigation bar",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": []
                 },
@@ -284,24 +284,32 @@
                   "properties":{
                     "_audioOn": {
                       "type": "string",
-                      "required": false,
-                      "default": "icon-audio-on",
+                      "required": true,
+                      "default": "icon-audio-on icon-volume-medium",
                       "title": "Audio On Icon",
                       "inputType": "Text",
                       "validators": []
                     },
                     "_audioOff": {
                       "type": "string",
-                      "required": false,
-                      "default": "icon-audio-off",
+                      "required": true,
+                      "default": "icon-audio-off icon-volume-mute2",
                       "title": "Audio Off Icon",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "_audioPlay": {
+                      "type": "string",
+                      "required": true,
+                      "default": "icon-audio-play icon-play2",
+                      "title": "Play Icon",
                       "inputType": "Text",
                       "validators": []
                     },
                     "_audioPause": {
                       "type": "string",
-                      "required": false,
-                      "default": "icon-audio-pause",
+                      "required": true,
+                      "default": "icon-audio-pause icon-pause",
                       "title": "Pause Icon",
                       "inputType": "Text",
                       "validators": []
@@ -329,14 +337,6 @@
                       "inputType": "Text",
                       "validators": []
                     },
-                    "body": {
-                      "type": "string",
-                      "required": true,
-                      "default": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the audio icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the audio icon).",
-                      "title": "Prompt Message",
-                      "inputType": "Text",
-                      "validators": []
-                    },
                     "titleNoReduced": {
                       "type": "string",
                       "required": false,
@@ -345,11 +345,35 @@
                       "inputType": "Text",
                       "validators": []
                     },
-                    "bodyNoReduced": {
+                    "bodyAudioOn": {
+                      "type": "string",
+                      "required": true,
+                      "default": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the audio icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the audio icon).",
+                      "title": "Prompt Message if Audio is On",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "bodyAudioOff": {
+                      "type": "string",
+                      "required": true,
+                      "default": "Audio is turned off by default in this module. You can turn the audio on or off at any time by selecting the audio icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the audio icon).",
+                      "title": "Prompt Message if Audio is On",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "bodyNoReducedAudioOn": {
                       "type": "string",
                       "required": false,
                       "default": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the audio icon).",
-                      "title": "Reduced Text Prompt Message",
+                      "title": "Prompt Message if Audio is On and Reduced text is Off",
+                      "inputType": "Text",
+                      "validators": []
+                    },
+                    "bodyNoReducedAudioOff": {
+                      "type": "string",
+                      "required": false,
+                      "default": "Audio is turned off by default in this module. Please select Continue or Turn audio on (you can change your preference at any time by selecting the audio icon).",
+                      "title": "Prompt Message if Audio is Off and Reduced text is Off",
                       "inputType": "Text",
                       "validators": []
                     },
@@ -392,6 +416,15 @@
                           "inputType": "Text",
                           "validators": [],
                           "help": "Enter the text for the button to turn audio off"
+                        },
+                        "turnOn": {
+                          "type": "string",
+                          "required": true,
+                          "default": "Turn audio on",
+                          "title": "Turn On Button",
+                          "inputType": "Text",
+                          "validators": [],
+                          "help": "Enter the text for the button to turn audio on"
                         }
                       }
                     },

@@ -9,6 +9,7 @@ define(function(require) {
 
         initialize: function() {
             this.listenTo(Adapt, 'remove', this.remove);
+            this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.render();
         },
 
@@ -21,9 +22,25 @@ define(function(require) {
             var template = Handlebars.templates["audioToggle"];
             this.$el.html(template(data)).appendTo('#wrapper'+'>.navigation'+'>.navigation-inner');
 
-            this.$('.audio-nav-toggle').addClass(Adapt.audio.iconOn);
+            // Check for audio being on
+            if(Adapt.audio.audioStatus == 1){
+                this.$('.audio-nav-toggle').addClass(Adapt.audio.iconOn);
+            } else {
+                this.$('.audio-nav-toggle').addClass(Adapt.audio.iconOff);
+            }
 
             return this;
+        },
+
+        updateToggle: function(){
+            // Update based on overall audio status
+            if(Adapt.audio.audioStatus == 1){
+                this.$('.audio-nav-toggle').removeClass(Adapt.audio.iconOff);
+                this.$('.audio-nav-toggle').addClass(Adapt.audio.iconOn);
+            } else {
+                this.$('.audio-nav-toggle').removeClass(Adapt.audio.iconOn);
+                this.$('.audio-nav-toggle').addClass(Adapt.audio.iconOff);
+            }
         },
 
         toggleAudio: function(event) {
