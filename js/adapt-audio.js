@@ -285,7 +285,8 @@ define([
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOn");
     },
-
+// hack to enable autoplay on iOS devices
+// TODO find a more permenant solution to iOS autoplay
     initAllChannels: function(){
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.audio.audioClip[i].play();
