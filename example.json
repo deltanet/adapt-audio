@@ -3,7 +3,7 @@
         "_isEnabled": true,
         "_reducedTextisEnabled": true,
         "_autoplay": true,
-        "_showOnNavbar": false,
+        "_showOnNavbar": true,
         "title": "Audio",
         "description": "Click here to view the audio settings for this course.",
         "_channels": {

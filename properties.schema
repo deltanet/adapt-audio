@@ -46,7 +46,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": true,
-                  "title": "Show Audio Pause/Play Icon",
+                  "title": "Show Audio Pause/Play Icon on the navigation bar",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": []
                 },

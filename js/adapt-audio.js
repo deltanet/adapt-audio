@@ -377,11 +377,14 @@ define([
       Adapt.audio.audioClip[channel].status = value;
       // Pause audio channel
       Adapt.trigger('audio:pauseAudio', channel);
-      // Check for narration channel being on
-      if(Adapt.audio.audioClip[0].status==1){
+      // Set to off
+      Adapt.audio.audioStatus = 0;
+      // Check for any channel being on
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        console.log("Channel "+i+" = "+Adapt.audio.audioClip[i].status);
+        if(Adapt.audio.audioClip[i].status==1){
           Adapt.audio.audioStatus = 1;
-        } else {
-          Adapt.audio.audioStatus = 0;
+        }
       }
       // Store audio preference
       Adapt.offlineStorage.set("audio_level", Adapt.audio.audioStatus);
