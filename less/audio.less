@@ -11,6 +11,9 @@
             color: @navigation-icon-color-hover;
         }
     }
+    &.hidden {
+        display: none;
+    }
 }
 
 .audio-controls {
@@ -23,6 +26,9 @@
         .transition-all-colors;
         &:hover{
             background-color: @item-color-hover;
+        }
+        &.hidden {
+            display: none;
         }
     }
     &.article-audio {
@@ -57,22 +63,25 @@
 }
 
 ///// Styling classes /////
-.top-left,
-.bottom-left {
-    float:left;
-    .dir-rtl & {
+.audio-inner {
+    .top-left,
+    .bottom-left {
+        float:left;
+        .dir-rtl & {
+            float:right;
+        }
+    }
+
+    .top-right,
+    .bottom-right {
         float:right;
+        .dir-rtl & {
+          float:left;
+        }
     }
 }
 
-.top-right,
-.bottom-right {
-    float:right;
-    .dir-rtl & {
-      float:left;
-    }
-}
-
+// Notify prompt styling
 .audio-notify-icon {
     padding-left: 10px;
     padding-right: 10px;
