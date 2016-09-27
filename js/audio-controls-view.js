@@ -15,9 +15,9 @@ define(function(require) {
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenTo(Adapt, "audio:changeText", this.replaceText);
+            this.listenTo(Adapt, "trickle:done", this.onTrickleDone);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
-            this.render();
         },
 
         events: {
@@ -74,14 +74,19 @@ define(function(require) {
         },
 
         postRender: function() {
-            // Add inview listener on audio element
-            this.$('.audio-inner').on('inview', _.bind(this.inview, this));
-            // Run function to check for reduced text
-            this.replaceText(Adapt.audio.textSize);
+          // Add inview listener on entire element
+          $('.'+this.elementId).on('inview', _.bind(this.inview, this));
+          // Run function to check for reduced text
+          this.replaceText(Adapt.audio.textSize);
         },
 
         reRender: function() {
             this.setAudioFile();
+        },
+
+        // Fix for trickle  - Wait until trickle has finished before loading audio
+        onTrickleDone: function() {
+          this.render();
         },
 
         setAudioFile: function() {
@@ -141,7 +146,7 @@ define(function(require) {
                     if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
                         $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._partlyCorrect.finalReduced).a11y_text();
                     }
-                // Not final    
+                // Not final
                 } else {
                     try {
                         this.audioFile = this.model.get('_audio')._feedback._partlyCorrect._notFinal;
@@ -167,7 +172,7 @@ define(function(require) {
                     if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
                         $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._incorrect.finalReduced).a11y_text();
                     }
-                // Not final    
+                // Not final
                 } else {
                     try {
                         this.audioFile = this.model.get('_audio')._feedback._incorrect._notFinal;
@@ -181,7 +186,7 @@ define(function(require) {
                 }
 
             }
-            
+
             if(Adapt.audio.audioClip[this.audioChannel].status==1){
                 Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
@@ -214,8 +219,8 @@ define(function(require) {
                 if (this._isVisibleTop && this._isVisibleBottom) {
                     // Check if audio is set to on
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
-                        this.setAudioFile();
-                        Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+                      this.setAudioFile();
+                      Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
                     }
                     // Set to false to stop autoplay when inview again
                     if(this.autoplayOnce) {
@@ -259,7 +264,7 @@ define(function(require) {
         },
 
         removeInViewListeners: function () {
-            this.$('.audio-inner').off('inview');
+            $('.'+this.elementId).off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         },
 
