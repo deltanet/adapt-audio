@@ -878,7 +878,7 @@
                       "title": "Enabled",
                       "inputType": { "type": "Boolean", "options": [false, true]},
                       "validators": [],
-                      "help": "Turns Rewards on and off. Acceptable values are true and false."
+                      "help": "Turns feedback audio on and off. Acceptable values are true and false."
                     },
                     "_correct": {
                       "type":"object",
@@ -890,7 +890,7 @@
                           "default": "",
                           "title": "Correct - Reduced Text",
                           "inputType": "TextArea",
-                          "validators": ["required"],
+                          "validators": [],
                           "help": "Correct feedback for this question when reduced text is shown"
                         },
                         "_correct": {
@@ -923,7 +923,7 @@
                           "default": "",
                           "title": "Incorrect Final - Reduced Text",
                           "inputType": "TextArea",
-                          "validators": ["required"],
+                          "validators": [],
                           "help": "Incorrect feedback for the final attempt when reduced text is shown"
                         },
                         "_notFinal": {
