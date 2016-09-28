@@ -285,7 +285,7 @@
                     "_audioOn": {
                       "type": "string",
                       "required": true,
-                      "default": "icon-audio-on icon-volume-medium",
+                      "default": "icon-audio-on audio-volume-medium",
                       "title": "Audio On Icon",
                       "inputType": "Text",
                       "validators": []
@@ -293,7 +293,7 @@
                     "_audioOff": {
                       "type": "string",
                       "required": true,
-                      "default": "icon-audio-off icon-volume-mute2",
+                      "default": "icon-audio-off audio-volume-mute",
                       "title": "Audio Off Icon",
                       "inputType": "Text",
                       "validators": []
@@ -301,7 +301,7 @@
                     "_audioPlay": {
                       "type": "string",
                       "required": true,
-                      "default": "icon-audio-play icon-play2",
+                      "default": "icon-audio-play audio-play",
                       "title": "Play Icon",
                       "inputType": "Text",
                       "validators": []
@@ -309,7 +309,7 @@
                     "_audioPause": {
                       "type": "string",
                       "required": true,
-                      "default": "icon-audio-pause icon-pause",
+                      "default": "icon-audio-pause audio-pause",
                       "title": "Pause Icon",
                       "inputType": "Text",
                       "validators": []

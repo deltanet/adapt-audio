@@ -57,7 +57,6 @@ define([
 
       // Define audio model for all other views and components to reference
       Adapt.audio = {};
-      Adapt.audio.audioChannel = new Array();
       Adapt.audio.audioClip = new Array();
 
       // Set global course autoplay based on course JSON.
@@ -99,6 +98,7 @@ define([
         Adapt.audio.audioClip[i].playingID = "";
         Adapt.audio.audioClip[i].newID = "";
         Adapt.audio.audioClip[i].prevID = "";
+        console.log(Adapt.audio.audioClip[i].status);
       }
 
       // Reduced text - Only available if audio is enabled
@@ -381,8 +381,7 @@ define([
       Adapt.audio.audioStatus = 0;
       // Check for any channel being on
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        console.log("Channel "+i+" = "+Adapt.audio.audioClip[i].status);
-        if(Adapt.audio.audioClip[i].status==1){
+        if(Adapt.audio.audioClip[i].status == 1){
           Adapt.audio.audioStatus = 1;
         }
       }
