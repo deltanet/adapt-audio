@@ -15,7 +15,6 @@ define(function(require) {
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenTo(Adapt, "audio:changeText", this.replaceText);
-            this.listenTo(Adapt, "trickle:done", this.onTrickleDone);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
             this.render();
@@ -83,11 +82,6 @@ define(function(require) {
 
         reRender: function() {
             this.setAudioFile();
-        },
-
-        // Fix for trickle  - Wait until trickle has finished before loading audio
-        onTrickleDone: function() {
-          //this.render();
         },
 
         setAudioFile: function() {

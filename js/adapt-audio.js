@@ -98,7 +98,6 @@ define([
         Adapt.audio.audioClip[i].playingID = "";
         Adapt.audio.audioClip[i].newID = "";
         Adapt.audio.audioClip[i].prevID = "";
-        console.log(Adapt.audio.audioClip[i].status);
       }
 
       // Reduced text - Only available if audio is enabled
