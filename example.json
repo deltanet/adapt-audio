@@ -39,10 +39,10 @@
             }
         },
         "_icons": {
-            "_audioOn": "icon icon-sound",
-            "_audioOff": "icon icon-sound-mute",
-            "_audioPlay": "icon icon-sound",
-            "_audioPause": "icon-audio-pause"
+            "_audioOn": "icon-audio-on audio-volume-medium",
+            "_audioOff": "icon-audio-off audio-volume-mute",
+            "_audioPlay": "icon-audio-play audio-play",
+            "_audioPause": "icon-audio-pause audio-stop"
         },
         "_prompt": {
             "_isEnabled": true,

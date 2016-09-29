@@ -15,9 +15,9 @@ define(function(require) {
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenTo(Adapt, "audio:changeText", this.replaceText);
-            this.listenTo(Adapt, "trickle:done", this.onTrickleDone);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.preRender();
+            this.render();
         },
 
         events: {
@@ -82,11 +82,6 @@ define(function(require) {
 
         reRender: function() {
             this.setAudioFile();
-        },
-
-        // Fix for trickle  - Wait until trickle has finished before loading audio
-        onTrickleDone: function() {
-          this.render();
         },
 
         setAudioFile: function() {
@@ -255,8 +250,7 @@ define(function(require) {
         },
 
         updateToggle: function(){
-            console.log(this.elementId +" = "+Adapt.audio.audioClip[this.audioChannel].status);
-            if(Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls==true){
+            if(Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls == true){
                 this.$('.audio-inner button').show();
             } else {
                 this.$('.audio-inner button').hide();
