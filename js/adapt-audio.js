@@ -149,12 +149,18 @@ define([
       this.listenToOnce(Adapt, "audio:selectOff", this.setAudioOff);
       this.listenToOnce(Adapt, "audio:selectOn", this.setAudioOn);
 
+      // Set variable to use when adding the image to the notify popup
+      if(Adapt.course.get('_audio')._prompt._graphic && !Adapt.course.get('_audio')._prompt._graphic.src == "") {
+        var headerImage = "<div class='audio-prompt-image'><img src='"+Adapt.course.get('_audio')._prompt._graphic.src+"'/></div>";
+      } else {
+        var headerImage = "";
+      }
+
       // If audio is off
       if(Adapt.audio.audioStatus == 0) {
         if(this.reducedTextEnabled) {
           var audioPromptObject = {
-            header: Adapt.course.get('_audio')._prompt._graphic.src,
-            title: audioPromptModel.title,
+            title: headerImage+audioPromptModel.title,
             body: audioPromptModel.bodyAudioOff,
             _prompts:[
                 {
@@ -170,8 +176,7 @@ define([
           }
         } else {
           var audioPromptObject = {
-            header: Adapt.course.get('_audio')._prompt._graphic.src,
-            title: audioPromptModel.titleNoReduced,
+            title: headerImage+audioPromptModel.titleNoReduced,
             body: audioPromptModel.bodyNoReducedAudioOff,
             _prompts:[
                 {
@@ -189,8 +194,7 @@ define([
       } else {
         if(this.reducedTextEnabled) {
           var audioPromptObject = {
-            header: Adapt.course.get('_audio')._prompt._graphic.src,
-            title: audioPromptModel.title,
+            title: headerImage+audioPromptModel.title,
             body: audioPromptModel.bodyAudioOn,
             _prompts:[
                 {
@@ -206,8 +210,7 @@ define([
           }
         } else {
           var audioPromptObject = {
-            header: Adapt.course.get('_audio')._prompt._graphic.src,
-            title: audioPromptModel.titleNoReduced,
+            title: headerImage+audioPromptModel.titleNoReduced,
             body: audioPromptModel.bodyNoReducedAudioOn,
             _prompts:[
                 {
