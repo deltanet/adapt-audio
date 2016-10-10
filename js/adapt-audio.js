@@ -59,6 +59,9 @@ define([
       Adapt.audio = {};
       Adapt.audio.audioClip = new Array();
 
+      // Set action for the pause button
+      Adapt.audio.pauseStopAction = Adapt.course.get('_audio')._pauseStopAction;
+
       // Set global course autoplay based on course JSON.
       Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
 
