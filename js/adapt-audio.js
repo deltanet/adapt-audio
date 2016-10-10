@@ -441,7 +441,10 @@ define([
         // Pause all channels on view load
         this.stopAllChannels();
         try{
-          new AudioResultsView({model:view.model});
+          // Only render view if it DOESN'T already exist - Work around for assessmentResults component
+          if (!$('.' + view.model.get('_id')).find('.audio-controls').length) {
+            new AudioResultsView({model:view.model});
+          }
         } catch(e){
           console.log(e);
         }
