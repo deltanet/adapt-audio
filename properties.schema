@@ -50,6 +50,15 @@
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": []
                 },
+                "_pauseStopAction": {
+                  "type": "string",
+                  "required": false,
+                  "default": "stop",
+                  "title": "Function for the pause/stop button",
+                  "inputType": {"type": "Select", "options": ["stop", "pause"]},
+                  "validators": [],
+                  "help": "Set the function of the play/pause button"
+                },
                 "title": {
                   "type": "string",
                   "required": false,

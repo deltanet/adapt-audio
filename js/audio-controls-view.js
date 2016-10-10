@@ -42,6 +42,7 @@ define(function(require) {
             this.audioChannel = this.model.get('_audio')._channel;
             this.elementId = this.model.get("_id");
             this.audioIcon = Adapt.audio.iconPlay;
+            this.pausedTime = "";
 
             this.autoplayOnce = this.model.get('_audio')._autoPlayOnce;
 
@@ -231,10 +232,33 @@ define(function(require) {
             if (event) event.preventDefault();
             this.setAudioFile();
             if ($(event.currentTarget).hasClass('playing')) {
-                Adapt.trigger('audio:pauseAudio', this.audioChannel);
+              this.pauseAudio();
             } else {
-                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+              this.playAudio();
             }
+        },
+
+        playAudio: function () {
+          if(Adapt.audio.pauseStopAction == "pause") {
+            Adapt.audio.audioClip[this.audioChannel].play(this.pausedTime);
+            this.$('.audio-toggle').removeClass(Adapt.audio.iconPlay);
+            this.$('.audio-toggle').addClass(Adapt.audio.iconPause);
+            this.$('.audio-toggle').addClass('playing');
+          } else {
+            Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+          }
+        },
+
+        pauseAudio: function () {
+          if(Adapt.audio.pauseStopAction == "pause") {
+            this.pausedTime = Adapt.audio.audioClip[this.audioChannel].currentTime;
+            Adapt.audio.audioClip[this.audioChannel].pause();
+            this.$('.audio-toggle').removeClass(Adapt.audio.iconPause);
+            this.$('.audio-toggle').addClass(Adapt.audio.iconPlay);
+            this.$('.audio-toggle').removeClass('playing');
+          } else {
+            Adapt.trigger('audio:pauseAudio', this.audioChannel);
+          }
         },
 
         onAccessibilityToggle: function() {

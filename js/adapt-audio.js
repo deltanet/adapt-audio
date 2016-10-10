@@ -59,6 +59,9 @@ define([
       Adapt.audio = {};
       Adapt.audio.audioClip = new Array();
 
+      // Set action for the pause button
+      Adapt.audio.pauseStopAction = Adapt.course.get('_audio')._pauseStopAction;
+
       // Set global course autoplay based on course JSON.
       Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
 
@@ -316,6 +319,8 @@ define([
 
     playAudio: function(audioClip, id, channel) {
       if(this.audioEnabled){
+        // Stop audio
+        Adapt.audio.audioClip[channel].pause();
         // Update previous player
         this.hideAudioIcon(channel);
         Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;

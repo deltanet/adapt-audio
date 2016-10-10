@@ -4,6 +4,7 @@
         "_reducedTextisEnabled": true,
         "_autoplay": true,
         "_showOnNavbar": true,
+        "_pauseStopAction": "stop", // options are "stop" or "pause"
         "title": "Audio",
         "description": "Click here to view the audio settings for this course.",
         "_channels": {
