@@ -319,6 +319,8 @@ define([
 
     playAudio: function(audioClip, id, channel) {
       if(this.audioEnabled){
+        // Stop audio
+        Adapt.audio.audioClip[channel].pause();
         // Update previous player
         this.hideAudioIcon(channel);
         Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;
