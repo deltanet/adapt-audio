@@ -59,6 +59,9 @@ define([
       Adapt.audio = {};
       Adapt.audio.audioClip = new Array();
 
+      // Set default text size to full
+      Adapt.audio.textSize = 0;
+
       // Set action for the pause button
       Adapt.audio.pauseStopAction = Adapt.course.get('_audio')._pauseStopAction;
 
@@ -78,23 +81,6 @@ define([
         Adapt.audio.audioClip[i] = new Audio();
       }
 
-      //Set default audio status for each channel base on the course config
-      Adapt.audio.audioClip[0].status = Adapt.course.get('_audio')._channels._narration._status;
-      Adapt.audio.audioClip[1].status = Adapt.course.get('_audio')._channels._effects._status;
-      Adapt.audio.audioClip[2].status = Adapt.course.get('_audio')._channels._music._status;
-
-      // If audio level has not been set
-      if((typeof Adapt.offlineStorage.get("audio_level") === "undefined") || (Adapt.offlineStorage.get("audio_level") == "")) {
-        Adapt.audio.audioStatus = Adapt.audio.audioClip[0].status;
-      } else {
-        // Set to saved audio status
-        Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
-        // Set all channels based on saved preference
-        for (var i = 0; i < Adapt.audio.numChannels; i++) {
-          Adapt.audio.audioClip[i].status = Adapt.audio.audioStatus;
-        }
-      }
-
       // Assign variables to each audio object
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.audio.audioClip[i].isPlaying = false;
@@ -103,21 +89,25 @@ define([
         Adapt.audio.audioClip[i].prevID = "";
       }
 
-      // Reduced text - Only available if audio is enabled
-      if (this.reducedTextEnabled && this.audioEnabled) {
-        // Determine text size based on audio preference
-        // If audio is off then show full text
-        if (Adapt.audio.audioStatus == 0) {
-          Adapt.audio.textSize = 0;
-        } else {
-          // If audio is on then show reduced text
-          Adapt.audio.textSize = 1;
-        }
-      } else {
-        // If reduced text is disabled then set size to full
-        Adapt.audio.textSize = 0;
-      }
+      //Set default audio status for each channel base on the course config
+      Adapt.audio.audioClip[0].status = Adapt.course.get('_audio')._channels._narration._status;
+      Adapt.audio.audioClip[1].status = Adapt.course.get('_audio')._channels._effects._status;
+      Adapt.audio.audioClip[2].status = Adapt.course.get('_audio')._channels._music._status;
+      Adapt.audio.audioStatus = Adapt.audio.audioClip[0].status;
 
+      // Collect data from offline storage
+      if(Adapt.offlineStorage.get("audio_level") == "1" || Adapt.offlineStorage.get("audio_level") == "0") {
+        // Set to saved audio status and text size
+        Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
+        Adapt.audio.textSize = Adapt.offlineStorage.get("audio_textSize");
+      }
+      // Update channels based on preference
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.audio.audioClip[i].status = Adapt.audio.audioStatus;
+      }
+      // Change text and audio based on preference
+      this.updateAudioStatus(0,Adapt.audio.audioStatus);
+      this.changeText(Adapt.audio.textSize);
     },
 
     onAddToggle: function(pageModel) {
@@ -309,6 +299,7 @@ define([
 
     changeText: function(value) {
       Adapt.audio.textSize = value;
+      this.updateOfflineStorage();
     },
 
     inviewOff: function(id, channel){
@@ -386,14 +377,16 @@ define([
       Adapt.trigger('audio:pauseAudio', channel);
       // Set to off
       Adapt.audio.audioStatus = 0;
-      // Check for any channel being on
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        if(Adapt.audio.audioClip[i].status == 1){
-          Adapt.audio.audioStatus = 1;
-        }
+      // Check for narration channel being on
+      if(Adapt.audio.audioClip[0].status == 1){
+        Adapt.audio.audioStatus = 1;
       }
-      // Store audio preference
+      this.updateOfflineStorage();
+    },
+
+    updateOfflineStorage: function() {
       Adapt.offlineStorage.set("audio_level", Adapt.audio.audioStatus);
+      Adapt.offlineStorage.set("audio_textSize", Adapt.audio.textSize);
     },
 
     addAudioDrawerItem: function() {
