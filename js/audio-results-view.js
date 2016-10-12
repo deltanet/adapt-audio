@@ -24,10 +24,12 @@ define(function(require) {
         render: function () {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioResults"];
-            if(this.model.get('_audioAssessment')._location=="bottom-left" || this.model.get("_audioAssessment")._location=="bottom-right") {
-                $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ."+this.model.get("_type")+"-inner");
-            } else {
-                $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
+            if (this.model.get('_audioAssessment') && this.model.get('_audioAssessment')._isEnabled) {
+                if(this.model.get('_audioAssessment')._location=="bottom-left" || this.model.get("_audioAssessment")._location=="bottom-right") {
+                    $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ."+this.model.get("_type")+"-inner");
+                } else {
+                    $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
+                }
             }
             // Add class so it can be referenced in the theme if needed 
             $(this.el).addClass(this.model.get("_type")+"-audio");
@@ -44,7 +46,7 @@ define(function(require) {
             // Set clip ID
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
             // Set listener for when clip ends
-            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
+            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));        
 
             _.defer(_.bind(function() {
                 this.postRender();
@@ -76,13 +78,13 @@ define(function(require) {
             }
         },
 
-        removeInViewListeners: function () {
+        removeInViewListeners: function () { 
             this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         }
 
     });
-
+    
     return AudioResultsView;
 
 });

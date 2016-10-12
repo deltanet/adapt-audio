@@ -1,17 +1,13 @@
 {
   "name": "adapt-audio",
-  "version": "3.0.3",
-  "framework": "^2.0.6",
+  "version": "2.0.11",
+  "framework": "2.0.6",
   "homepage": "https://github.com/deltanet/adapt-audio",
   "issues": "https://github.com/deltanet/adapt-audio/issues",
   "displayName" : "Audio",
   "extension" : "audio",
   "description": "An extension to add audio to a course via Articles, Blocks and Components.",
   "main": "/js/adapt-audio.js",
-  "assetFields": [
-        "_media.desktop",
-        "_media.mobile"
-  ],
   "keywords": [
     "adapt-plugin",
     "adapt-extension"

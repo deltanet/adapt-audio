@@ -3,12 +3,12 @@
 **Audio** is an *extension* for the the [Adapt framework](https://github.com/adaptlearning/adapt_framework).   
 
 ----------------------------
-**Version number:**  3.0.3   
+**Version number:**  2.0.11   
 **Framework versions supported:**  2.0.6    
 **Author / maintainer:** DeltaNet with [contributors](https://github.com/deltanet/adapt-audio/graphs/contributors)     
-**Accessibility support:** No  
+**Accessibility support:** Yes  
 **RTL support:** Yes     
-**Authoring tool support:** Yes
+**Authoring tool support:** no
 
 ----------------------------
 
@@ -31,9 +31,9 @@ To be written
 ### Accessibility
 
 To be written
-
+ 
 <div float align=right><a href="#top">Back to Top</a></div>
 
 ## Limitations
-
+ 
 To be written

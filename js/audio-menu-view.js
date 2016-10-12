@@ -88,6 +88,7 @@ define(function(require) {
 
             if (!hasAccessibility) {
             } else {
+
                 for (var i = 0; i < Adapt.audio.numChannels; i++) {
                     Adapt.trigger('audio:updateAudioStatus', this.audioChannel, 0);
                 }
@@ -95,19 +96,20 @@ define(function(require) {
         },
 
         updateToggle: function(){
-            if(Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls==true){
+            if(Adapt.audio.audioStatus == 1 && this.model.get('_audio')._showControls==true){
                 this.$('.audio-toggle').removeClass('hidden');
             } else {
                 this.$('.audio-toggle').addClass('hidden');
             }
         },
 
-        removeInViewListeners: function () {
+        removeInViewListeners: function () { 
             this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         }
-    });
 
+    });
+    
     return AudioMenuView;
 
 });

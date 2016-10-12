@@ -11,9 +11,6 @@
             color: @navigation-icon-color-hover;
         }
     }
-    &.hidden {
-        display: none;
-    }
 }
 
 .audio-controls {
@@ -27,9 +24,9 @@
         &:hover{
             background-color: @item-color-hover;
         }
-        &.hidden {
-            display: none;
-        }
+    }
+    .hidden {
+        display: none;
     }
     &.article-audio {
     }
@@ -41,122 +38,125 @@
 
 .audio-drawer {
     .drawer-audio-toggle {
-        color: @drawer-item-text-color;
+        color: @drawer-icon-color;
         .transition-color;
         .no-touch &:hover {
             color: @drawer-icon-color-hover;
         }
-        margin-top: @drawer-item-padding-top;
-        margin-bottom: @drawer-item-padding-bottom;
     }
     .drawer-item-open {
         padding-bottom: 0px !important;
         width: 86% !important;
     }
-    .drawer-audio-button {
-        background-color: @drawer-color;
-        color: @button-color;
-        margin-top: @drawer-item-padding-top;
-        margin-bottom: @drawer-item-padding-bottom;
-        width: 100%;
+}
+
+///// Styling classes /////
+.top-left {
+    float:left;
+    .dir-rtl & {
+        float:right;
     }
 }
 
-// Ico moon font used for default audio icon
-@font-face {
-    font-family: 'icomoon';
-    src: url('fonts/icomoon.eot?');
-    src: url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-         url('fonts/icomoon.woff?') format('woff'),
-         url('fonts/icomoon.ttf?') format('truetype'),
-         url('fonts/icomoon.svg?1#fontawesome') format('svg');
-    font-weight: normal;
-    font-style: normal;
+.top-right {
+    float:right;
+    .dir-rtl & {
+      float:left;
+    }
 }
 
-.icon-audio-on,
-.icon-audio-off,
-.icon-audio-play,
-.icon-audio-pause {
-    font-family: 'icomoon' !important;
+.bottom-left {
+    float:left;
+    .dir-rtl & {
+        float:right;
+    }
+}
+
+.bottom-right {
+    float:right;
+    .dir-rtl & {
+      float:left;
+    }
+}
+
+.speaker-icon {
+    font-family: 'FontAwesome';
     speak: none;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
+    font-size: @icon-size;
     text-transform: none;
     line-height: 1;
+    text-decoration: none;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    color: @foreground-color;
-    display: block;
+    width: (@navigation-padding * 2) + @icon-size;
+    height: (@navigation-padding * 2) + @icon-size;
+
+    
+}
+
+.play-pause-icon {
+    font-family: 'FontAwesome';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
     font-size: @icon-size;
+    text-transform: none;
+    line-height: 1;
     text-decoration: none;
-    text-align: center;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
     width: (@item-padding * 2) + @icon-size;
     height: (@item-padding * 2) + @icon-size;
 }
 
-.audio-play:before {
-    content: "\e900";
-}
-.audio-pause:before {
-    content: "\e901";
-}
-.audio-stop:before {
-    content: "\e902";
-}
-.audio-volume-high:before {
-    content: "\e903";
-}
-.audio-volume-medium:before {
-    content: "\e904";
-}
-.audio-volume-low:before {
-    content: "\e905";
-}
-.audio-volume-mute:before {
-    content: "\e907";
-}
-.audio-volume-increase:before {
-    content: "\e908";
-}
-.audio-volume-decrease:before {
-    content: "\e909";
-}
-
-///// Styling classes /////
-.audio-inner {
-    .top-left,
-    .bottom-left {
-        float:left;
-        .dir-rtl & {
-            float:right;
-        }
-    }
-
-    .top-right,
-    .bottom-right {
-        float:right;
-        .dir-rtl & {
-          float:left;
-        }
-    }
-}
-
-// Notify prompt styling
-.audio-prompt-image {
-    height: 130px;
-    padding-bottom: @component-padding;
-}
-
 .audio-notify-icon {
-    padding-left: 5px;
-    padding-right: 5px;
-    vertical-align: middle;
-    display: inline-block !important;
-    width: auto !important;
-    height: auto !important;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/*!
+ *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('fonts/fontawesome-webfont.eot?v=4.4.0');
+  src: url('fonts/fontawesome-webfont.eot?#iefix&v=4.4.0') format('embedded-opentype'),
+       url('fonts/fontawesome-webfont.woff2?v=4.4.0') format('woff2'),
+       url('fonts/fontawesome-webfont.woff?v=4.4.0') format('woff'),
+       url('fonts/fontawesome-webfont.ttf?v=4.4.0') format('truetype'),
+       url('fonts/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.fa-headphones:before {
+  content: "\f025";
+}
+.fa-volume-off:before {
+  content: "\f026";
+}
+.fa-volume-down:before {
+  content: "\f027";
+}
+.fa-volume-up:before {
+  content: "\f028";
+}
+
+.fa-play:before {
+  content: "\f04b";
+}
+
+.fa-pause:before {
+  content: "\f04c";
 }

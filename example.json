@@ -1,106 +1,79 @@
+// To go in the config.json file
+"_audio": {
+    "_isEnabled": true
+},
+"_reducedText": {
+    "_isEnabled": true
+}
+
 // To go in the course.json file
-    "_audio": {
-        "_isEnabled": true,
-        "_reducedTextisEnabled": true,
-        "_autoplay": true,
-        "_showOnNavbar": true,
-        "_pauseStopAction": "stop", // options are "stop" or "pause"
-        "title": "Audio",
-        "description": "Click here to view the audio settings for this course.",
-        "_channels": {
-            "_narration": {
-                "_isEnabled": true,
-                "_status": 1,
-                "title": "Audio setting",
-                "descriptionOn": "Audio is currently turned on. Select the icon below to turn the audio off.",
-                "descriptionOff": "Audio is currently turned off. Select the icon below to turn the audio on."
-            },
-            "_effects": {
-                "_isEnabled": true,
-                "_status": 1,
-                "title": "Sound effects",
-                "descriptionOn": "Sound effects are currently turned on. Select the icon below to turn the sound effects off.",
-                "descriptionOff": "Sound effects are currently turned off. Select the icon below to turn the sound effects on."
-            },
-            "_music": {
-                "_isEnabled": true,
-                "_status": 1,
-                "title": "Music",
-                "descriptionOn": "Music is currently turned on. Select the icon below to turn the music off.",
-                "descriptionOff": "Music is currently turned off. Select the icon below to turn the music on."
-            }
+"_audio": {
+    "_autoplay": true,
+    "_enableAudioDrawer": true,
+    "title": "Audio",
+    "description": "Click here to view the audio settings for this course.",
+    "_audioItems": [
+        {
+            "title": "Narration",
+            "description": "This content in this course is narrated. You can save your preference here too."
         },
-        "_reducedText": {
-            "title": "Text setting",
-            "descriptionFull": "The text is set to full. Select the button below if you would like the text to summarise the audio.",
-            "descriptionReduced": "The text is set to reduced. Select the button below if you would like the text to match the audio exactly.",
-            "_buttons": {
-                "full": "Set to full text",
-                "reduced": "Set to reduced text"
-            }
+        {
+            "title": "Sound FX",
+            "description": "If you don't want sound effects to play throughout the course you can switch them off here."
         },
-        "_icons": {
-            "_audioOn": "icon-audio-on audio-volume-medium",
-            "_audioOff": "icon-audio-off audio-volume-mute",
-            "_audioPlay": "icon-audio-play audio-play",
-            "_audioPause": "icon-audio-pause audio-stop"
+        {
+            "title": "Music",
+            "description": "Some areas of the course may contain background music."
+        }
+    ],
+    "_prompt": {
+        "title": "Audio and text settings",
+        "body": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the <span class='speaker-icon fa-volume-up audio-notify-icon'></span> icon).",
+        "titleNoReduced": "Audio setting",
+        "bodyNoReduced": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the <span class='speaker-icon fa-play audio-notify-icon'></span> icon).",
+        "_buttons": {
+            "full": "Full",
+            "reduced": "Reduced",
+            "continue": "Continue",
+            "turnOff": "Turn audio off"
         },
-        "_prompt": {
-            "_isEnabled": true,
-            "title": "Audio and text settings",
-            "titleNoReduced": "Audio setting",
-            "bodyAudioOn": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
-            "bodyAudioOff": "Audio is turned off by default in this module. You can turn the audio on or off at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
-            "bodyNoReducedAudioOn": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
-            "bodyNoReducedAudioOff": "Audio is turned off by default in this module. Please select Continue or Turn audio on (you can change your preference at any time by selecting the <span class='icon-audio-on audio-notify-icon'></span> icon).",
-            "_buttons": {
-                "full": "Full",
-                "reduced": "Reduced",
-                "continue": "Continue",
-                "turnOff": "Turn audio off",
-                "turnOn": "Turn audio on"
-            },
-            "_graphic": {
-                "src": "adapt/css/assets/audio-icon.png"
-            }
+        "_graphic": {
+            "src": "adapt/css/assets/audio-icon.png"
         }
     },
+    "_togglePrompt": {
+        "title": "Audio and text settings",
+        "bodyAudioOn": "You have chosen to turn audio off. The on-screen text will default to full text.",
+        "bodyAudioOff": "You have chosen to turn audio on. Please select whether you would like to view full or reduced text.",
+        "_buttons": {
+            "confirm": "Confirm",
+            "cancel": "Cancel",
+            "full": "Full",
+            "reduced": "Reduced"
+        },
+        "_graphic": {
+            "src": "adapt/css/assets/audio-icon.png"
+        }
+    }
+},
 
 
 // To go in article/block/component.json
 
+"displayTitleReduced": "Reduced title",
+"bodyReduced": "Reduced text",
+"_reducedText": {
+    "_isEnabled": true
+},
 "_audio": {
     "_isEnabled": true,
     "_showControls": false,
     "_autoplay": true,
-    "_autoPlayOnce": true,
     "_channel": 0, // channels represent the number of items defined in the course.json settings, by default there are 0, 1 and 2 available (3 _audioItems in the array)
     "_location": "top-right", // pre-defined styles are "top-left", "top-right", "bottom-left", "bottom-right"
     "_media": {
         "desktop": "course/en/audio/***.mp3",
         "mobile": "course/en/audio/***.mp3"
-    },
-    "_reducedTextisEnabled": true,
-    "displayTitleReduced": "Reduced title",
-    "bodyReduced": "Reduced text",
-    "_feedback": {
-        "_isEnabled": true,
-        "_correct": {
-            "correctReduced": "Reduced correct text.",
-            "_correct": "course/en/audio/***.mp3"
-        },
-        "_incorrect": {
-            "notFinalReduced": "Reduced incorrect notFinal text.",
-            "finalReduced": "Reduced incorrect final text.",
-            "_notFinal": "course/en/audio/***.mp3",
-            "_final": "course/en/audio/***.mp3"
-        },
-        "_partlyCorrect": {
-            "notFinalReduced": "Reduced partly correct notFinal text.",
-            "finalReduced": "Reduced partly correct final text.",
-            "_notFinal": "course/en/audio/***.mp3",
-            "_final": "course/en/audio/***.mp3"
-        }
     }
 },
 
@@ -113,6 +86,6 @@
     "_channel": 0,
     "_location": "top-right",
     "_media": {
-        "src": "course/en/audio/***.mp3"
+        "src": "course/en/audio/co-02.mp3"
     }
 },
