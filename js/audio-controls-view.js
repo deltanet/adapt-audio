@@ -15,15 +15,11 @@ define(function(require) {
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
-            this.preRender();
-            this.render();
+            this.listenTo(Adapt, "pageView:ready", this.render);
         },
 
         events: {
             'click .audio-toggle': 'toggleAudio'
-        },
-
-        preRender: function() {
         },
 
         render: function () {
@@ -36,7 +32,7 @@ define(function(require) {
                     $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
                 }
             }
-            // Add class so it can be referenced in the theme if needed 
+            // Add class so it can be referenced in the theme if needed
             $(this.el).addClass(this.model.get("_type")+"-audio");
 
             // Set vars
@@ -52,7 +48,7 @@ define(function(require) {
             if(Adapt.audio.audioClip[this.audioChannel].status==0){
                 this.$('.audio-inner button').hide();
             }
-            
+
             // Set audio file
             this.setAudioFile();
 
@@ -60,7 +56,7 @@ define(function(require) {
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
 
             // Set listener for when clip ends
-            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));        
+            $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
 
             _.defer(_.bind(function() {
                 this.postRender();
@@ -69,7 +65,7 @@ define(function(require) {
 
         postRender: function() {
             // Add inview listener on audio element
-            $('.'+this.elementId).on('inview', _.bind(this.inview, this));
+            this.$('.audio-inner').on('inview', _.bind(this.inview, this));
         },
 
         reRender: function() {
@@ -162,7 +158,7 @@ define(function(require) {
                     this._isVisibleBottom = true;
                 }
                 // Check if visible on screen
-                if (this._isVisibleTop && this._isVisibleBottom) {
+                if (this._isVisibleTop && this._isVisibleBottom && (visiblePartX === "both")) {
                     // Check if audio is set to on
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
                         this.setAudioFile();
@@ -204,13 +200,13 @@ define(function(require) {
             }
         },
 
-    removeInViewListeners: function () {
-            $('.'+this.elementId).off('inview');
+        removeInViewListeners: function () {
+            this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         }
 
     });
-    
+
     return AudioControlsView;
 
 });
