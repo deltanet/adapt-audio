@@ -208,7 +208,7 @@ define(function(require) {
                     this._isVisibleBottom = true;
                 }
                 // Check if visible on screen
-                if (this._isVisibleTop && this._isVisibleBottom) {
+                if (this._isVisibleTop && this._isVisibleBottom && (visiblePartX === "both")) {
                     // Check if audio is set to on
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
                       this.setAudioFile();
