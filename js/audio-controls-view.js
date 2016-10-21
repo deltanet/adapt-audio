@@ -15,16 +15,12 @@ define(function(require) {
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenTo(Adapt, "audio:changeText", this.replaceText);
+            this.listenTo(Adapt, "pageView:ready", this.render);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
-            this.preRender();
-            this.render();
         },
 
         events: {
             'click .audio-toggle': 'toggleAudio'
-        },
-
-        preRender: function() {
         },
 
         render: function () {
@@ -76,7 +72,7 @@ define(function(require) {
 
         postRender: function() {
           // Add inview listener on entire element
-          $('.'+this.elementId).on('inview', _.bind(this.inview, this));
+          this.$('.audio-inner').on('inview', _.bind(this.inview, this));
           // Run function to check for reduced text
           this.replaceText(Adapt.audio.textSize);
         },
@@ -212,7 +208,7 @@ define(function(require) {
                     this._isVisibleBottom = true;
                 }
                 // Check if visible on screen
-                if (this._isVisibleTop && this._isVisibleBottom) {
+                if (this._isVisibleTop && this._isVisibleBottom && (visiblePartX === "both")) {
                     // Check if audio is set to on
                     if(Adapt.audio.audioClip[this.audioChannel].status==1){
                       this.setAudioFile();
@@ -282,7 +278,7 @@ define(function(require) {
         },
 
         removeInViewListeners: function () {
-            $('.'+this.elementId).off('inview');
+            this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         },
 
