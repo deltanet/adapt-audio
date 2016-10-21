@@ -72,7 +72,7 @@ define(function(require) {
 
         postRender: function() {
           // Add inview listener on entire element
-          $('.'+this.elementId).on('inview', _.bind(this.inview, this));
+          this.$('.audio-inner').on('inview', _.bind(this.inview, this));
           // Run function to check for reduced text
           this.replaceText(Adapt.audio.textSize);
         },
@@ -278,7 +278,7 @@ define(function(require) {
         },
 
         removeInViewListeners: function () {
-            $('.'+this.elementId).off('inview');
+            this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         },
 
