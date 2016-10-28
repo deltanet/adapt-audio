@@ -102,9 +102,9 @@ define(function(require) {
             Adapt.trigger('audio:audioEnded', this.audioChannel);
         },
 
-        initFeedback: function() {
-            // Run a check to trigger only the current clip's feedback
-            if(this.elementId == Adapt.audio.audioClip[this.audioChannel].newID) {
+        initFeedback: function(view) {
+            // Run a check to trigger only the current elements feedback
+            if(this.elementId == view.model.get('_id')) {
                 if(this.model.get('_audio')._feedback && this.model.get('_audio')._feedback._isEnabled) {
                     this.initQuestionFeedbackAudio();
                 }
