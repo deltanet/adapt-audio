@@ -8,6 +8,9 @@
       "type":"object",
       "required":true,
       "properties":{
+        "config": {
+          "type":"object"
+        },
         "course": {
           "type":"object",
           "properties":{
@@ -65,7 +68,8 @@
                   "default": "Audio",
                   "inputType": "Text",
                   "validators": [],
-                  "help": "Optional title for audio drawer"
+                  "help": "Optional title for audio drawer",
+                  "translatable": true
                 },
                 "description": {
                   "type": "string",
@@ -73,7 +77,8 @@
                   "default": "Click here to view the audio settings for this course.",
                   "inputType": "Text",
                   "validators": [],
-                  "help": "Optional description for audio drawer"
+                  "help": "Optional description for audio drawer",
+                  "translatable": true
                 },
                 "_channels": {
                   "type":"object",
@@ -110,7 +115,8 @@
                           "default": "Narration",
                           "title": "Drawer Title",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         },
                         "descriptionOn": {
                           "type": "string",
@@ -118,7 +124,8 @@
                           "default": "Audio is currently turned on. Select the icon below to turn the audio off.",
                           "title": "Drawer Description - Audio On",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         },
                         "descriptionOff": {
                           "type": "string",
@@ -126,7 +133,8 @@
                           "default": "Audio is currently turned off. Select the icon below to turn the audio on.",
                           "title": "Drawer Description - Audio Off",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         }
                       }
                     },
@@ -160,7 +168,8 @@
                           "default": "Effects",
                           "title": "Drawer Title",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         },
                         "descriptionOn": {
                           "type": "string",
@@ -168,7 +177,8 @@
                           "default": "Sound effects are currently turned on. Select the icon below to turn the sound effects off.",
                           "title": "Drawer Description - Audio On",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         },
                         "descriptionOff": {
                           "type": "string",
@@ -176,7 +186,8 @@
                           "default": "Sound effects are currently turned off. Select the icon below to turn the sound effects on.",
                           "title": "Drawer Description - Audio Off",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         }
                       }
                     },
@@ -210,7 +221,8 @@
                           "default": "Music",
                           "title": "Drawer Title",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         },
                         "descriptionOn": {
                           "type": "string",
@@ -218,7 +230,8 @@
                           "default": "Music is currently turned on. Select the icon below to turn the music off.",
                           "title": "Drawer Description - Audio On",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         },
                         "descriptionOff": {
                           "type": "string",
@@ -226,7 +239,8 @@
                           "default": "Music is currently turned off. Select the icon below to turn the music on.",
                           "title": "Drawer Description - Audio Off",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         }
                       }
                     }
@@ -243,7 +257,8 @@
                       "default": "Text setting",
                       "title": "Drawer Title",
                       "inputType": "Text",
-                      "validators": []
+                      "validators": [],
+                      "translatable": true
                     },
                     "descriptionFull": {
                       "type": "string",
@@ -251,7 +266,8 @@
                       "default": "The text is set to full. Select the button below if you would like the text to summarise the audio.",
                       "title": "Drawer Description - Full Text",
                       "inputType": "Text",
-                      "validators": []
+                      "validators": [],
+                      "translatable": true
                     },
                     "descriptionReduced": {
                       "type": "string",
@@ -259,7 +275,8 @@
                       "default": "The text is set to reduced. Select the button below if you would like the text to match the audio exactly.",
                       "title": "Drawer Description - Reduced Text",
                       "inputType": "Text",
-                      "validators": []
+                      "validators": [],
+                      "translatable": true
                     },
                     "_buttons": {
                       "type":"object",
@@ -272,7 +289,8 @@
                           "default": "Set to full text",
                           "title": "Full Text Button",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         },
                         "reduced": {
                           "type": "string",
@@ -280,7 +298,8 @@
                           "default": "Set to reduced text",
                           "title": "Reduced Text Button",
                           "inputType": "Text",
-                          "validators": []
+                          "validators": [],
+                          "translatable": true
                         }
                       }
                     }
@@ -344,7 +363,8 @@
                       "default": "Audio and text settings",
                       "title": "Title",
                       "inputType": "Text",
-                      "validators": []
+                      "validators": [],
+                      "translatable": true
                     },
                     "titleNoReduced": {
                       "type": "string",
@@ -352,7 +372,8 @@
                       "default": "Audio setting",
                       "title": "reduced Text Title",
                       "inputType": "Text",
-                      "validators": []
+                      "validators": [],
+                      "translatable": true
                     },
                     "bodyAudioOn": {
                       "type": "string",
@@ -360,7 +381,8 @@
                       "default": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the audio icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the audio icon).",
                       "title": "Prompt Message if Audio is On",
                       "inputType": "Text",
-                      "validators": []
+                      "validators": [],
+                      "translatable": true
                     },
                     "bodyAudioOff": {
                       "type": "string",
@@ -368,7 +390,8 @@
                       "default": "Audio is turned off by default in this module. You can turn the audio on or off at any time by selecting the audio icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the audio icon).",
                       "title": "Prompt Message if Audio is On",
                       "inputType": "Text",
-                      "validators": []
+                      "validators": [],
+                      "translatable": true
                     },
                     "bodyNoReducedAudioOn": {
                       "type": "string",
@@ -376,7 +399,8 @@
                       "default": "Audio is turned on by default in this module. Please select Continue or Turn audio off (you can change your preference at any time by selecting the audio icon).",
                       "title": "Prompt Message if Audio is On and Reduced text is Off",
                       "inputType": "Text",
-                      "validators": []
+                      "validators": [],
+                      "translatable": true
                     },
                     "bodyNoReducedAudioOff": {
                       "type": "string",
@@ -384,7 +408,8 @@
                       "default": "Audio is turned off by default in this module. Please select Continue or Turn audio on (you can change your preference at any time by selecting the audio icon).",
                       "title": "Prompt Message if Audio is Off and Reduced text is Off",
                       "inputType": "Text",
-                      "validators": []
+                      "validators": [],
+                      "translatable": true
                     },
                     "_buttons": {
                       "type":"object",
@@ -397,7 +422,8 @@
                           "title": "Full Text Button",
                           "inputType": "Text",
                           "validators": [],
-                          "help": "Enter the text for the button to select full text"
+                          "help": "Enter the text for the button to select full text",
+                          "translatable": true
                         },
                         "reduced": {
                           "type": "string",
@@ -406,7 +432,8 @@
                           "title": "Reduced Text Button",
                           "inputType": "Text",
                           "validators": [],
-                          "help": "Enter the text for the button to select reduced text"
+                          "help": "Enter the text for the button to select reduced text",
+                          "translatable": true
                         },
                         "continue": {
                           "type": "string",
@@ -415,7 +442,8 @@
                           "title": "Continue Button",
                           "inputType": "Text",
                           "validators": [],
-                          "help": "Enter the text for the button to select continue"
+                          "help": "Enter the text for the button to select continue",
+                          "translatable": true
                         },
                         "turnOff": {
                           "type": "string",
@@ -424,7 +452,8 @@
                           "title": "Turn Off Button",
                           "inputType": "Text",
                           "validators": [],
-                          "help": "Enter the text for the button to turn audio off"
+                          "help": "Enter the text for the button to turn audio off",
+                          "translatable": true
                         },
                         "turnOn": {
                           "type": "string",
@@ -433,7 +462,8 @@
                           "title": "Turn On Button",
                           "inputType": "Text",
                           "validators": [],
-                          "help": "Enter the text for the button to turn audio on"
+                          "help": "Enter the text for the button to turn audio on",
+                          "translatable": true
                         }
                       }
                     },
@@ -631,7 +661,8 @@
                   "title": "Display Title Reduced",
                   "inputType": "TextArea",
                   "validators": [],
-                  "help": "Reduced text for the Article display title"
+                  "help": "Reduced text for the Article display title",
+                  "translatable": true
                 },
                 "bodyReduced": {
                   "type": "string",
@@ -640,7 +671,8 @@
                   "title": "Body Reduced",
                   "inputType": "TextArea",
                   "validators": [],
-                  "help": "Reduced text for the Article body"
+                  "help": "Reduced text for the Article body",
+                  "translatable": true
                 }
               }
             }
@@ -748,7 +780,8 @@
                   "title": "Display Title Reduced",
                   "inputType": "TextArea",
                   "validators": [],
-                  "help": "Reduced text for the Block display title"
+                  "help": "Reduced text for the Block display title",
+                  "translatable": true
                 },
                 "bodyReduced": {
                   "type": "string",
@@ -757,7 +790,8 @@
                   "title": "Body Reduced",
                   "inputType": "TextArea",
                   "validators": [],
-                  "help": "Reduced text for the Block body"
+                  "help": "Reduced text for the Block body",
+                  "translatable": true
                 }
               }
             }
@@ -865,7 +899,8 @@
                   "title": "Display Title Reduced",
                   "inputType": "TextArea",
                   "validators": [],
-                  "help": "Reduced text for the Component display title"
+                  "help": "Reduced text for the Component display title",
+                  "translatable": true
                 },
                 "bodyReduced": {
                   "type": "string",
@@ -874,7 +909,8 @@
                   "title": "Body Reduced",
                   "inputType": "TextArea",
                   "validators": [],
-                  "help": "Reduced text for the Component body"
+                  "help": "Reduced text for the Component body",
+                  "translatable": true
                 },
                 "_audio": {
                   "type": "object",
@@ -900,7 +936,8 @@
                           "title": "Correct - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Correct feedback for this question when reduced text is shown"
+                          "help": "Correct feedback for this question when reduced text is shown",
+                          "translatable": true
                         },
                         "_correct": {
                           "type": "string",
@@ -924,7 +961,8 @@
                           "title": "Incorrect Not Final - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Incorrect feedback for any attempt apart from the last attempt when reduced text is shown"
+                          "help": "Incorrect feedback for any attempt apart from the last attempt when reduced text is shown",
+                          "translatable": true
                         },
                         "finalReduced": {
                           "type":"string",
@@ -933,7 +971,8 @@
                           "title": "Incorrect Final - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Incorrect feedback for the final attempt when reduced text is shown"
+                          "help": "Incorrect feedback for the final attempt when reduced text is shown",
+                          "translatable": true
                         },
                         "_notFinal": {
                           "type": "string",
@@ -966,7 +1005,8 @@
                           "title": "Partly Correct Not Final - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Partly correct feedback for any attempt apart from the last attempt when reduced text is shown"
+                          "help": "Partly correct feedback for any attempt apart from the last attempt when reduced text is shown",
+                          "translatable": true
                         },
                         "finalReduced": {
                           "type":"string",
@@ -975,7 +1015,8 @@
                           "title": "Partly Correct Final - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Partly correct feedback for the final attempt when reduced text is shown"
+                          "help": "Partly correct feedback for the final attempt when reduced text is shown",
+                          "translatable": true
                         },
                         "_notFinal": {
                           "type": "string",
