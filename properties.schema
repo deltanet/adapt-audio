@@ -524,11 +524,11 @@
                 },
                 "_channel": {
                   "type":"number",
-                  "required":true,
+                  "required":false,
                   "default":0,
                   "title": "Channel",
-                  "inputType":"Number",
-                  "validators": ["required", "number"],
+                  "inputType": {"type": "Select", "options": [0, 1, 2]},
+                  "validators": ["number"],
                   "help": "Set value to 0 to play the audio clip on the default channel"
                 },
                 "_location": {
@@ -605,11 +605,11 @@
                 },
                 "_channel": {
                   "type":"number",
-                  "required":true,
+                  "required":false,
                   "default":0,
                   "title": "Channel",
-                  "inputType":"Number",
-                  "validators": ["required", "number"],
+                  "inputType": {"type": "Select", "options": [0, 1, 2]},
+                  "validators": ["number"],
                   "help": "Set value to 0 to play the audio clip on the default channel"
                 },
                 "_location": {
@@ -724,11 +724,11 @@
                 },
                 "_channel": {
                   "type":"number",
-                  "required":true,
+                  "required":false,
                   "default":0,
                   "title": "Channel",
-                  "inputType":"Number",
-                  "validators": ["required", "number"],
+                  "inputType": {"type": "Select", "options": [0, 1, 2]},
+                  "validators": ["number"],
                   "help": "Set value to 0 to play the audio clip on the default channel"
                 },
                 "_location": {
@@ -843,11 +843,11 @@
                 },
                 "_channel": {
                   "type":"number",
-                  "required":true,
+                  "required":false,
                   "default":0,
                   "title": "Channel",
-                  "inputType":"Number",
-                  "validators": ["required", "number"],
+                  "inputType": {"type": "Select", "options": [0, 1, 2]},
+                  "validators": ["number"],
                   "help": "Set value to 0 to play the audio clip on the default channel"
                 },
                 "_location": {
