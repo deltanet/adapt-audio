@@ -54,11 +54,15 @@
         width: 86% !important;
     }
     .drawer-audio-button {
-        background-color: @drawer-color;
-        color: @button-color;
         margin-top: @drawer-item-padding-top;
         margin-bottom: @drawer-item-padding-bottom;
         width: 100%;
+        color: @drawer-item-text-color;
+        background-color: @drawer-item-color;
+        .no-touch &:hover {
+            color: @drawer-item-text-color-hover;
+            background-color: @drawer-item-color-hover;
+        }
     }
 }
 
