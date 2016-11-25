@@ -120,6 +120,8 @@ define(function(require) {
         },
 
         initQuestionFeedbackAudio: function() {
+            // Reset onscreen id
+            Adapt.audio.audioClip[this.audioChannel].onscreenID = "";
             // Correct
             if (this.model.get('_isCorrect')) {
 
