@@ -26,7 +26,7 @@ define([
       this.listenTo(Adapt, "menuView:postRender", this.onMenuReady);
       // load article, block, component audio
       this.listenTo(Adapt, "articleView:postRender blockView:postRender componentView:postRender", this.onABCReady);
-      this.listenTo(Adapt, "audio:inviewOff", this.inviewOff);
+      this.listenTo(Adapt, "audio:onscreenOff", this.onscreenOff);
       this.listenTo(Adapt, "audio:playAudio", this.playAudio);
       this.listenTo(Adapt, "audio:pauseAudio", this.pauseAudio);
       this.listenTo(Adapt, "audio:audioEnded", this.audioEnded);
@@ -65,8 +65,12 @@ define([
       // Set action for the pause button
       Adapt.audio.pauseStopAction = Adapt.course.get('_audio')._pauseStopAction;
 
-      // Set global course autoplay based on course JSON.
+      // Set trigger position for onscreen percentFromTop detection
+      Adapt.audio.triggerPosition = Adapt.course.get('_audio')._triggerPosition;
+
+      // Set global variables based on course JSON
       Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
+      Adapt.audio.autoPlayOnceGlobal = Adapt.course.get('_audio')._autoPlayOnce ? true : false;
 
       // Get names for icons from course.config
       Adapt.audio.iconOn = Adapt.course.get('_audio')._icons._audioOn;
@@ -87,6 +91,7 @@ define([
         Adapt.audio.audioClip[i].playingID = "";
         Adapt.audio.audioClip[i].newID = "";
         Adapt.audio.audioClip[i].prevID = "";
+        Adapt.audio.audioClip[i].onscreenID = "";
       }
 
       //Set default audio status for each channel base on the course config
@@ -302,14 +307,14 @@ define([
       this.updateOfflineStorage();
     },
 
-    inviewOff: function(id, channel){
+    onscreenOff: function(id, channel){
       if(id == Adapt.audio.audioClip[channel].playingID){
         this.pauseAudio(channel);
       }
     },
 
     playAudio: function(audioClip, id, channel) {
-      if(this.audioEnabled){
+      if(this.audioEnabled && Adapt.audio.audioClip[channel].onscreenID != id){
         // Stop audio
         Adapt.audio.audioClip[channel].pause();
         // Update previous player
@@ -326,6 +331,7 @@ define([
         } catch(e) {
           console.log('Audio play error:' + e);
         }
+        Adapt.audio.audioClip[channel].onscreenID = id;
         // Update player ID to new clip
         Adapt.audio.audioClip[channel].playingID = Adapt.audio.audioClip[channel].newID;
       }

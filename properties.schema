@@ -43,7 +43,17 @@
                   "default": true,
                   "title": "Autoplay Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
-                  "validators": []
+                  "validators": [],
+                  "help": "Enables Autoplay on all audio elements"
+                },
+                "_autoPlayOnce": {
+                  "type":"boolean",
+                  "required":false,
+                  "default": true,
+                  "title": "Autoplay Once Enabled",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help": "Enables Autoplay Once on all audio elements"
                 },
                 "_showOnNavbar": {
                   "type":"boolean",
@@ -61,6 +71,15 @@
                   "inputType": {"type": "Select", "options": ["stop", "pause"]},
                   "validators": [],
                   "help": "Set the function of the play/pause button"
+                },
+                "_triggerPosition": {
+                  "type": "number",
+                  "required": false,
+                  "inputType": "Number",
+                  "title": "Play Audio Position",
+                  "default": 60,
+                  "validators": ["number"],
+                  "help": "Set the position on screen for when the audio will play. This is as a percentage from the top of the screen"
                 },
                 "title": {
                   "type": "string",
