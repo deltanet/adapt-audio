@@ -23,7 +23,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": false,
-                  "title": "Audio Enabled",
+                  "title": "Is Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Enables Audio Extension"
@@ -50,7 +50,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": true,
-                  "title": "Autoplay Once Enabled",
+                  "title": "Autoplay Once",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Enables Autoplay Once on all audio elements"
@@ -372,7 +372,7 @@
                       "type":"boolean",
                       "required":false,
                       "default": true,
-                      "title": "Prompt Enabled",
+                      "title": "Is Enabled",
                       "inputType": { "type": "Boolean", "options": [false, true]},
                       "validators": []
                     },
@@ -389,7 +389,7 @@
                       "type": "string",
                       "required": false,
                       "default": "Audio setting",
-                      "title": "reduced Text Title",
+                      "title": "Reduced Text Title",
                       "inputType": "Text",
                       "validators": [],
                       "translatable": true
@@ -518,7 +518,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": false,
-                  "title": "Audio Enabled",
+                  "title": "Is Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Enables Audio on the Page"
@@ -590,7 +590,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": false,
-                  "title": "Audio Enabled",
+                  "title": "Is Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Enables Audio on the Article"
@@ -709,7 +709,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": false,
-                  "title": "Audio Enabled",
+                  "title": "Is Enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Enables Audio on the Block"
@@ -736,7 +736,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": true,
-                  "title": "Autoplay Only Once Enabled",
+                  "title": "Autoplay Only Once",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Only autoplays the audio once when in view"
@@ -828,7 +828,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": false,
-                  "title": "Audio Enabled",
+                  "title": "Is enabled",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Enables Audio on the Component"
@@ -855,7 +855,7 @@
                   "type":"boolean",
                   "required":false,
                   "default": true,
-                  "title": "Autoplay Only Once Enabled",
+                  "title": "Autoplay Only Once",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
                   "help": "Only autoplays the audio once when in view"
@@ -881,7 +881,6 @@
                 "_media": {
                   "type": "object",
                   "required": true,
-                  "title": "Component Audio",
                   "properties": {
                     "desktop": {
                       "type": "string",
@@ -935,7 +934,7 @@
                 "_feedback": {
                   "type": "object",
                   "required": false,
-                  "title": "Question Feedback",
+                  "legend": "Question Feedback",
                   "properties": {
                     "_isEnabled": {
                       "type":"boolean",
