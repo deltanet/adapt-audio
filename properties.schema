@@ -881,6 +881,7 @@
                 "_media": {
                   "type": "object",
                   "required": true,
+                  "title": "Component Audio",
                   "properties": {
                     "desktop": {
                       "type": "string",
@@ -931,10 +932,10 @@
                   "help": "Reduced text for the Component body",
                   "translatable": true
                 },
-                "_audio": {
+                "_feedback": {
                   "type": "object",
                   "required": false,
-                  "title": "Feedback Audio",
+                  "title": "Question Feedback",
                   "properties": {
                     "_isEnabled": {
                       "type":"boolean",
@@ -942,7 +943,7 @@
                       "title": "Enabled",
                       "inputType": { "type": "Boolean", "options": [false, true]},
                       "validators": [],
-                      "help": "Turns feedback audio on and off. Acceptable values are true and false."
+                      "help": "Turns feedback audio on and off for question components. Acceptable values are true and false."
                     },
                     "_correct": {
                       "type":"object",
@@ -1044,7 +1045,7 @@
                           "title": "Partly Correct Not Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "help": "Optional audio for partly correct not final"
+                          "help": "Optional audio for partly correct not final feedback"
                         },
                         "_final": {
                           "type": "string",
@@ -1053,7 +1054,7 @@
                           "title": "Partly Correct Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "help": "Optional audio for partly correct final"
+                          "help": "Optional audio for partly correct final feedback"
                         }
                       }
                     }
