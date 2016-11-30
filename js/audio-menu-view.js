@@ -53,25 +53,15 @@ define(function(require) {
 
             // Play audio if autoplay is true
             if (Adapt.audio.autoPlayGlobal && this.model.get("_audio")._autoplay) {
-                this.playAudio();
+              // Check if audio is set to on
+              if(Adapt.audio.audioClip[this.audioChannel].status==1){
+                  Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+              }
             }
         },
 
         onAudioEnded: function() {
             Adapt.trigger('audio:audioEnded', this.audioChannel);
-        },
-
-        stopPlayingAudio: function(event) {
-            if (!Adapt.audio.audioClip[this.audioChannel].paused) {
-                Adapt.trigger('audio:pauseAudio', this.audioChannel);
-            }
-        },
-
-        playAudio: function() {
-            // Check if audio is set to on
-            if(Adapt.audio.audioClip[this.audioChannel].status==1){
-                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
-            }
         },
 
         toggleAudio: function(event) {
@@ -103,7 +93,6 @@ define(function(require) {
         },
 
         removeInViewListeners: function () {
-            this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         }
     });

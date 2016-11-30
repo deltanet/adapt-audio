@@ -40,12 +40,20 @@ define(function(require) {
             this.audioIcon = Adapt.audio.iconPlay;
             this.pausedTime = "";
 
-            this.autoplayOnce = this.model.get('_audio')._autoPlayOnce;
-
-            if(Adapt.audio.autoPlayGlobal && this.model.get("_audio")._autoplay){
+            // Autoplay
+            if(Adapt.audio.autoPlayGlobal || this.model.get("_audio")._autoplay){
                 this.canAutoplay = true;
             } else {
                 this.canAutoplay = false;
+            }
+
+            // Autoplay once
+            if(Adapt.audio.autoPlayOnceGlobal == false){
+                this.autoplayOnce = false;
+            } else if(Adapt.audio.autoPlayOnceGlobal || this.model.get("_audio")._autoPlayOnce){
+                this.autoplayOnce = true;
+            } else {
+              this.autoplayOnce = false;
             }
 
             // Add audio icon
@@ -71,8 +79,8 @@ define(function(require) {
         },
 
         postRender: function() {
-          // Add inview listener on entire element
-          this.$('.audio-inner').on('inview', _.bind(this.inview, this));
+          // Add inview listener on audio element
+          this.$('.audio-inner').on("onscreen", _.bind(this.onscreen, this));
           // Run function to check for reduced text
           this.replaceText(Adapt.audio.textSize);
         },
@@ -112,6 +120,8 @@ define(function(require) {
         },
 
         initQuestionFeedbackAudio: function() {
+            // Reset onscreen id
+            Adapt.audio.audioClip[this.audioChannel].onscreenID = "";
             // Correct
             if (this.model.get('_isCorrect')) {
 
@@ -191,42 +201,31 @@ define(function(require) {
             }
         },
 
-        stopPlayingAudio: function(event) {
-            if (!Adapt.audio.audioClip[this.audioChannel].paused) {
-                Adapt.trigger('audio:pauseAudio', this.audioChannel);
-            }
-        },
+        onscreen: function(event, measurements) {
 
-        inview: function(event, visible, visiblePartX, visiblePartY) {
-            if (visible && this.canAutoplay) {
-                if (visiblePartY === 'top') {
-                    this._isVisibleTop = true;
-                } else if (visiblePartY === 'bottom') {
-                    this._isVisibleBottom = true;
-                } else {
-                    this._isVisibleTop = true;
-                    this._isVisibleBottom = true;
-                }
-                // Check if visible on screen
-                if (this._isVisibleTop && this._isVisibleBottom && (visiblePartX === "both")) {
-                    // Check if audio is set to on
-                    if(Adapt.audio.audioClip[this.audioChannel].status==1){
-                      this.setAudioFile();
-                      Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
-                    }
-                    // Set to false to stop autoplay when inview again
-                    if(this.autoplayOnce) {
-                        this.canAutoplay = false;
-                    }
-                }
-            } else {
-                Adapt.trigger('audio:inviewOff', this.elementId, this.audioChannel);
+          var isOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromTop > 0;
+          var isOnscreenX = measurements.percentInviewHorizontal == 100;
+
+          if (isOnscreenY && isOnscreenX && this.canAutoplay) {
+            // Check if audio is set to on
+            if(Adapt.audio.audioClip[this.audioChannel].status==1){
+              this.setAudioFile();
+              Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
+            // Set to false to stop autoplay when onscreen again
+            if(this.autoplayOnce) {
+              this.canAutoplay = false;
+            }
+          } else {
+              Adapt.trigger('audio:onscreenOff', this.elementId, this.audioChannel);
+          }
+
         },
 
         toggleAudio: function(event) {
             if (event) event.preventDefault();
             this.setAudioFile();
+            Adapt.audio.audioClip[this.audioChannel].onscreenID = "";
             if ($(event.currentTarget).hasClass('playing')) {
               this.pauseAudio();
             } else {
@@ -270,15 +269,15 @@ define(function(require) {
         },
 
         updateToggle: function(){
-            if(Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls == true){
-                this.$('.audio-inner button').show();
-            } else {
-                this.$('.audio-inner button').hide();
-            }
+          if(Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls == true) {
+            this.$('.audio-inner button').show();
+          } else {
+            this.$('.audio-inner button').hide();
+          }
         },
 
         removeInViewListeners: function () {
-            this.$('.audio-inner').off('inview');
+            this.$('.audio-inner').off('onscreen');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         },
 

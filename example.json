@@ -3,8 +3,10 @@
         "_isEnabled": true,
         "_reducedTextisEnabled": true,
         "_autoplay": true,
+        "_autoPlayOnce": true,
         "_showOnNavbar": true,
         "_pauseStopAction": "stop", // options are "stop" or "pause"
+        "_triggerPosition": 60,
         "title": "Audio",
         "description": "Click here to view the audio settings for this course.",
         "_channels": {

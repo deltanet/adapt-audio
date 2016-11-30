@@ -11,14 +11,7 @@ define(function(require) {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
-            this.preRender();
             this.render();
-        },
-
-        events: {
-        },
-
-        preRender: function() {
         },
 
         render: function () {
@@ -29,7 +22,7 @@ define(function(require) {
             } else {
                 $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ."+this.model.get("_type")+"-inner");
             }
-            // Add class so it can be referenced in the theme if needed 
+            // Add class so it can be referenced in the theme if needed
             $(this.el).addClass(this.model.get("_type")+"-audio");
 
             // Set vars
@@ -46,22 +39,10 @@ define(function(require) {
             // Set listener for when clip ends
             $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
 
-            _.defer(_.bind(function() {
-                this.postRender();
-            }, this));
-        },
-
-        postRender: function() {
         },
 
         onAudioEnded: function() {
             Adapt.trigger('audio:audioEnded', this.audioChannel);
-        },
-
-        stopPlayingAudio: function(event) {
-            if (!Adapt.audio.audioClip[this.audioChannel].paused) {
-                Adapt.trigger('audio:pauseAudio', this.audioChannel);
-            }
         },
 
         onAccessibilityToggle: function() {
@@ -77,7 +58,6 @@ define(function(require) {
         },
 
         removeInViewListeners: function () {
-            this.$('.audio-inner').off('inview');
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
         }
 
