@@ -123,7 +123,7 @@
                           "required": true,
                           "enum": [0, 1],
                           "inputType": {"type": "Select", "options": [0, 1]},
-                          "title": "Set Channel On",
+                          "title": "Initial Volume",
                           "default": 1,
                           "validators": ["required", "number"],
                           "help": "Set to 1 to play channel audio"
@@ -176,7 +176,7 @@
                           "required": true,
                           "enum": [0, 1],
                           "inputType": {"type": "Select", "options": [0, 1]},
-                          "title": "Set Channel On",
+                          "title": "Initial Volume",
                           "default": 1,
                           "validators": ["required", "number"],
                           "help": "Set to 1 to play channel audio"
@@ -229,7 +229,7 @@
                           "required": true,
                           "enum": [0, 1],
                           "inputType": {"type": "Select", "options": [0, 1]},
-                          "title": "Set Channel On",
+                          "title": "Initial Volume",
                           "default": 1,
                           "validators": ["required", "number"],
                           "help": "Set to 1 to play channel audio"
