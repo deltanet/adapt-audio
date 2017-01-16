@@ -678,7 +678,7 @@
                   "required": false,
                   "default": "Article title reduced",
                   "title": "Display Title Reduced",
-                  "inputType": "TextArea",
+                  "inputType": "Text",
                   "validators": [],
                   "help": "Reduced text for the Article display title",
                   "translatable": true
@@ -797,7 +797,7 @@
                   "required": false,
                   "default": "Block title reduced",
                   "title": "Display Title Reduced",
-                  "inputType": "TextArea",
+                  "inputType": "Text",
                   "validators": [],
                   "help": "Reduced text for the Block display title",
                   "translatable": true
@@ -916,7 +916,7 @@
                   "required": false,
                   "default": "Component title reduced",
                   "title": "Display Title Reduced",
-                  "inputType": "TextArea",
+                  "inputType": "Text",
                   "validators": [],
                   "help": "Reduced text for the Component display title",
                   "translatable": true
