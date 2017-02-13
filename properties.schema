@@ -676,7 +676,7 @@
                 "displayTitleReduced": {
                   "type": "string",
                   "required": false,
-                  "default": "Article title reduced",
+                  "default": "",
                   "title": "Display Title Reduced",
                   "inputType": "Text",
                   "validators": [],
@@ -686,7 +686,7 @@
                 "bodyReduced": {
                   "type": "string",
                   "required": false,
-                  "default": "Article body reduced",
+                  "default": "",
                   "title": "Body Reduced",
                   "inputType": "TextArea",
                   "validators": [],
@@ -795,7 +795,7 @@
                 "displayTitleReduced": {
                   "type": "string",
                   "required": false,
-                  "default": "Block title reduced",
+                  "default": "",
                   "title": "Display Title Reduced",
                   "inputType": "Text",
                   "validators": [],
@@ -805,7 +805,7 @@
                 "bodyReduced": {
                   "type": "string",
                   "required": false,
-                  "default": "Block body reduced",
+                  "default": "",
                   "title": "Body Reduced",
                   "inputType": "TextArea",
                   "validators": [],
@@ -914,7 +914,7 @@
                 "displayTitleReduced": {
                   "type": "string",
                   "required": false,
-                  "default": "Component title reduced",
+                  "default": "",
                   "title": "Display Title Reduced",
                   "inputType": "Text",
                   "validators": [],
@@ -924,7 +924,7 @@
                 "bodyReduced": {
                   "type": "string",
                   "required": false,
-                  "default": "Component body reduced",
+                  "default": "",
                   "title": "Body Reduced",
                   "inputType": "TextArea",
                   "validators": [],
