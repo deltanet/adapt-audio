@@ -163,27 +163,32 @@ define(function(require) {
 
             // Incorrect
             } else {
-                // Final
-                if (this.model.get('_attemptsLeft') === 0) {
-                    try {
-                        this.audioFile = this.model.get('_audio')._feedback._incorrect._final;
-                    } catch(e) {
-                        console.log('An error has occured loading audio');
-                    }
-                    // Reduced text
-                    if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
-                        $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._incorrect.finalReduced).a11y_text();
-                    }
-                // Not final
-                } else {
-                    try {
-                        this.audioFile = this.model.get('_audio')._feedback._incorrect._notFinal;
-                    } catch(e) {
-                        console.log('An error has occured loading audio');
-                    }
-                    // Reduced text
-                    if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
-                        $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._incorrect.notFinalReduced).a11y_text();
+                // apply individual item feedback
+                if((this.model.get('_selectable') === 1) && this.model.get('_selectedItems')[0].feedback) {
+                    this.setupIndividualFeedbackAudio(this.model.get('_selectedItems')[0]._index);
+                  } else {
+                    // Final
+                    if (this.model.get('_attemptsLeft') === 0) {
+                        try {
+                            this.audioFile = this.model.get('_audio')._feedback._incorrect._final;
+                        } catch(e) {
+                            console.log('An error has occured loading audio');
+                        }
+                        // Reduced text
+                        if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
+                            $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._incorrect.finalReduced).a11y_text();
+                        }
+                    // Not final
+                    } else {
+                        try {
+                            this.audioFile = this.model.get('_audio')._feedback._incorrect._notFinal;
+                        } catch(e) {
+                            console.log('An error has occured loading audio');
+                        }
+                        // Reduced text
+                        if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
+                            $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._incorrect.notFinalReduced).a11y_text();
+                        }
                     }
                 }
 
@@ -193,6 +198,17 @@ define(function(require) {
                 Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
 
+        },
+
+        setupIndividualFeedbackAudio: function(item) {
+          var itemArray = new Array();
+          itemArray = this.model.get('_audio')._feedback._items;
+
+          try {
+              this.audioFile = itemArray[item]._src;
+          } catch(e) {
+              console.log('An error has occured loading audio');
+          }
         },
 
         stopFeedbackAudio: function() {

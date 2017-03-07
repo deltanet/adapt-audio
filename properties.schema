@@ -1056,6 +1056,26 @@
                           "help": "Optional audio for partly correct final feedback"
                         }
                       }
+                    },
+                    "_items": {
+                      "type":"array",
+                      "required":true,
+                      "title": "Option Specific Items",
+                      "items": {
+                        "type":"object",
+                        "required":true,
+                        "properties":{
+                          "_src": {
+                            "type": "string",
+                            "required": false,
+                            "default": "",
+                            "title": "Option Audio",
+                            "inputType": "Asset:audio",
+                            "validators": [],
+                            "help": "Optional audio for the specific option selected"
+                          }
+                        }
+                      }
                     }
                   }
                 }
