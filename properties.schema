@@ -1061,6 +1061,7 @@
                       "type":"array",
                       "required":true,
                       "title": "Option Specific Items",
+                      "help": "Add items here to correspond with the question options so the option specific feedback includes audio",
                       "items": {
                         "type":"object",
                         "required":true,
