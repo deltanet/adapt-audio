@@ -102,7 +102,21 @@
             "finalReduced": "Reduced partly correct final text.",
             "_notFinal": "course/en/audio/***.mp3",
             "_final": "course/en/audio/***.mp3"
-        }
+        },
+        "_items": [
+          {
+            "_src": "course/en/audio/***.mp3"
+          },
+          {
+            "_src": "course/en/audio/***.mp3"
+          },
+          {
+            "_src": "course/en/audio/***.mp3"
+          },
+          {
+            "_src": "course/en/audio/***.mp3"
+          }
+        ]
     }
 },
 
