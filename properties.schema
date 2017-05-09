@@ -398,7 +398,7 @@
                       "type": "string",
                       "required": true,
                       "default": "Audio is turned on by default in this module. You can turn the audio on or off at any time by selecting the audio icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the audio icon).",
-                      "title": "Prompt Message if Audio is On",
+                      "title": "Prompt Message if Audio is On and Reduced text is On",
                       "inputType": "Text",
                       "validators": [],
                       "translatable": true
@@ -407,7 +407,7 @@
                       "type": "string",
                       "required": true,
                       "default": "Audio is turned off by default in this module. You can turn the audio on or off at any time by selecting the audio icon.<br><br>You can choose either full or reduced on-screen text. The full text option matches the audio exactly. The reduced text option summarises the audio.<br><br>Please select full or reduced text (you can change your preference at any time by selecting the audio icon).",
-                      "title": "Prompt Message if Audio is On",
+                      "title": "Prompt Message if Audio is Off and Reduced text is On",
                       "inputType": "Text",
                       "validators": [],
                       "translatable": true
