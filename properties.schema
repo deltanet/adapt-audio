@@ -380,7 +380,7 @@
                       "type": "string",
                       "required": false,
                       "default": "Audio and text settings",
-                      "title": "Title",
+                      "title": "Title if Reduced text is On",
                       "inputType": "Text",
                       "validators": [],
                       "translatable": true
@@ -389,7 +389,7 @@
                       "type": "string",
                       "required": false,
                       "default": "Audio setting",
-                      "title": "Reduced Text Title",
+                      "title": "Title if Reduced text is Off",
                       "inputType": "Text",
                       "validators": [],
                       "translatable": true
