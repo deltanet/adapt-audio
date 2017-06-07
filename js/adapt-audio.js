@@ -20,8 +20,8 @@ define([
     },
 
     setupEventListeners: function() {
-      // load topnav AudioToggleView
-      this.listenTo(Adapt, "router:page router:menu", this.onAddToggle);
+      // load navigation toggle button
+      this.listenTo(Adapt, "navigationView:postRender", this.onAddToggle);
       // load menu audio
       this.listenTo(Adapt, "menuView:postRender", this.onMenuReady);
       // load article, block, component audio
@@ -115,9 +115,13 @@ define([
       this.changeText(Adapt.audio.textSize);
     },
 
-    onAddToggle: function(pageModel) {
+    onAddToggle: function(navigationView) {
       if (this.audioEnabled && Adapt.course.get('_audio')._showOnNavbar) {
-          new AudioToggleView({model:pageModel});
+        var audioModel = Adapt.course.get('_audio');
+        var audioToggleModel = new Backbone.Model(audioModel);
+        navigationView.$('.navigation-drawer-toggle-button').after(new AudioToggleView({
+          model: audioToggleModel
+        }).$el);
       }
     },
 

@@ -8,7 +8,6 @@ define(function(require) {
         className: 'audio-toggle',
 
         initialize: function() {
-            this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.render();
         },
@@ -20,7 +19,10 @@ define(function(require) {
         render: function() {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioToggle"];
-            this.$el.html(template(data)).appendTo('#wrapper'+'>.navigation'+'>.navigation-inner');
+
+            this.$el.html(template({
+                audioToggle:data
+            }));
 
             // Check for audio being on
             if(Adapt.audio.audioStatus == 1){
