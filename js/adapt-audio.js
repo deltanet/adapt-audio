@@ -126,7 +126,7 @@ define([
     },
 
     checkBookmark: function() {
-      if (this.audioEnabled) {
+      if (this.audioEnabled && Adapt.course.get('_audio')._prompt._isEnabled) {
         if((typeof Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") == "")) {
           this.showAudioPrompt();
         }
