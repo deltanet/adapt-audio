@@ -10,6 +10,7 @@ define(function(require) {
         initialize: function () {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
+            this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.render();
         },
@@ -28,10 +29,14 @@ define(function(require) {
             // Set vars
             this.audioChannel = this.model.get('_audioAssessment')._channel;
             this.elementId = this.model.get("_id");
+            this.audioIcon = Adapt.audio.iconPlay;
+
+            // Add audio icon
+            this.$('.audio-toggle').addClass(this.audioIcon);
 
             // Hide controls
-            if(this.model.get('_audioAssessment')._showControls==false){
-                this.$('.audio-toggle').addClass('hidden');
+            if (this.model.get('_audioAssessment')._showControls == false || Adapt.audio.audioClip[this.audioChannel].status == 0) {
+                this.$('.audio-inner button').hide();
             }
 
             // Set clip ID
@@ -54,6 +59,14 @@ define(function(require) {
                 for (var i = 0; i < Adapt.audio.numChannels; i++) {
                     Adapt.trigger('audio:updateAudioStatus', this.audioChannel, 0);
                 }
+            }
+        },
+
+        updateToggle: function() {
+            if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audioAssessment')._showControls == true) {
+                this.$('.audio-inner button').show();
+            } else {
+                this.$('.audio-inner button').hide();
             }
         },
 
