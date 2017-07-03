@@ -39,7 +39,7 @@ define([
       // Listen for bookmark
       this.listenToOnce(Adapt, "router:location", this.checkBookmark);
       // Listen for notify closing
-      this.listenTo(Adapt, 'notify:closed', this.stopAllChannels);
+      this.listenTo(Adapt, 'notify:closed', this.notifyClosed);
     },
 
     setupAudio: function() {
@@ -58,6 +58,9 @@ define([
       // Define audio model for all other views and components to reference
       Adapt.audio = {};
       Adapt.audio.audioClip = new Array();
+
+      // Set variable to be used for the initial prompt event
+      Adapt.audio.promptIsOpen = false;
 
       // Set default text size to full
       Adapt.audio.textSize = 0;
@@ -134,6 +137,8 @@ define([
     },
 
     showAudioPrompt: function() {
+      Adapt.audio.promptIsOpen = true;
+
       // Pause all channels
       this.stopAllChannels();
 
@@ -327,13 +332,16 @@ define([
         // Update player to new clip vars
         Adapt.audio.audioClip[channel].src = audioClip;
         Adapt.audio.audioClip[channel].newID = id;
-        try {
-          setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
-          Adapt.audio.audioClip[channel].isPlaying = true;
-          this.showAudioIcon(channel);
+        // Only play if prompt is not open
+        if(Adapt.audio.promptIsOpen == false) {
+          try {
+            setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
+            Adapt.audio.audioClip[channel].isPlaying = true;
+            this.showAudioIcon(channel);
 
-        } catch(e) {
-          console.log('Audio play error:' + e);
+          } catch(e) {
+            console.log('Audio play error:' + e);
+          }
         }
         Adapt.audio.audioClip[channel].onscreenID = id;
         // Update player ID to new clip
@@ -351,6 +359,16 @@ define([
     audioEnded: function(channel) {
       Adapt.audio.audioClip[channel].isPlaying = false;
       this.hideAudioIcon(channel);
+    },
+
+    notifyClosed: function() {
+      this.stopAllChannels();
+      // Check for initial prompt closing
+      if(Adapt.audio.promptIsOpen == true && this.audioEnabled) {
+        Adapt.audio.promptIsOpen = false;
+        Adapt.audio.audioClip[0].onscreenID = "";
+        this.playAudio(Adapt.audio.audioClip[0].src, Adapt.audio.audioClip[0].playingID, 0);
+      }
     },
 
     stopAllChannels: function() {
