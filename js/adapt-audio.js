@@ -37,7 +37,8 @@ define([
       // listen to text change in nav bar toggle prompt
       this.listenTo(Adapt, "audio:changeText", this.changeText);
       // Listen for bookmark
-      this.listenToOnce(Adapt, "router:location", this.checkBookmark);
+      this.listenTo(Adapt, "router:location", this.checkBookmark);
+      this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
       // Listen for notify closing
       this.listenTo(Adapt, 'notify:closed', this.notifyClosed);
     },
@@ -133,6 +134,12 @@ define([
         if((typeof Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") == "")) {
           this.showAudioPrompt();
         }
+      }
+    },
+
+    onLangChange: function() {
+      if (this.audioEnabled) {
+        Adapt.offlineStorage.set("location", "");
       }
     },
 
