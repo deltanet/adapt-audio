@@ -325,6 +325,7 @@ define([
 
     onscreenOff: function(id, channel){
       if(id == Adapt.audio.audioClip[channel].playingID){
+        Adapt.audio.audioClip[channel].onscreenID = "";
         this.pauseAudio(channel);
       }
     },
