@@ -37,7 +37,8 @@ define([
       // listen to text change in nav bar toggle prompt
       this.listenTo(Adapt, "audio:changeText", this.changeText);
       // Listen for bookmark
-      this.listenTo(Adapt, "router:location", this.checkBookmark);
+      this.listenToOnce(Adapt, "router:location", this.checkBookmark);
+      // Listen for language change
       this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
       // Listen for notify closing
       this.listenTo(Adapt, 'notify:closed', this.notifyClosed);
@@ -112,11 +113,14 @@ define([
       }
       // Update channels based on preference
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.audio.audioClip[i].status = Adapt.audio.audioStatus;
+        Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
       }
       // Change text and audio based on preference
       this.updateAudioStatus(0,Adapt.audio.audioStatus);
       this.changeText(Adapt.audio.textSize);
+
+      // Hack to enable autoplay on iOS devices
+      this.initAllChannels();
     },
 
     onAddToggle: function(navigationView) {
@@ -130,9 +134,18 @@ define([
     },
 
     checkBookmark: function() {
-      if (this.audioEnabled && Adapt.course.get('_audio')._prompt._isEnabled) {
-        if((typeof Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") == "")) {
+      if (!this.audioEnabled){
+        return;
+      }
+      // Check first launch of course
+      if((Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") === undefined) || (Adapt.offlineStorage.get("location") == "")) {
+        if (Adapt.course.get('_audio')._prompt._isEnabled) {
           this.showAudioPrompt();
+        }
+        // Presume there is a bookmark
+      } else {
+        if(Adapt.course.get('_bookmarking')._isEnabled) {
+          Adapt.audio.promptIsOpen = true;
         }
       }
     },
@@ -140,14 +153,12 @@ define([
     onLangChange: function() {
       if (this.audioEnabled) {
         Adapt.offlineStorage.set("location", "");
+        this.listenToOnce(Adapt, "router:location", this.checkBookmark);
       }
     },
 
     showAudioPrompt: function() {
       Adapt.audio.promptIsOpen = true;
-
-      // Pause all channels
-      this.stopAllChannels();
 
       var audioPromptModel = Adapt.course.get('_audio')._prompt;
 
@@ -246,11 +257,12 @@ define([
     setFullTextAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 0);
-      this.playCurrentAudio(0);
       this.stopListening(Adapt, "audio:fullTextAudioOn");
+      this.promptClosed();
     },
 
     setFullTextAudioOff: function() {
+      Adapt.audio.promptIsOpen = false;
       Adapt.audio.audioStatus = 0;
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:fullTextAudioOff");
@@ -259,11 +271,12 @@ define([
     setReducedTextAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 1);
-      this.playCurrentAudio(0);
       this.stopListening(Adapt, "audio:reducedTextAudioOn");
+      this.promptClosed();
     },
 
     setReducedTextAudioOff: function() {
+      Adapt.audio.promptIsOpen = false;
       Adapt.audio.audioStatus = 0;
       Adapt.trigger('audio:changeText', 1);
       this.stopListening(Adapt, "audio:reducedTextAudioOff");
@@ -272,11 +285,12 @@ define([
     setContinueAudioOn: function() {
       Adapt.audio.audioStatus = 1;
       Adapt.trigger('audio:changeText', 0);
-      this.initAllChannels();
       this.stopListening(Adapt, "audio:selectContinueAudioOn");
+      this.promptClosed();
     },
 
     setContinueAudioOff: function() {
+      Adapt.audio.promptIsOpen = false;
       Adapt.audio.audioStatus = 0;
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectContinueAudioOn");
@@ -290,6 +304,7 @@ define([
       Adapt.trigger('audio:updateAudioStatus', 0,0);
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOff");
+      this.promptClosed();
     },
 
     setAudioOn: function() {
@@ -300,9 +315,9 @@ define([
       Adapt.trigger('audio:updateAudioStatus', 0,1);
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOn");
+      this.promptClosed();
     },
-// hack to enable autoplay on iOS devices
-// TODO find a more permenant solution to iOS autoplay
+    // Hack to enable autoplay on iOS devices
     initAllChannels: function(){
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.audio.audioClip[i].play();
@@ -313,9 +328,11 @@ define([
     },
 
     playCurrentAudio: function(channel){
-      Adapt.audio.audioClip[channel].play();
-      Adapt.audio.audioClip[channel].isPlaying = true;
-      this.showAudioIcon(channel);
+      if(Adapt.audio.audioClip[channel].status == 1) {
+        Adapt.audio.audioClip[channel].play();
+        Adapt.audio.audioClip[channel].isPlaying = true;
+        this.showAudioIcon(channel);
+      }
     },
 
     changeText: function(value) {
@@ -371,10 +388,14 @@ define([
 
     notifyClosed: function() {
       this.stopAllChannels();
-      // Check for initial prompt closing
-      if(Adapt.audio.promptIsOpen == true && this.audioEnabled) {
-        Adapt.audio.promptIsOpen = false;
-        Adapt.audio.audioClip[0].onscreenID = "";
+      Adapt.audio.promptIsOpen = false;
+    },
+
+    promptClosed: function() {
+      this.stopAllChannels();
+      Adapt.audio.promptIsOpen = false;
+      Adapt.audio.audioClip[0].onscreenID = "";
+      if(Adapt.audio.audioClip[0].status == 1) {
         this.playAudio(Adapt.audio.audioClip[0].src, Adapt.audio.audioClip[0].playingID, 0);
       }
     },
@@ -426,15 +447,14 @@ define([
     },
 
     addAudioDrawerItem: function() {
-      var drawerAudio = Adapt.course.get('_audio');
-
       if (this.audioEnabled) {
+        var drawerAudio = Adapt.course.get('_audio');
         var drawerObject = {
-              title: drawerAudio.title,
-              description: drawerAudio.description,
-              className: 'audio-drawer'
-          };
-          Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
+          title: drawerAudio.title,
+          description: drawerAudio.description,
+          className: 'audio-drawer'
+        };
+        Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
       }
     },
 
