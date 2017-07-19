@@ -6,7 +6,7 @@
   "properties":{
     "pluginLocations": {
       "type":"object",
-      "required":true,
+      "required": true,
       "properties":{
         "config": {
           "type":"object"
@@ -16,51 +16,51 @@
           "properties":{
             "_audio": {
               "type":"object",
-              "required":false,
+              "required": false,
               "legend": "Audio",
               "properties":{
                 "_isEnabled": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": false,
                   "title": "Is Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Enables Audio Extension"
+                  "help": "Controls whether the Audio extension is enabled or disabled."
                 },
                 "_reducedTextisEnabled": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": false,
-                  "title": "Reduced text Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "title": "Reduced Text Is Enabled",
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Enables Reduced Text Functionality"
+                  "help": "Controls whether the reduced text functionality is enabled or disabled."
                 },
                 "_autoplay": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": true,
-                  "title": "Autoplay Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "title": "Autoplay Is Enabled",
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Enables Autoplay on all audio elements"
+                  "help": "Enables autoplay on all audio elements."
                 },
                 "_autoPlayOnce": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": true,
-                  "title": "Autoplay Once",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "title": "Autoplay Once Is Enabled",
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Enables Autoplay Once on all audio elements"
+                  "help": "Sets whether audio should autoplay only once when on screen."
                 },
                 "_showOnNavbar": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": true,
                   "title": "Show Audio Pause/Play Icon on the navigation bar",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": []
                 },
                 "_pauseStopAction": {
@@ -70,7 +70,7 @@
                   "title": "Function for the pause/stop button",
                   "inputType": {"type": "Select", "options": ["stop", "pause"]},
                   "validators": [],
-                  "help": "Set the function of the play/pause button"
+                  "help": "Set the function of the play/pause button."
                 },
                 "_triggerPosition": {
                   "type": "number",
@@ -79,15 +79,16 @@
                   "title": "Play Audio Position",
                   "default": 60,
                   "validators": ["number"],
-                  "help": "Set the position on screen for when the audio will play. This is as a percentage from the top of the screen"
+                  "help": "Set the percentage from the top of the screen for when the audio will play."
                 },
                 "title": {
                   "type": "string",
                   "required": false,
                   "default": "Audio",
                   "inputType": "Text",
+                  "title": "Drawer Title",
                   "validators": [],
-                  "help": "Optional title for audio drawer",
+                  "help": "Optional title for audio drawer.",
                   "translatable": true
                 },
                 "description": {
@@ -95,27 +96,27 @@
                   "required": false,
                   "default": "Click here to view the audio settings for this course.",
                   "inputType": "Text",
+                  "title": "Drawer Description",
                   "validators": [],
-                  "help": "Optional description for audio drawer",
+                  "help": "Optional description for audio drawer.",
                   "translatable": true
                 },
                 "_channels": {
                   "type":"object",
-                  "required":true,
+                  "required": true,
                   "title": "Audio Channels",
                   "properties":{
                     "_narration": {
                       "type":"object",
-                      "required":true,
+                      "required": true,
                       "title": "Narration",
-                      "help": "Default channel for article, block and component audio",
                       "properties":{
                         "_isEnabled": {
                           "type":"boolean",
-                          "required":true,
+                          "required": true,
                           "default": true,
-                          "title": "Channel Enabled",
-                          "inputType": { "type": "Boolean", "options": [false, true]},
+                          "title": "Channel Is Enabled",
+                          "inputType": "Checkbox",
                           "validators": []
                         },
                         "_status": {
@@ -159,16 +160,15 @@
                     },
                     "_effects": {
                       "type":"object",
-                      "required":true,
+                      "required": true,
                       "title": "Effects",
-                      "help": "Effects channel for article, block and component audio",
                       "properties":{
                         "_isEnabled": {
                           "type":"boolean",
-                          "required":true,
+                          "required": true,
                           "default": true,
-                          "title": "Channel Enabled",
-                          "inputType": { "type": "Boolean", "options": [false, true]},
+                          "title": "Channel Is Enabled",
+                          "inputType": "Checkbox",
                           "validators": []
                         },
                         "_status": {
@@ -179,7 +179,7 @@
                           "title": "Initial Volume",
                           "default": 1,
                           "validators": ["required", "number"],
-                          "help": "Set to 1 to play channel audio"
+                          "help": "Set to 1 to play channel audio."
                         },
                         "title": {
                           "type": "string",
@@ -212,16 +212,15 @@
                     },
                     "_music": {
                       "type":"object",
-                      "required":true,
+                      "required": true,
                       "title": "Music",
-                      "help": "Music channel for article, block and component audio",
                       "properties":{
                         "_isEnabled": {
                           "type":"boolean",
-                          "required":true,
+                          "required": true,
                           "default": true,
-                          "title": "Channel Enabled",
-                          "inputType": { "type": "Boolean", "options": [false, true]},
+                          "title": "Channel Is Enabled",
+                          "inputType": "Checkbox",
                           "validators": []
                         },
                         "_status": {
@@ -267,8 +266,8 @@
                 },
                 "_reducedText": {
                   "type":"object",
-                  "required":true,
-                  "title": "Drawer Reduced Text Settings",
+                  "required": true,
+                  "title": "Drawer Reduced Text",
                   "properties":{
                     "title": {
                       "type": "string",
@@ -299,7 +298,7 @@
                     },
                     "_buttons": {
                       "type":"object",
-                      "required":true,
+                      "required": true,
                       "title": "Drawer Buttons",
                       "properties":{
                         "full": {
@@ -326,7 +325,7 @@
                 },
                 "_icons": {
                   "type":"object",
-                  "required":true,
+                  "required": true,
                   "title": "Audio Icon Classes",
                   "properties":{
                     "_audioOn": {
@@ -365,15 +364,15 @@
                 },
                 "_prompt": {
                   "type":"object",
-                  "required":true,
-                  "title": "Initial Audio Preference Prompt",
+                  "required": true,
+                  "title": "Initial Prompt",
                   "properties":{
                     "_isEnabled": {
                       "type":"boolean",
-                      "required":false,
+                      "required": false,
                       "default": true,
                       "title": "Is Enabled",
-                      "inputType": { "type": "Boolean", "options": [false, true]},
+                      "inputType": "Checkbox",
                       "validators": []
                     },
                     "title": {
@@ -433,12 +432,13 @@
                     "_buttons": {
                       "type":"object",
                       "required":true,
+                      "title": "Prompt Buttons",
                       "properties":{
                         "full": {
                           "type": "string",
                           "required": true,
                           "default": "Full",
-                          "title": "Full Text Button",
+                          "title": "Full Text",
                           "inputType": "Text",
                           "validators": [],
                           "help": "Enter the text for the button to select full text",
@@ -448,7 +448,7 @@
                           "type": "string",
                           "required": true,
                           "default": "Reduced",
-                          "title": "Reduced Text Button",
+                          "title": "Reduced Text",
                           "inputType": "Text",
                           "validators": [],
                           "help": "Enter the text for the button to select reduced text",
@@ -458,7 +458,7 @@
                           "type": "string",
                           "required": true,
                           "default": "Continue",
-                          "title": "Continue Button",
+                          "title": "Continue",
                           "inputType": "Text",
                           "validators": [],
                           "help": "Enter the text for the button to select continue",
@@ -468,7 +468,7 @@
                           "type": "string",
                           "required": true,
                           "default": "Turn audio off",
-                          "title": "Turn Off Button",
+                          "title": "Turn Off",
                           "inputType": "Text",
                           "validators": [],
                           "help": "Enter the text for the button to turn audio off",
@@ -478,7 +478,7 @@
                           "type": "string",
                           "required": true,
                           "default": "Turn audio on",
-                          "title": "Turn On Button",
+                          "title": "Turn On",
                           "inputType": "Text",
                           "validators": [],
                           "help": "Enter the text for the button to turn audio on",
@@ -488,12 +488,12 @@
                     },
                     "_graphic": {
                       "type":"object",
-                      "required":false,
+                      "required": false,
                       "title": "Graphic",
                       "properties":{
                         "src": {
                           "type":"string",
-                          "required":true,
+                          "required": true,
                           "default": "",
                           "inputType": "Asset:image",
                           "validators": []
@@ -511,44 +511,44 @@
           "properties":{
             "_audio": {
               "type":"object",
-              "required":false,
+              "required": false,
               "legend": "Audio",
               "properties":{
                 "_isEnabled": {
-                  "type":"boolean",
-                  "required":false,
+                  "type": "boolean",
+                  "required": false,
                   "default": false,
                   "title": "Is Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Enables Audio on the Page"
+                  "help": "Enables Audio on the Page."
                 },
                 "_showControls": {
-                  "type":"boolean",
-                  "required":false,
+                  "type": "boolean",
+                  "required": false,
                   "default": false,
                   "title": "Show Controls",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Displays the icon controls on the page"
+                  "help": "Displays the icon controls on the page."
                 },
                 "_autoplay": {
-                  "type":"boolean",
-                  "required":false,
+                  "type": "boolean",
+                  "required": false,
                   "default": true,
                   "title": "Autoplay",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Autoplays the audio when in view"
+                  "help": "Autoplays the audio when on screen."
                 },
                 "_channel": {
-                  "type":"number",
-                  "required":false,
+                  "type": "number",
+                  "required": false,
                   "default":0,
                   "title": "Channel",
                   "inputType": {"type": "Select", "options": [0, 1, 2]},
                   "validators": ["number"],
-                  "help": "Set value to 0 to play the audio clip on the default channel"
+                  "help": "Set value to 0 to play the audio clip on the default channel."
                 },
                 "_location": {
                   "type": "string",
@@ -557,7 +557,7 @@
                   "title": "Location",
                   "inputType": "Text",
                   "validators": [],
-                  "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right"
+                  "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right."
                 },
                 "_media": {
                   "type": "object",
@@ -570,7 +570,7 @@
                       "title": "Page Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "help": "Audio for the page"
+                      "help": "Audio for the page."
                     }
                   }
                 }
@@ -583,53 +583,53 @@
           "properties":{
             "_audio": {
               "type":"object",
-              "required":false,
+              "required": false,
               "legend": "Audio",
               "properties":{
                 "_isEnabled": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": false,
                   "title": "Is Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Enables Audio on the Article"
+                  "help": "Enables Audio on the Article."
                 },
                 "_showControls": {
                   "type":"boolean",
-                  "required":false,
-                  "default": false,
+                  "required": false,
+                  "default": true,
                   "title": "Show Controls",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Displays the icon controls on the Article"
+                  "help": "Displays the icon controls on the Article."
                 },
                 "_autoplay": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": true,
                   "title": "Autoplay",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Autoplays the audio when in view"
+                  "help": "Autoplays the audio when on screen."
                 },
                 "_autoPlayOnce": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": true,
                   "title": "Autoplay Only Once Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Only autoplays the audio once when in view"
+                  "help": "Only autoplays the audio once when on screen."
                 },
                 "_channel": {
                   "type":"number",
-                  "required":false,
+                  "required": false,
                   "default":0,
                   "title": "Channel",
                   "inputType": {"type": "Select", "options": [0, 1, 2]},
                   "validators": ["number"],
-                  "help": "Set value to 0 to play the audio clip on the default channel"
+                  "help": "Set value to 0 to play the audio clip on the default channel."
                 },
                 "_location": {
                   "type": "string",
@@ -638,7 +638,7 @@
                   "title": "Location",
                   "inputType": "Text",
                   "validators": [],
-                  "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right"
+                  "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right."
                 },
                 "_media": {
                   "type": "object",
@@ -651,7 +651,7 @@
                       "title": "Desktop Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "help": "Audio for desktop size device"
+                      "help": "Audio for desktop size device."
                     },
                     "mobile": {
                       "type": "string",
@@ -660,18 +660,18 @@
                       "title": "Mobile Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "help": "Audio for mobile size device"
+                      "help": "Audio for mobile size device."
                     }
                   }
                 },
                 "_reducedTextisEnabled": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": false,
-                  "title": "Reduced Text Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "title": "Reduced Text Is Enabled",
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Sets the reduced text functionality"
+                  "help": "Controls whether the reduced text is enabled or disabled."
                 },
                 "displayTitleReduced": {
                   "type": "string",
@@ -680,7 +680,7 @@
                   "title": "Display Title Reduced",
                   "inputType": "Text",
                   "validators": [],
-                  "help": "Reduced text for the Article display title",
+                  "help": "Reduced text for the Article display title.",
                   "translatable": true
                 },
                 "bodyReduced": {
@@ -690,7 +690,7 @@
                   "title": "Body Reduced",
                   "inputType": "TextArea",
                   "validators": [],
-                  "help": "Reduced text for the Article body",
+                  "help": "Reduced text for the Article body.",
                   "translatable": true
                 }
               }
@@ -702,53 +702,53 @@
           "properties":{
             "_audio": {
               "type":"object",
-              "required":false,
+              "required": false,
               "legend": "Audio",
               "properties":{
                 "_isEnabled": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": false,
                   "title": "Is Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Enables Audio on the Block"
+                  "help": "Enables Audio on the Block."
                 },
                 "_showControls": {
                   "type":"boolean",
-                  "required":false,
-                  "default": false,
+                  "required": false,
+                  "default": true,
                   "title": "Show Controls",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Displays the icon controls on the Block"
+                  "help": "Displays the icon controls on the Block."
                 },
                 "_autoplay": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": true,
                   "title": "Autoplay",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Autoplays the audio when in view"
+                  "help": "Autoplays the audio when on screen."
                 },
                 "_autoPlayOnce": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": true,
                   "title": "Autoplay Only Once",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Only autoplays the audio once when in view"
+                  "help": "Only autoplays the audio once when on screen."
                 },
                 "_channel": {
                   "type":"number",
-                  "required":false,
+                  "required": false,
                   "default":0,
                   "title": "Channel",
                   "inputType": {"type": "Select", "options": [0, 1, 2]},
                   "validators": ["number"],
-                  "help": "Set value to 0 to play the audio clip on the default channel"
+                  "help": "Set value to 0 to play the audio clip on the default channel."
                 },
                 "_location": {
                   "type": "string",
@@ -757,7 +757,7 @@
                   "title": "Location",
                   "inputType": "Text",
                   "validators": [],
-                  "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right"
+                  "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right."
                 },
                 "_media": {
                   "type": "object",
@@ -770,7 +770,7 @@
                       "title": "Desktop Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "help": "Audio for desktop size device"
+                      "help": "Audio for desktop size device."
                     },
                     "mobile": {
                       "type": "string",
@@ -779,18 +779,18 @@
                       "title": "Mobile Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "help": "Audio for mobile size device"
+                      "help": "Audio for mobile size device."
                     }
                   }
                 },
                 "_reducedTextisEnabled": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": false,
-                  "title": "Reduced Text Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "title": "Reduced Text Is Enabled",
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Sets the reduced text functionality"
+                  "help": "Controls whether the reduced text is enabled or disabled."
                 },
                 "displayTitleReduced": {
                   "type": "string",
@@ -799,7 +799,7 @@
                   "title": "Display Title Reduced",
                   "inputType": "Text",
                   "validators": [],
-                  "help": "Reduced text for the Block display title",
+                  "help": "Reduced text for the Block display title.",
                   "translatable": true
                 },
                 "bodyReduced": {
@@ -809,7 +809,7 @@
                   "title": "Body Reduced",
                   "inputType": "TextArea",
                   "validators": [],
-                  "help": "Reduced text for the Block body",
+                  "help": "Reduced text for the Block body.",
                   "translatable": true
                 }
               }
@@ -821,53 +821,53 @@
           "properties":{
             "_audio": {
               "type":"object",
-              "required":false,
+              "required": false,
               "legend": "Audio",
               "properties":{
                 "_isEnabled": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": false,
                   "title": "Is enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Enables Audio on the Component"
+                  "help": "Enables Audio on the Component."
                 },
                 "_showControls": {
                   "type":"boolean",
-                  "required":false,
-                  "default": false,
+                  "required": false,
+                  "default": true,
                   "title": "Show Controls",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Displays the icon controls on the Component"
+                  "help": "Displays the icon controls on the Component."
                 },
                 "_autoplay": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": true,
                   "title": "Autoplay",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Autoplays the audio when in view"
+                  "help": "Autoplays the audio when on screen."
                 },
                 "_autoPlayOnce": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": true,
                   "title": "Autoplay Only Once",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Only autoplays the audio once when in view"
+                  "help": "Only autoplays the audio once when on screen."
                 },
                 "_channel": {
                   "type":"number",
-                  "required":false,
+                  "required": false,
                   "default":0,
                   "title": "Channel",
                   "inputType": {"type": "Select", "options": [0, 1, 2]},
                   "validators": ["number"],
-                  "help": "Set value to 0 to play the audio clip on the default channel"
+                  "help": "Set value to 0 to play the audio clip on the default channel."
                 },
                 "_location": {
                   "type": "string",
@@ -876,7 +876,7 @@
                   "title": "Location",
                   "inputType": "Text",
                   "validators": [],
-                  "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right"
+                  "help": "Set the location of the audio controls. Pre-defined styles are top-left, top-right, bottom-left, bottom-right."
                 },
                 "_media": {
                   "type": "object",
@@ -889,7 +889,7 @@
                       "title": "Desktop Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "help": "Audio for desktop size device"
+                      "help": "Audio for desktop size device."
                     },
                     "mobile": {
                       "type": "string",
@@ -898,18 +898,18 @@
                       "title": "Mobile Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
-                      "help": "Audio for mobile size device"
+                      "help": "Audio for mobile size device."
                     }
                   }
                 },
                 "_reducedTextisEnabled": {
                   "type":"boolean",
-                  "required":false,
+                  "required": false,
                   "default": false,
-                  "title": "Reduced Text Enabled",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "title": "Reduced Text Is Enabled",
+                  "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Sets the reduced text functionality"
+                  "help": "Controls whether the reduced text is enabled or disabled."
                 },
                 "displayTitleReduced": {
                   "type": "string",
@@ -918,7 +918,7 @@
                   "title": "Display Title Reduced",
                   "inputType": "Text",
                   "validators": [],
-                  "help": "Reduced text for the Component display title",
+                  "help": "Reduced text for the Component display title.",
                   "translatable": true
                 },
                 "bodyReduced": {
@@ -928,7 +928,7 @@
                   "title": "Body Reduced",
                   "inputType": "TextArea",
                   "validators": [],
-                  "help": "Reduced text for the Component body",
+                  "help": "Reduced text for the Component body.",
                   "translatable": true
                 },
                 "_feedback": {
@@ -938,24 +938,24 @@
                   "properties": {
                     "_isEnabled": {
                       "type":"boolean",
-                      "required":false,
-                      "title": "Enabled",
-                      "inputType": { "type": "Boolean", "options": [false, true]},
+                      "required": false,
+                      "title": "Is Enabled",
+                      "inputType": "Checkbox",
                       "validators": [],
-                      "help": "Turns feedback audio on and off for question components. Acceptable values are true and false."
+                      "help": "Turns feedback audio on and off for question components."
                     },
                     "_correct": {
                       "type":"object",
-                      "required":false,
+                      "required": false,
                       "properties":{
                         "correctReduced": {
                           "type":"string",
-                          "required":false,
+                          "required": false,
                           "default": "",
                           "title": "Correct - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Correct feedback for this question when reduced text is shown",
+                          "help": "Correct feedback for this question when reduced text is shown.",
                           "translatable": true
                         },
                         "_correct": {
@@ -965,7 +965,7 @@
                           "title": "Correct Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "help": "Optional audio for correct feedback"
+                          "help": "Optional audio for correct feedback."
                         }
                       }
                     },
@@ -980,7 +980,7 @@
                           "title": "Incorrect Not Final - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Incorrect feedback for any attempt apart from the last attempt when reduced text is shown",
+                          "help": "Incorrect feedback for any attempt apart from the last attempt when reduced text is shown.",
                           "translatable": true
                         },
                         "finalReduced": {
@@ -990,7 +990,7 @@
                           "title": "Incorrect Final - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Incorrect feedback for the final attempt when reduced text is shown",
+                          "help": "Incorrect feedback for the final attempt when reduced text is shown.",
                           "translatable": true
                         },
                         "_notFinal": {
@@ -1000,7 +1000,7 @@
                           "title": "Incorrect Not Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "help": "Optional audio for incorrect not final feedback"
+                          "help": "Optional audio for incorrect not final feedback."
                         },
                         "_final": {
                           "type": "string",
@@ -1009,7 +1009,7 @@
                           "title": "Incorrect Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "help": "Optional audio for incorrect final feedback"
+                          "help": "Optional audio for incorrect final feedback."
                         }
                       }
                     },
@@ -1024,7 +1024,7 @@
                           "title": "Partly Correct Not Final - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Partly correct feedback for any attempt apart from the last attempt when reduced text is shown",
+                          "help": "Partly correct feedback for any attempt apart from the last attempt when reduced text is shown.",
                           "translatable": true
                         },
                         "finalReduced": {
@@ -1034,7 +1034,7 @@
                           "title": "Partly Correct Final - Reduced Text",
                           "inputType": "TextArea",
                           "validators": [],
-                          "help": "Partly correct feedback for the final attempt when reduced text is shown",
+                          "help": "Partly correct feedback for the final attempt when reduced text is shown.",
                           "translatable": true
                         },
                         "_notFinal": {
@@ -1044,7 +1044,7 @@
                           "title": "Partly Correct Not Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "help": "Optional audio for partly correct not final feedback"
+                          "help": "Optional audio for partly correct not final feedback."
                         },
                         "_final": {
                           "type": "string",
@@ -1053,18 +1053,17 @@
                           "title": "Partly Correct Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
-                          "help": "Optional audio for partly correct final feedback"
+                          "help": "Optional audio for partly correct final feedback."
                         }
                       }
                     },
                     "_items": {
                       "type":"array",
-                      "required":true,
+                      "required": true,
                       "title": "Option Specific Items",
-                      "help": "Add items here to correspond with the question options so the option specific feedback includes audio",
                       "items": {
                         "type":"object",
-                        "required":true,
+                        "required": true,
                         "properties":{
                           "_src": {
                             "type": "string",
@@ -1073,7 +1072,7 @@
                             "title": "Option Audio",
                             "inputType": "Asset:audio",
                             "validators": [],
-                            "help": "Optional audio for the specific option selected"
+                            "help": "Optional audio for the specific option selected."
                           }
                         }
                       }
