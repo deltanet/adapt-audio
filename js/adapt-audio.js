@@ -29,6 +29,7 @@ define([
       this.listenTo(Adapt, "audio:onscreenOff", this.onscreenOff);
       this.listenTo(Adapt, "audio:playAudio", this.playAudio);
       this.listenTo(Adapt, "audio:pauseAudio", this.pauseAudio);
+      this.listenTo(Adapt, "audio:stopAllChannels", this.stopAllChannels);
       this.listenTo(Adapt, "audio:audioEnded", this.audioEnded);
       // listen to toggle audio on or off
       this.listenTo(Adapt, "audio:updateAudioStatus", this.updateAudioStatus);
@@ -349,6 +350,7 @@ define([
 
     playAudio: function(audioClip, id, channel) {
       if(this.audioEnabled && Adapt.audio.audioClip[channel].onscreenID != id){
+        Adapt.trigger('media:stop');
         // Stop audio
         Adapt.audio.audioClip[channel].pause();
         // Update previous player
