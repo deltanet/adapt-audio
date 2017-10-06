@@ -78,6 +78,17 @@ define([
       Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
       Adapt.audio.autoPlayOnceGlobal = Adapt.course.get('_audio')._autoPlayOnce ? true : false;
 
+      // Set variable for iOS devices
+      // When false - autoplay will be disabled until the user clicks on the audio control icon
+      Adapt.audio.autoPlayOnIOS = false;
+
+      // Check if iOS is being used
+      if (navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i)) {
+        Adapt.audio.autoPlayOnIOS = false;
+      } else {
+        Adapt.audio.autoPlayOnIOS = true;
+      }
+
       // Get names for icons from course.config
       Adapt.audio.iconOn = Adapt.course.get('_audio')._icons._audioOn;
       Adapt.audio.iconOff = Adapt.course.get('_audio')._icons._audioOff;
@@ -120,8 +131,6 @@ define([
       this.updateAudioStatus(0,Adapt.audio.audioStatus);
       this.changeText(Adapt.audio.textSize);
 
-      // Hack to enable autoplay on iOS devices
-      this.initAllChannels();
     },
 
     onAddToggle: function(navigationView) {
@@ -257,6 +266,7 @@ define([
 
     setFullTextAudioOn: function() {
       Adapt.audio.audioStatus = 1;
+      Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:fullTextAudioOn");
       this.promptClosed();
@@ -265,12 +275,14 @@ define([
     setFullTextAudioOff: function() {
       Adapt.audio.promptIsOpen = false;
       Adapt.audio.audioStatus = 0;
+      Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:fullTextAudioOff");
     },
 
     setReducedTextAudioOn: function() {
       Adapt.audio.audioStatus = 1;
+      Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 1);
       this.stopListening(Adapt, "audio:reducedTextAudioOn");
       this.promptClosed();
@@ -279,12 +291,14 @@ define([
     setReducedTextAudioOff: function() {
       Adapt.audio.promptIsOpen = false;
       Adapt.audio.audioStatus = 0;
+      Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 1);
       this.stopListening(Adapt, "audio:reducedTextAudioOff");
     },
 
     setContinueAudioOn: function() {
       Adapt.audio.audioStatus = 1;
+      Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectContinueAudioOn");
       this.promptClosed();
@@ -293,12 +307,14 @@ define([
     setContinueAudioOff: function() {
       Adapt.audio.promptIsOpen = false;
       Adapt.audio.audioStatus = 0;
+      Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectContinueAudioOn");
     },
 
     setAudioOff: function() {
       Adapt.audio.audioStatus = 0;
+      Adapt.audio.autoPlayOnIOS = true;
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
       }
@@ -310,6 +326,7 @@ define([
 
     setAudioOn: function() {
       Adapt.audio.audioStatus = 1;
+      Adapt.audio.autoPlayOnIOS = true;
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
       }
@@ -317,15 +334,6 @@ define([
       Adapt.trigger('audio:changeText', 0);
       this.stopListening(Adapt, "audio:selectOn");
       this.promptClosed();
-    },
-    // Hack to enable autoplay on iOS devices
-    initAllChannels: function(){
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.audio.audioClip[i].play();
-        Adapt.audio.audioClip[i].isPlaying = true;
-        Adapt.audio.audioClip[i].pause();
-        Adapt.audio.audioClip[i].isPlaying = false;
-      }
     },
 
     playCurrentAudio: function(channel){
@@ -360,7 +368,7 @@ define([
         Adapt.audio.audioClip[channel].src = audioClip;
         Adapt.audio.audioClip[channel].newID = id;
         // Only play if prompt is not open
-        if(Adapt.audio.promptIsOpen == false) {
+        if(Adapt.audio.promptIsOpen == false && Adapt.audio.autoPlayOnIOS) {
           try {
             setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
             Adapt.audio.audioClip[channel].isPlaying = true;

@@ -38,7 +38,7 @@ define(function(require) {
             this.audioChannel = this.model.get('_audio')._channel;
             this.elementId = this.model.get("_id");
             this.audioIcon = Adapt.audio.iconPlay;
-            this.pausedTime = "";
+            this.pausedTime = 0;
 
             // Autoplay
             if (Adapt.audio.autoPlayGlobal || this.model.get("_audio")._autoplay) {
@@ -255,21 +255,41 @@ define(function(require) {
             this.setAudioFile();
             Adapt.audio.audioClip[this.audioChannel].onscreenID = "";
             if ($(event.currentTarget).hasClass('playing')) {
-                this.pauseAudio();
+              this.pauseAudio();
             } else {
-                this.playAudio();
+              this.playAudio();
             }
         },
 
         playAudio: function() {
-            if (Adapt.audio.pauseStopAction == "pause") {
-                Adapt.audio.audioClip[this.audioChannel].play(this.pausedTime);
-                this.$('.audio-toggle').removeClass(Adapt.audio.iconPlay);
-                this.$('.audio-toggle').addClass(Adapt.audio.iconPause);
-                this.$('.audio-toggle').addClass('playing');
-            } else {
-                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
-            }
+          // iOS requires direct user interaction on a button to enable autoplay
+          // Re-use code from main adapt-audio.js playAudio() function
+          
+          // Stop audio
+          Adapt.audio.audioClip[this.audioChannel].pause();
+          // Update previous player
+          $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass(Adapt.audio.iconPause);
+          $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).addClass(Adapt.audio.iconPlay);
+          $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass('playing');
+
+          this.$('.audio-toggle').removeClass(Adapt.audio.iconPlay);
+          this.$('.audio-toggle').addClass(Adapt.audio.iconPause);
+          this.$('.audio-toggle').addClass('playing');
+
+          Adapt.audio.audioClip[this.audioChannel].prevID = Adapt.audio.audioClip[this.audioChannel].playingID;
+          Adapt.audio.audioClip[this.audioChannel].src = this.audioFile;
+          Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
+
+          if (Adapt.audio.pauseStopAction == "pause") {
+            Adapt.audio.audioClip[this.audioChannel].play(this.pausedTime);
+          } else {
+            Adapt.audio.audioClip[this.audioChannel].play();
+          }
+
+          Adapt.audio.audioClip[this.audioChannel].onscreenID = this.elementId;
+          Adapt.audio.audioClip[this.audioChannel].playingID = Adapt.audio.audioClip[this.audioChannel].newID;
+          Adapt.audio.audioClip[this.audioChannel].isPlaying = true;
+          Adapt.audio.autoPlayOnIOS = true;
         },
 
         pauseAudio: function() {
