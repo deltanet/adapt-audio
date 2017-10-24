@@ -231,10 +231,11 @@ define(function(require) {
 
         onscreen: function(event, measurements) {
 
+            var visible = this.model.get('_isVisible');
             var isOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromTop > 0;
             var isOnscreenX = measurements.percentInviewHorizontal == 100;
 
-            if (isOnscreenY && isOnscreenX && this.canAutoplay) {
+            if (visible && isOnscreenY && isOnscreenX && this.canAutoplay) {
                 // Check if audio is set to on
                 if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
                     this.setAudioFile();
@@ -264,7 +265,7 @@ define(function(require) {
         playAudio: function() {
           // iOS requires direct user interaction on a button to enable autoplay
           // Re-use code from main adapt-audio.js playAudio() function
-          
+
           // Stop audio
           Adapt.audio.audioClip[this.audioChannel].pause();
           // Update previous player
