@@ -161,6 +161,73 @@ define([
     },
 
     onLangChange: function() {
+      this.listenToOnce(Adapt, "app:dataReady", this.onDataChanged);
+    },
+
+    onDataChanged: function() {
+      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
+        this.audioEnabled = Adapt.course.get("_audio")._isEnabled;
+      } else {
+        this.audioEnabled = false;
+      }
+
+      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._reducedTextisEnabled) {
+        this.reducedTextEnabled = Adapt.course.get("_audio")._reducedTextisEnabled;
+      } else {
+        this.reducedTextEnabled = false;
+      }
+
+      // Set variable to be used for the initial prompt event
+      Adapt.audio.promptIsOpen = false;
+
+      // Set default text size to full
+      Adapt.audio.textSize = 0;
+
+      // Set action for the pause button
+      Adapt.audio.pauseStopAction = Adapt.course.get('_audio')._pauseStopAction;
+
+      // Set trigger position for onscreen percentFromTop detection
+      Adapt.audio.triggerPosition = Adapt.course.get('_audio')._triggerPosition;
+
+      // Set global variables based on course JSON
+      Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
+      Adapt.audio.autoPlayOnceGlobal = Adapt.course.get('_audio')._autoPlayOnce ? true : false;
+
+      // Get names for icons from course.config
+      Adapt.audio.iconOn = Adapt.course.get('_audio')._icons._audioOn;
+      Adapt.audio.iconOff = Adapt.course.get('_audio')._icons._audioOff;
+      Adapt.audio.iconPlay = Adapt.course.get('_audio')._icons._audioPlay;
+      Adapt.audio.iconPause = Adapt.course.get('_audio')._icons._audioPause;
+
+      // Assign variables to each audio object
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.audio.audioClip[i].isPlaying = false;
+        Adapt.audio.audioClip[i].playingID = "";
+        Adapt.audio.audioClip[i].newID = "";
+        Adapt.audio.audioClip[i].prevID = "";
+        Adapt.audio.audioClip[i].onscreenID = "";
+      }
+
+      //Set default audio status for each channel base on the course config
+      Adapt.audio.audioClip[0].status = Adapt.course.get('_audio')._channels._narration._status;
+      Adapt.audio.audioClip[1].status = Adapt.course.get('_audio')._channels._effects._status;
+      Adapt.audio.audioClip[2].status = Adapt.course.get('_audio')._channels._music._status;
+      Adapt.audio.audioStatus = Adapt.audio.audioClip[0].status;
+
+      // Collect data from offline storage
+      if(Adapt.offlineStorage.get("audio_level") == "1" || Adapt.offlineStorage.get("audio_level") == "0") {
+        // Set to saved audio status and text size
+        Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
+        Adapt.audio.textSize = Adapt.offlineStorage.get("audio_textSize");
+      }
+      // Update channels based on preference
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
+      }
+      // Change text and audio based on preference
+      this.updateAudioStatus(0,Adapt.audio.audioStatus);
+      this.changeText(Adapt.audio.textSize);
+
       if (this.audioEnabled) {
         Adapt.offlineStorage.set("location", "");
         this.listenToOnce(Adapt, "router:location", this.checkBookmark);
