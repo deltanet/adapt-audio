@@ -44,7 +44,7 @@
                   "title": "Autoplay Is Enabled",
                   "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Enables autoplay on all audio elements."
+                  "help": "Enables autoplay on all audio elements. If enabled this will override the Autoplay setting used on all Articles, Blocks and Components."
                 },
                 "_autoPlayOnce": {
                   "type":"boolean",
@@ -53,7 +53,7 @@
                   "title": "Autoplay Once Is Enabled",
                   "inputType": "Checkbox",
                   "validators": [],
-                  "help": "Sets whether audio should autoplay only once when on screen."
+                  "help": "Sets whether audio should autoplay only once when on screen. If enabled this will override the Autoplay Once setting used on all Articles, Blocks and Components."
                 },
                 "_showOnNavbar": {
                   "type":"boolean",
