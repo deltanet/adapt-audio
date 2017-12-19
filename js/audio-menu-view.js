@@ -12,15 +12,11 @@ define(function(require) {
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
-            this.preRender();
             this.render();
         },
 
         events: {
             'click .audio-toggle': 'toggleAudio'
-        },
-
-        preRender: function() {
         },
 
         render: function () {
@@ -46,15 +42,6 @@ define(function(require) {
                 this.canAutoplay = true;
             } else {
                 this.canAutoplay = false;
-            }
-
-            // Autoplay once
-            if(Adapt.audio.autoPlayOnceGlobal == false){
-                this.autoplayOnce = false;
-            } else if(Adapt.audio.autoPlayOnceGlobal || this.model.get("_audio")._autoPlayOnce){
-                this.autoplayOnce = true;
-            } else {
-              this.autoplayOnce = false;
             }
 
             // Add audio icon
