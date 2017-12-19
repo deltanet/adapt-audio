@@ -39,6 +39,7 @@ define(function(require) {
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
             this.audioIcon = Adapt.audio.iconPlay;
             this.pausedTime = "";
+            Adapt.audio.audioClip[this.audioChannel].onscreenID = "";
 
             // Autoplay
             if(Adapt.audio.autoPlayGlobal || this.model.get("_audio")._autoplay){
