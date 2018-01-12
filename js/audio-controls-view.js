@@ -183,7 +183,7 @@ define(function(require) {
 
         setupIncorrectFeedback: function() {
             // apply individual item feedback
-            if ((this.model.get('_selectable') === 1) && this.model.get('_selectedItems')[0].feedback) {
+            if (this.model.has('_selectedItems') && (this.model.get('_selectable') === 1) && this.model.get('_selectedItems')[0].feedback) {
                 this.setupIndividualFeedbackAudio(this.model.get('_selectedItems')[0]._index);
             } else {
                 // Final
