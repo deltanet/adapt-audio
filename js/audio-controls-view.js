@@ -9,7 +9,7 @@ define(function(require) {
 
         initialize: function() {
             this.listenTo(Adapt, 'remove', this.remove);
-            this.listenTo(Adapt, 'device:changed', this.reRender);
+            this.listenTo(Adapt, 'device:changed', this.render);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initFeedback);
             this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
@@ -83,10 +83,6 @@ define(function(require) {
             this.$('.audio-inner').on("onscreen", _.bind(this.onscreen, this));
             // Run function to check for reduced text
             this.replaceText(Adapt.audio.textSize);
-        },
-
-        reRender: function() {
-            this.setAudioFile();
         },
 
         setAudioFile: function() {
