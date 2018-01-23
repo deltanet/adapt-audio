@@ -11,7 +11,7 @@ define(function(require) {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'device:changed', this.render);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initFeedback);
-            this.listenTo(Adapt, 'notify:closed', this.stopFeedbackAudio);
+            this.listenTo(Adapt, 'popup:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenTo(Adapt, "audio:changeText", this.replaceText);
