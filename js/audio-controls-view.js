@@ -39,6 +39,7 @@ define(function(require) {
             this.elementId = this.model.get("_id");
             this.audioIcon = Adapt.audio.iconPlay;
             this.pausedTime = 0;
+            this.onscreenTriggered = false;
 
             // Autoplay
             if (Adapt.audio.autoPlayGlobal || this.model.get("_audio")._autoplay) {
@@ -226,25 +227,30 @@ define(function(require) {
         },
 
         onscreen: function(event, measurements) {
-
             var visible = this.model.get('_isVisible');
             var isOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromTop > 0;
             var isOnscreenX = measurements.percentInviewHorizontal == 100;
+            var isOnscreen = measurements.onscreen;
 
-            if (visible && isOnscreenY && isOnscreenX && this.canAutoplay) {
-                // Check if audio is set to on
-                if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
-                    this.setAudioFile();
-                    Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
-                }
-                // Set to false to stop autoplay when onscreen again
-                if (this.autoplayOnce) {
-                    this.canAutoplay = false;
-                }
-            } else {
-                Adapt.trigger('audio:onscreenOff', this.elementId, this.audioChannel);
+            // Check for element coming on screen
+            if (visible && isOnscreenY && isOnscreenX && this.canAutoplay && this.onscreenTriggered == false) {
+              // Check if audio is set to on
+              if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
+                this.setAudioFile();
+                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+              }
+              // Set to false to stop autoplay when onscreen again
+              if (this.autoplayOnce) {
+                this.canAutoplay = false;
+              }
+              // Set to true to stop onscreen looping
+              this.onscreenTriggered = true;
             }
-
+            // Check when element is off screen
+            if (visible && isOnscreen == false) {
+              this.onscreenTriggered = false;
+              Adapt.trigger('audio:onscreenOff', this.elementId, this.audioChannel);
+            }
         },
 
         toggleAudio: function(event) {
