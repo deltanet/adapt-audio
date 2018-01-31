@@ -39,6 +39,8 @@ define([
       this.listenTo(Adapt, "audio:changeText", this.changeText);
       // Listen for bookmark
       this.listenToOnce(Adapt, "router:location", this.checkBookmark);
+      // Listen for bookmarking being cancelled
+      this.listenToOnce(Adapt, "bookmarking:cancel", this.promptClosed);
       // Listen for language change
       this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
       // Listen for notify closing
