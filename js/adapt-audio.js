@@ -428,7 +428,7 @@ define([
     },
 
     playAudio: function(audioClip, id, channel) {
-      if(this.audioEnabled && Adapt.audio.audioClip[channel].onscreenID != id){
+      if(this.audioEnabled && Adapt.audio.audioClip[channel].onscreenID != id && audioClip != ""){
         Adapt.trigger('media:stop');
         // Stop audio
         Adapt.audio.audioClip[channel].pause();

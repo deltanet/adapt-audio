@@ -237,9 +237,7 @@ define(function(require) {
               // Check if audio is set to on
               if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
                 this.setAudioFile();
-                if(this.audioFile != "") {
-                  Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
-                }
+                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
               }
               // Set to false to stop autoplay when onscreen again
               if (this.autoplayOnce) {
