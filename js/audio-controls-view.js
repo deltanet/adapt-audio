@@ -237,7 +237,9 @@ define(function(require) {
               // Check if audio is set to on
               if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
                 this.setAudioFile();
-                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+                if(this.audioFile != "") {
+                  Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+                }
               }
               // Set to false to stop autoplay when onscreen again
               if (this.autoplayOnce) {
@@ -328,7 +330,6 @@ define(function(require) {
 
         removeInViewListeners: function() {
             this.$('.audio-inner').off('onscreen');
-            Adapt.trigger('audio:pauseAudio', this.audioChannel);
         },
 
         replaceText: function(value) {
