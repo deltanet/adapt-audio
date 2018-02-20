@@ -45,6 +45,8 @@ define([
       this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
       // Listen for notify closing
       this.listenTo(Adapt, 'notify:closed', this.notifyClosed);
+      // // Stop all audio channels before the pages load
+      this.listenTo(Adapt, "menuView:preRender pageView:preRender", this.stopAllChannels);
     },
 
     setupAudio: function() {
@@ -426,7 +428,7 @@ define([
     },
 
     playAudio: function(audioClip, id, channel) {
-      if(this.audioEnabled && Adapt.audio.audioClip[channel].onscreenID != id){
+      if(this.audioEnabled && Adapt.audio.audioClip[channel].onscreenID != id && audioClip != ""){
         Adapt.trigger('media:stop');
         // Stop audio
         Adapt.audio.audioClip[channel].pause();

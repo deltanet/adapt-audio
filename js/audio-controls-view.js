@@ -328,7 +328,6 @@ define(function(require) {
 
         removeInViewListeners: function() {
             this.$('.audio-inner').off('onscreen');
-            Adapt.trigger('audio:pauseAudio', this.audioChannel);
         },
 
         replaceText: function(value) {
