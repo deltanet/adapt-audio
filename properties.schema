@@ -101,6 +101,15 @@
                   "help": "Optional description for audio drawer.",
                   "translatable": true
                 },
+                "_drawerOrder": {
+                  "type": "number",
+                  "required": false,
+                  "title": "Drawer order",
+                  "inputType": "Number",
+                  "default": 0,
+                  "validators": ["number"],
+                  "help": "The order in which this extension should appear as a drawer item."
+                },
                 "_channels": {
                   "type":"object",
                   "required": true,

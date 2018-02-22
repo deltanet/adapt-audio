@@ -533,7 +533,8 @@ define([
         var drawerObject = {
           title: drawerAudio.title,
           description: drawerAudio.description,
-          className: 'audio-drawer'
+          className: 'audio-drawer',
+          drawerOrder: drawerAudio._drawerOrder || 0
         };
         Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
       }

@@ -9,6 +9,7 @@
         "_triggerPosition": 60,
         "title": "Audio",
         "description": "Click here to view the audio settings for this course.",
+        "_drawerOrder": 0,
         "_channels": {
             "_narration": {
                 "_isEnabled": true,
