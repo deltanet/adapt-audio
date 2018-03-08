@@ -337,37 +337,50 @@ define(function(require) {
                 // Article
                 if (this.model.get("_type") == "article") {
                     if (value == 0) {
-                        $('.' + this.model.get('_id')).find('.article-title-inner').html(this.model.get('displayTitle')).a11y_text();
-                        $('.' + this.model.get('_id')).find('.article-body-inner').html(this.model.get('body')).a11y_text();
+                        $('.' + this.model.get('_id')).find('.article-title-inner').html(this.stringReplace(this.model.get('displayTitle'))).a11y_text();
+                        $('.' + this.model.get('_id')).find('.article-body-inner').html(this.stringReplace(this.model.get('body'))).a11y_text();
                     } else {
-                        $('.' + this.model.get('_id')).find('.article-title-inner').html(this.model.get('_audio').displayTitleReduced).a11y_text();
-                        $('.' + this.model.get('_id')).find('.article-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
+                        $('.' + this.model.get('_id')).find('.article-title-inner').html(this.stringReplace(this.model.get('_audio').displayTitleReduced)).a11y_text();
+                        $('.' + this.model.get('_id')).find('.article-body-inner').html(this.stringReplace(this.model.get('_audio').bodyReduced)).a11y_text();
                     }
                 }
 
                 // Block
                 if (this.model.get("_type") == "block") {
                     if (value == 0) {
-                        $('.' + this.model.get('_id')).find('.block-title-inner').html(this.model.get('displayTitle')).a11y_text();
-                        $('.' + this.model.get('_id')).find('.block-body-inner').html(this.model.get('body')).a11y_text();
+                        $('.' + this.model.get('_id')).find('.block-title-inner').html(this.stringReplace(this.model.get('displayTitle'))).a11y_text();
+                        $('.' + this.model.get('_id')).find('.block-body-inner').html(this.stringReplace(this.model.get('body'))).a11y_text();
                     } else {
-                        $('.' + this.model.get('_id')).find('.block-title-inner').html(this.model.get('_audio').displayTitleReduced).a11y_text();
-                        $('.' + this.model.get('_id')).find('.block-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
+                        $('.' + this.model.get('_id')).find('.block-title-inner').html(this.stringReplace(this.model.get('_audio').displayTitleReduced)).a11y_text();
+                        $('.' + this.model.get('_id')).find('.block-body-inner').html(this.stringReplace(this.model.get('_audio').bodyReduced)).a11y_text();
                     }
                 }
 
                 // Component
                 if (this.model.get("_type") == "component") {
                     if (value == 0) {
-                        $('.' + this.model.get('_id')).find('.component-title-inner').html(this.model.get('displayTitle')).a11y_text();
-                        $('.' + this.model.get('_id')).find('.component-body-inner').html(this.model.get('body')).a11y_text();
+                        $('.' + this.model.get('_id')).find('.component-title-inner').html(this.stringReplace(this.model.get('displayTitle'))).a11y_text();
+                        $('.' + this.model.get('_id')).find('.component-body-inner').html(this.stringReplace(this.model.get('body'))).a11y_text();
                     } else {
-                        $('.' + this.model.get('_id')).find('.component-title-inner').html(this.model.get('_audio').displayTitleReduced).a11y_text();
-                        $('.' + this.model.get('_id')).find('.component-body-inner').html(this.model.get('_audio').bodyReduced).a11y_text();
+                        $('.' + this.model.get('_id')).find('.component-title-inner').html(this.stringReplace(this.model.get('_audio').displayTitleReduced)).a11y_text();
+                        $('.' + this.model.get('_id')).find('.component-body-inner').html(this.stringReplace(this.model.get('_audio').bodyReduced)).a11y_text();
                     }
                 }
             }
+        },
+
+        stringReplace: function(text) {
+          // Check for _globals._learnerInfo elements
+          // name
+          var newText = text.replace(/{{_globals._learnerInfo.name}}/g, Adapt.course.get('_globals')._learnerInfo.name);
+          // firstname
+          newText = newText.replace(/{{_globals._learnerInfo.firstname}}/g, Adapt.course.get('_globals')._learnerInfo.firstname);
+          // lastname
+          newText = newText.replace(/{{_globals._learnerInfo.lastname}}/g, Adapt.course.get('_globals')._learnerInfo.lastname);
+
+          return newText;
         }
+
     });
 
     return AudioControlsView;
