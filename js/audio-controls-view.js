@@ -49,9 +49,7 @@ define(function(require) {
             }
 
             // Autoplay once
-            if (Adapt.audio.autoPlayOnceGlobal == false) {
-                this.autoplayOnce = false;
-            } else if (Adapt.audio.autoPlayOnceGlobal || this.model.get("_audio")._autoPlayOnce) {
+            if (Adapt.audio.autoPlayOnceGlobal || this.model.get("_audio")._autoPlayOnce) {
                 this.autoplayOnce = true;
             } else {
                 this.autoplayOnce = false;
