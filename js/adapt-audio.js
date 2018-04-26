@@ -14,9 +14,11 @@ define([
     },
 
     onDataReady: function() {
-      this.setupEventListeners();
-      this.setupAudio();
-      this.addAudioDrawerItem();
+      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
+        this.setupEventListeners();
+        this.setupAudio();
+        this.addAudioDrawerItem();
+      }
     },
 
     setupEventListeners: function() {
@@ -50,12 +52,6 @@ define([
     },
 
     setupAudio: function() {
-      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
-        this.audioEnabled = Adapt.course.get("_audio")._isEnabled;
-      } else {
-        this.audioEnabled = false;
-      }
-
       if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._reducedTextisEnabled) {
         this.reducedTextEnabled = Adapt.course.get("_audio")._reducedTextisEnabled;
       } else {
@@ -138,7 +134,7 @@ define([
     },
 
     onAddToggle: function(navigationView) {
-      if (this.audioEnabled && Adapt.course.get('_audio')._showOnNavbar) {
+      if (Adapt.course.get('_audio')._showOnNavbar) {
         var audioModel = Adapt.course.get('_audio');
         var audioToggleModel = new Backbone.Model(audioModel);
         navigationView.$('.navigation-drawer-toggle-button').after(new AudioToggleView({
@@ -148,9 +144,6 @@ define([
     },
 
     checkBookmark: function() {
-      if (!this.audioEnabled){
-        return;
-      }
       // Check first launch of course
       if((Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") === undefined) || (Adapt.offlineStorage.get("location") == "")) {
         if (Adapt.course.get('_audio')._prompt._isEnabled) {
@@ -169,12 +162,6 @@ define([
     },
 
     onDataChanged: function() {
-      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
-        this.audioEnabled = Adapt.course.get("_audio")._isEnabled;
-      } else {
-        this.audioEnabled = false;
-      }
-
       if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._reducedTextisEnabled) {
         this.reducedTextEnabled = Adapt.course.get("_audio")._reducedTextisEnabled;
       } else {
@@ -232,10 +219,8 @@ define([
       this.updateAudioStatus(0,Adapt.audio.audioStatus);
       this.changeText(Adapt.audio.textSize);
 
-      if (this.audioEnabled) {
-        Adapt.offlineStorage.set("location", "");
-        this.listenToOnce(Adapt, "router:location", this.checkBookmark);
-      }
+      Adapt.offlineStorage.set("location", "");
+      this.listenToOnce(Adapt, "router:location", this.checkBookmark);
     },
 
     showAudioPrompt: function() {
@@ -428,7 +413,7 @@ define([
     },
 
     playAudio: function(audioClip, id, channel) {
-      if(this.audioEnabled && Adapt.audio.audioClip[channel].onscreenID != id && audioClip != ""){
+      if(Adapt.audio.audioClip[channel].onscreenID != id && audioClip != ""){
         Adapt.trigger('media:stop');
         // Stop audio
         Adapt.audio.audioClip[channel].pause();
@@ -528,16 +513,14 @@ define([
     },
 
     addAudioDrawerItem: function() {
-      if (this.audioEnabled) {
-        var drawerAudio = Adapt.course.get('_audio');
-        var drawerObject = {
-          title: drawerAudio.title,
-          description: drawerAudio.description,
-          className: 'audio-drawer',
-          drawerOrder: drawerAudio._drawerOrder || 0
-        };
-        Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
-      }
+      var drawerAudio = Adapt.course.get('_audio');
+      var drawerObject = {
+        title: drawerAudio.title,
+        description: drawerAudio.description,
+        className: 'audio-drawer',
+        drawerOrder: drawerAudio._drawerOrder || 0
+      };
+      Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
     },
 
     setupDrawerAudio: function() {
@@ -551,7 +534,7 @@ define([
 
     onMenuReady: function(view) {
 
-      if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get('_type') == "menu" && view.model.get("_audio")._isEnabled) {
+      if (view.model && view.model.get("_audio") && view.model.get('_type') == "menu" && view.model.get("_audio")._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
         try{
@@ -564,7 +547,7 @@ define([
     },
 
     onABCReady: function(view) {
-      if (this.audioEnabled && view.model && view.model.get("_audio") && view.model.get("_audio")._isEnabled) {
+      if (view.model && view.model.get("_audio") && view.model.get("_audio")._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
         try{
@@ -573,7 +556,7 @@ define([
           console.log(e);
         }
       }
-      if (this.audioEnabled && view.model && view.model.get("_audioAssessment") && view.model.get("_audioAssessment")._isEnabled) {
+      if (view.model && view.model.get("_audioAssessment") && view.model.get("_audioAssessment")._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
         try{

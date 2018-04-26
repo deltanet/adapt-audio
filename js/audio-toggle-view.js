@@ -9,6 +9,7 @@ define(function(require) {
 
         initialize: function() {
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
+            this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.render();
         },
 
@@ -49,6 +50,12 @@ define(function(require) {
             if (event) event.preventDefault();
 
             Adapt.trigger('audio:showAudioDrawer');
+        },
+
+        onAccessibilityToggle: function() {
+            if (Adapt.config.has('_accessibility') && Adapt.config.get('_accessibility')._isEnabled) {
+                this.$el.addClass('hidden');
+            }
         }
 
     });
