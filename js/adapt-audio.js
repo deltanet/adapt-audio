@@ -152,7 +152,12 @@ define([
         // Presume there is a bookmark
       } else {
         if (Adapt.course.get('_bookmarking')._isEnabled && Adapt.course.get('_bookmarking')._showPrompt) {
-          this.listenToOnce(Adapt, 'popup:opened', this.bookmarkOpened);
+          // Check if bookmark has already been triggered
+          if ($('body').children('.notify').css('visibility') == 'visible') {
+            this.bookmarkOpened();
+          } else {
+            this.listenToOnce(Adapt, 'popup:opened', this.bookmarkOpened);
+          }
         }
       }
     },
