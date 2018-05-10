@@ -26,9 +26,23 @@ define(function(require) {
             var template = Handlebars.templates["audioDrawer"];
             this.$el.html(template({model: modelData}));
 
-            this.checkNarration();
-            this.checkEffects();
-            this.checkMusic();
+            this.numChannels = 0;
+
+            if (Adapt.course.get('_audio')._channels._narration._isEnabled) {
+              this.checkNarration();
+              this.numChannels ++;
+            }
+
+            if (Adapt.course.get('_audio')._channels._effects._isEnabled) {
+              this.checkEffects();
+              this.numChannels ++;
+            }
+
+            if (Adapt.course.get('_audio')._channels._music._isEnabled) {
+              this.checkMusic();
+              this.numChannels ++;
+            }
+
             this.checkTextSize();
 
             _.defer(_.bind(this.postRender, this));
@@ -42,33 +56,60 @@ define(function(require) {
         toggleNarration: function(event) {
             if (event) event.preventDefault();
 
-            if(Adapt.audio.audioClip[0].status == 0){
-                Adapt.trigger('audio:updateAudioStatus', 0, 1);
+            if (this.numChannels == 1) {
+              this.toggleAll(Adapt.audio.audioClip[0].status);
             } else {
-                Adapt.trigger('audio:updateAudioStatus', 0, 0);
+              if(Adapt.audio.audioClip[0].status == 0){
+                  Adapt.trigger('audio:updateAudioStatus', 0, 1);
+              } else {
+                  Adapt.trigger('audio:updateAudioStatus', 0, 0);
+              }
+              this.checkNarration();
             }
-            this.checkNarration();
         },
 
         toggleEffects: function(event) {
             if (event) event.preventDefault();
 
-            if(Adapt.audio.audioClip[1].status == 0){
-                Adapt.trigger('audio:updateAudioStatus', 1, 1);
+            if (this.numChannels == 1) {
+              this.toggleAll(Adapt.audio.audioClip[1].status);
             } else {
-                Adapt.trigger('audio:updateAudioStatus', 1, 0);
+              if(Adapt.audio.audioClip[1].status == 0){
+                  Adapt.trigger('audio:updateAudioStatus', 1, 1);
+              } else {
+                  Adapt.trigger('audio:updateAudioStatus', 1, 0);
+              }
+              this.checkEffects();
             }
-            this.checkEffects();
         },
 
         toggleMusic: function(event) {
             if (event) event.preventDefault();
 
-            if(Adapt.audio.audioClip[2].status == 0){
+            if (this.numChannels == 1) {
+              this.toggleAll(Adapt.audio.audioClip[2].status);
+            } else {
+              if(Adapt.audio.audioClip[2].status == 0){
+                  Adapt.trigger('audio:updateAudioStatus', 2, 1);
+              } else {
+                  Adapt.trigger('audio:updateAudioStatus', 2, 0);
+              }
+              this.checkMusic();
+            }
+        },
+
+        toggleAll: function(status) {
+            if(status == 0){
+                Adapt.trigger('audio:updateAudioStatus', 0, 1);
+                Adapt.trigger('audio:updateAudioStatus', 1, 1);
                 Adapt.trigger('audio:updateAudioStatus', 2, 1);
             } else {
+                Adapt.trigger('audio:updateAudioStatus', 0, 0);
+                Adapt.trigger('audio:updateAudioStatus', 1, 0);
                 Adapt.trigger('audio:updateAudioStatus', 2, 0);
             }
+            this.checkNarration();
+            this.checkEffects();
             this.checkMusic();
         },
 
