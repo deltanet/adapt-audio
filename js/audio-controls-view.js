@@ -35,7 +35,7 @@ define(function(require) {
                 newDiv.setAttribute('class', 'header-extensions-'+this.model.get("_type"));
                 $(newDiv).appendTo('.' + this.model.get('_id') + '>.' +this.model.get("_type")+'-inner');
               }
-              $(this.el).html(template(data)).prependTo('.' + this.model.get('_id') + '>.' +this.model.get("_type")+'-inner' + ' > .header-extensions-'+this.model.get("_type"));
+              $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + '>.' +this.model.get("_type")+'-inner' + ' > .header-extensions-'+this.model.get("_type"));
             }
 
             if (this.model.get('_audio')._location == "top-left") {
