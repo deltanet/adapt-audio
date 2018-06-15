@@ -70,10 +70,7 @@ define(function(require) {
             // Add audio icon
             this.$('.audio-toggle').addClass(this.audioIcon);
 
-            // Hide controls if set in JSON or if audio is turned off
-            if (this.model.get('_audio')._showControls == false || Adapt.audio.audioClip[this.audioChannel].status == 0) {
-                this.$('.audio-inner button').hide();
-            }
+            this.updateToggle();
 
             // Set audio file
             this.setAudioFile();
@@ -333,6 +330,15 @@ define(function(require) {
                 this.$('.audio-inner button').show();
             } else {
                 this.$('.audio-inner button').hide();
+            }
+            // Check for no display title, then add padding to body text
+            if (this.model.get('displayTitle') == "") {
+              var width = $('.'+this.elementId).find('.header-extensions-'+this.model.get("_type")).width();
+              var direction = "right";
+              if (Adapt.config.get('_defaultDirection') == 'rtl') {
+                  direction = "left";
+              }
+              $('.'+this.elementId).find('.'+this.model.get("_type")+'-body-inner').css("padding-"+direction, width);
             }
         },
 
