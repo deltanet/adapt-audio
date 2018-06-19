@@ -39,6 +39,8 @@ define([
       this.listenTo(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio);
       // listen to text change in nav bar toggle prompt
       this.listenTo(Adapt, "audio:changeText", this.changeText);
+      // Check for first launch of course
+      this.listenToOnce(Adapt, "router:location", this.checkLaunch);
       // Listen for bookmark
       this.listenToOnce(Adapt, "pageView:ready menuView:ready", this.checkBookmark);
       // Listen for bookmarking being cancelled
@@ -143,21 +145,22 @@ define([
       }
     },
 
-    checkBookmark: function() {
-      // Check first launch of course
+    checkLaunch: function() {
+      // Check launch based on the saved location
       if((Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") === undefined) || (Adapt.offlineStorage.get("location") == "")) {
         if (Adapt.course.get('_audio')._prompt._isEnabled) {
           this.showAudioPrompt();
         }
-        // Presume there is a bookmark
-      } else {
-        if (Adapt.course.get('_bookmarking')._isEnabled && Adapt.course.get('_bookmarking')._showPrompt) {
-          // Check if bookmark has already been triggered
-          if ($('body').children('.notify').css('visibility') == 'visible') {
-            this.bookmarkOpened();
-          } else {
-            this.listenToOnce(Adapt, 'popup:opened', this.bookmarkOpened);
-          }
+      }
+    },
+
+    checkBookmark: function() {
+      if (Adapt.course.get('_bookmarking')._isEnabled && Adapt.course.get('_bookmarking')._showPrompt) {
+        // Check if bookmark has already been triggered
+        if ($('body').children('.notify').css('visibility') == 'visible') {
+          this.bookmarkOpened();
+        } else {
+          this.listenToOnce(Adapt, 'popup:opened', this.bookmarkOpened);
         }
       }
     },
@@ -229,7 +232,7 @@ define([
       this.changeText(Adapt.audio.textSize);
 
       Adapt.offlineStorage.set("location", "");
-      this.listenToOnce(Adapt, "pageView:ready menuView:ready", this.checkBookmark);
+      this.listenToOnce(Adapt, "router:location", this.checkLaunch);
     },
 
     showAudioPrompt: function() {
