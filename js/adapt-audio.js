@@ -155,7 +155,7 @@ define([
     },
 
     checkBookmark: function() {
-      if (Adapt.course.get('_bookmarking')._isEnabled && Adapt.course.get('_bookmarking')._showPrompt) {
+      if (Adapt.course.has('_bookmarking') && Adapt.course.get('_bookmarking')._isEnabled && Adapt.course.get('_bookmarking')._showPrompt) {
         // Check if bookmark has already been triggered
         if ($('body').children('.notify').css('visibility') == 'visible') {
           this.bookmarkOpened();
