@@ -9,14 +9,15 @@ define(function(require) {
 
         initialize: function() {
             this.listenTo(Adapt, 'remove', this.remove);
-            this.listenTo(Adapt, 'device:changed', this.render);
+            this.listenTo(Adapt, 'device:changed', this.setAudioFile);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initFeedback);
             this.listenTo(Adapt, 'popup:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenTo(Adapt, "audio:changeText", this.replaceText);
-            this.listenTo(Adapt, "pageView:ready", this.render);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
+
+            this.render();
         },
 
         events: {
@@ -27,24 +28,13 @@ define(function(require) {
             var data = this.model.toJSON();
             var template = Handlebars.templates["audioControls"];
 
-            if (this.model.get('_audio')._location == "top-right") {
-              // Check if 'header-extensions' div is already in the DOM
-              if (!$('.' + this.model.get('_id')).find('.header-extensions-'+this.model.get("_type")).length) {
-                // Create containing div if not already there
-                var newDiv = document.createElement("div");
-                newDiv.setAttribute('class', 'header-extensions-'+this.model.get("_type"));
-                $(newDiv).appendTo('.' + this.model.get('_id') + '>.' +this.model.get("_type")+'-inner');
-              }
-              $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + '>.' +this.model.get("_type")+'-inner' + ' > .header-extensions-'+this.model.get("_type"));
-            }
-
-            if (this.model.get('_audio')._location == "top-left") {
-                $(this.el).html(template(data)).prependTo('.' + this.model.get('_id') + " > ." + this.model.get("_type") + "-inner");
-            }
-
             if (this.model.get('_audio')._location == "bottom-left" || this.model.get("_audio")._location == "bottom-right") {
-                $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ." + this.model.get("_type") + "-inner");
+              $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ." + this.model.get("_type") + "-inner");
+            } else {
+              $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ." + this.model.get("_type") + "-inner");
             }
+            // Add class so it can be referenced in the theme if needed
+            $(this.el).addClass(this.model.get("_type") + "-audio");
 
             // Set vars
             this.audioChannel = this.model.get('_audio')._channel;
@@ -326,19 +316,26 @@ define(function(require) {
         },
 
         updateToggle: function() {
+          // Reset width
+            var width = 0;
+
             if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls == true) {
                 this.$('.audio-inner button').show();
+                width = this.$('.audio-toggle').outerWidth();
             } else {
                 this.$('.audio-inner button').hide();
             }
-            // Check for no display title, then add padding to body text
+
+            var direction = "right";
+            if (Adapt.config.get('_defaultDirection') == 'rtl') {
+                direction = "left";
+            }
+
+            // Set padding on title or body
             if (this.model.get('displayTitle') == "") {
-              var width = $('.'+this.elementId).find('.header-extensions-'+this.model.get("_type")).width();
-              var direction = "right";
-              if (Adapt.config.get('_defaultDirection') == 'rtl') {
-                  direction = "left";
-              }
               $('.'+this.elementId).find('.'+this.model.get("_type")+'-body-inner').css("padding-"+direction, width);
+            } else {
+              $('.'+this.elementId).find('.'+this.model.get("_type")+'-title-inner').css("padding-"+direction, width);
             }
         },
 
