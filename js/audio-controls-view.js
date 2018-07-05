@@ -43,6 +43,15 @@ define(function(require) {
             this.pausedTime = 0;
             this.onscreenTriggered = false;
 
+            // Sound effects
+            if (this.model.get('_audio')._feedback._soundEffect) {
+              this.audioEffectsEnabled = this.model.get('_audio')._feedback._soundEffect._isEnabled;
+              this.audioEffectsChannel = 1;
+              this.audioEffectsFile = "";
+            } else {
+              this.audioEffectsEnabled = false;
+            }
+
             // Autoplay
             if (Adapt.audio.autoPlayGlobal || this.model.get("_audio")._autoplay) {
                 this.canAutoplay = true;
@@ -131,6 +140,10 @@ define(function(require) {
                 Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
             }
 
+            // Effects audio
+            if (this.audioEffectsEnabled && Adapt.audio.audioClip[this.audioEffectsChannel].status == 1) {
+              Adapt.trigger('audio:playAudio', this.audioEffectsFile, null, this.audioEffectsChannel);
+            }
         },
 
         setupCorrectFeedback: function() {
@@ -138,6 +151,10 @@ define(function(require) {
                 this.audioFile = this.model.get('_audio')._feedback._correct._correct;
             } catch (e) {
                 console.log('An error has occured loading audio');
+            }
+            // Effects audio
+            if (this.audioEffectsEnabled) {
+              this.audioEffectsFile = this.model.get('_audio')._feedback._soundEffect._correct;
             }
             // Reduced text
             if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
@@ -154,6 +171,10 @@ define(function(require) {
                     } catch (e) {
                         console.log('An error has occured loading audio');
                     }
+                    // Effects audio
+                    if (this.audioEffectsEnabled) {
+                      this.audioEffectsFile = this.model.get('_audio')._feedback._soundEffect._partlyCorrect;
+                    }
                     // Reduced text
                     if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
                         $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._partlyCorrect.finalReduced).a11y_text();
@@ -168,6 +189,10 @@ define(function(require) {
                 } catch (e) {
                     console.log('An error has occured loading audio');
                 }
+                // Effects audio
+                if (this.audioEffectsEnabled) {
+                  this.audioEffectsFile = this.model.get('_audio')._feedback._soundEffect._partlyCorrect;
+                }
                 // Reduced text
                 if (this.model.get('_audio')._reducedTextisEnabled && Adapt.audio.textSize == 1) {
                     $('.notify').find('.notify-popup-body-inner').html(this.model.get('_audio')._feedback._partlyCorrect.notFinalReduced).a11y_text();
@@ -177,7 +202,7 @@ define(function(require) {
 
         setupIncorrectFeedback: function() {
             // apply individual item feedback
-            if (this.model.has('_selectedItems') && (this.model.get('_selectable') === 1) && this.model.get('_selectedItems')[0].feedback) {
+            if (this.model.has('_selectedItems') && (this.model.get('_selectable') === 1) && this.model.get('_selectedItems') !="" && this.model.get('_selectedItems')[0].feedback) {
                 this.setupIndividualFeedbackAudio(this.model.get('_selectedItems')[0]._index);
             } else {
                 // Final
@@ -204,6 +229,10 @@ define(function(require) {
                     }
                 }
             }
+            // Effects audio
+            if (this.audioEffectsEnabled) {
+              this.audioEffectsFile = this.model.get('_audio')._feedback._soundEffect._incorrect;
+            }
         },
 
         setupIndividualFeedbackAudio: function(item) {
@@ -220,6 +249,10 @@ define(function(require) {
         stopFeedbackAudio: function() {
             if (this.model.get('_audio')._feedback && this.model.get('_audio')._feedback._isEnabled) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
+
+                if (this.audioEffectsEnabled) {
+                  Adapt.trigger('audio:pauseAudio', this.audioEffectsChannel);
+                }
             }
         },
 

@@ -425,12 +425,14 @@ define([
     },
 
     playAudio: function(audioClip, id, channel) {
-      if(Adapt.audio.audioClip[channel].onscreenID != id && audioClip != ""){
+      if((Adapt.audio.audioClip[channel].onscreenID != id && audioClip != "") || id === null){
         Adapt.trigger('media:stop');
         // Stop audio
         Adapt.audio.audioClip[channel].pause();
         // Update previous player
-        this.hideAudioIcon(channel);
+        if (id != null) {
+          this.hideAudioIcon(channel);
+        }
         Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;
         // Update player to new clip vars
         Adapt.audio.audioClip[channel].src = audioClip;
@@ -438,9 +440,18 @@ define([
         // Only play if prompt is not open
         if(Adapt.audio.promptIsOpen == false && Adapt.audio.autoPlayOnIOS) {
           try {
-            setTimeout(function() {Adapt.audio.audioClip[channel].play();},500);
-            Adapt.audio.audioClip[channel].isPlaying = true;
-            this.showAudioIcon(channel);
+            var delay = 500;
+            if (id === null) {
+              delay = 0;
+            }
+            setTimeout(function() {
+              Adapt.audio.audioClip[channel].play();
+              Adapt.audio.audioClip[channel].isPlaying = true;
+            },delay);
+
+            if (id != null) {
+              this.showAudioIcon(channel);
+            }
 
           } catch(e) {
             console.log('Audio play error:' + e);

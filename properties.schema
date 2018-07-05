@@ -1066,6 +1066,49 @@
                         }
                       }
                     },
+                    "_soundEffect": {
+                      "type": "object",
+                      "title": "Sound Effects",
+                      "required": false,
+                      "properties": {
+                        "_isEnabled": {
+                          "type": "boolean",
+                          "required": false,
+                          "default": false,
+                          "title": "Is Enabled",
+                          "inputType": "Checkbox",
+                          "validators": [],
+                          "help": "Controls whether the sounds effects are enabled or disabled. The Sound Effects channel in the main Projects Settings also needs to be enabled."
+                        },
+                        "_correct": {
+                          "type": "string",
+                          "required": false,
+                          "default": "",
+                          "title": "Correct Sound Effect",
+                          "inputType": "Asset:audio",
+                          "validators": [],
+                          "help": "Sound effect for the correct feedback."
+                        },
+                        "_incorrect": {
+                          "type": "string",
+                          "required": false,
+                          "default": "",
+                          "title": "Incorrect Sound Effect",
+                          "inputType": "Asset:audio",
+                          "validators": [],
+                          "help": "Sound effect for the incorrect feedback."
+                        },
+                        "_partlyCorrect": {
+                          "type": "string",
+                          "required": false,
+                          "default": "",
+                          "title": "Partly Correct Sound Effect",
+                          "inputType": "Asset:audio",
+                          "validators": [],
+                          "help": "Sound effect for the partly correct feedback."
+                        }
+                      }
+                    },
                     "_items": {
                       "type":"array",
                       "required": true,

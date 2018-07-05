@@ -104,6 +104,12 @@
             "_notFinal": "course/en/audio/***.mp3",
             "_final": "course/en/audio/***.mp3"
         },
+        "_soundEffect": {
+          "_isEnabled": false,
+          "_correct": "",
+          "_incorrect": "",
+          "_partlyCorrect": ""
+        },
         "_items": [
           {
             "_src": "course/en/audio/***.mp3"
