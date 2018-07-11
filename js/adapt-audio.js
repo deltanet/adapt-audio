@@ -41,8 +41,6 @@ define([
       this.listenTo(Adapt, "audio:changeText", this.changeText);
       // Check for first launch of course
       this.listenToOnce(Adapt, "router:location", this.checkLaunch);
-      // Listen for bookmark
-      this.listenToOnce(Adapt, "pageView:ready menuView:ready", this.checkBookmark);
       // Listen for bookmarking being cancelled
       this.listenToOnce(Adapt, "bookmarking:cancel", this.promptClosed);
       // Listen for language change
@@ -132,7 +130,6 @@ define([
       // Change text and audio based on preference
       this.updateAudioStatus(0,Adapt.audio.audioStatus);
       this.changeText(Adapt.audio.textSize);
-
     },
 
     onAddToggle: function(navigationView) {
@@ -152,9 +149,7 @@ define([
           this.showAudioPrompt();
         }
       }
-    },
-
-    checkBookmark: function() {
+      // Check for bookmark
       if (Adapt.course.has('_bookmarking') && Adapt.course.get('_bookmarking')._isEnabled && Adapt.course.get('_bookmarking')._showPrompt) {
         // Check if bookmark has already been triggered
         if ($('body').children('.notify').css('visibility') == 'visible') {
