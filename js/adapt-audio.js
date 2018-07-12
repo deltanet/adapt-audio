@@ -425,9 +425,7 @@ define([
         // Stop audio
         Adapt.audio.audioClip[channel].pause();
         // Update previous player
-        if (id != null) {
-          this.hideAudioIcon(channel);
-        }
+        this.hideAudioIcon(channel);
         Adapt.audio.audioClip[channel].prevID = Adapt.audio.audioClip[channel].playingID;
         // Update player to new clip vars
         Adapt.audio.audioClip[channel].src = audioClip;
