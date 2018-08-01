@@ -47,6 +47,9 @@ define([
       this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
       // Listen for notify closing
       this.listenTo(Adapt, 'notify:closed', this.notifyClosed);
+      // Listeners for new popup functionality
+      this.listenTo(Adapt, 'audio:popupOpened', this.popupOpened);
+      this.listenTo(Adapt, 'audio:popupClosed', this.popupClosed);
       // // Stop all audio channels before the pages load
       this.listenTo(Adapt, "menuView:preRender pageView:preRender", this.stopAllChannels);
     },
@@ -64,6 +67,9 @@ define([
 
       // Set variable to be used for the initial prompt event
       Adapt.audio.promptIsOpen = false;
+
+      // Set variable to be used for the initial prompt event
+      Adapt.audio.externalPromptIsOpen = false;
 
       // Set default text size to full
       Adapt.audio.textSize = 0;
@@ -147,6 +153,8 @@ define([
       if((Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") === undefined) || (Adapt.offlineStorage.get("location") == "")) {
         if (Adapt.course.get('_audio')._prompt._isEnabled) {
           this.showAudioPrompt();
+        } else {
+          this.audioConfigured();
         }
       } else {
         // Check for bookmark
@@ -329,6 +337,7 @@ define([
     },
 
     setFullTextAudioOn: function() {
+      this.audioConfigured();
       Adapt.audio.audioStatus = 1;
       Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 0);
@@ -337,7 +346,8 @@ define([
     },
 
     setFullTextAudioOff: function() {
-      Adapt.audio.promptIsOpen = false;
+      this.audioConfigured();
+      this.updatePromptStatus();
       Adapt.audio.audioStatus = 0;
       Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 0);
@@ -345,6 +355,7 @@ define([
     },
 
     setReducedTextAudioOn: function() {
+      this.audioConfigured();
       Adapt.audio.audioStatus = 1;
       Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 1);
@@ -353,7 +364,8 @@ define([
     },
 
     setReducedTextAudioOff: function() {
-      Adapt.audio.promptIsOpen = false;
+      this.audioConfigured();
+      this.updatePromptStatus();
       Adapt.audio.audioStatus = 0;
       Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 1);
@@ -361,6 +373,8 @@ define([
     },
 
     setContinueAudioOn: function() {
+      this.audioConfigured();
+      this.updatePromptStatus();
       Adapt.audio.audioStatus = 1;
       Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 0);
@@ -369,7 +383,8 @@ define([
     },
 
     setContinueAudioOff: function() {
-      Adapt.audio.promptIsOpen = false;
+      this.audioConfigured();
+      this.updatePromptStatus();
       Adapt.audio.audioStatus = 0;
       Adapt.audio.autoPlayOnIOS = true;
       Adapt.trigger('audio:changeText', 0);
@@ -377,6 +392,7 @@ define([
     },
 
     setAudioOff: function() {
+      this.audioConfigured();
       Adapt.audio.audioStatus = 0;
       Adapt.audio.autoPlayOnIOS = true;
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
@@ -389,6 +405,7 @@ define([
     },
 
     setAudioOn: function() {
+      this.audioConfigured();
       Adapt.audio.audioStatus = 1;
       Adapt.audio.autoPlayOnIOS = true;
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
@@ -420,8 +437,9 @@ define([
       }
     },
 
-    playAudio: function(audioClip, id, channel) {
-      if((Adapt.audio.audioClip[channel].onscreenID != id && audioClip != "") || id === null){
+    playAudio: function(audioClip, id, channel, popup) {
+      if (audioClip == "") return;
+      if (Adapt.audio.audioClip[channel].onscreenID != id || id === null) {
         Adapt.trigger('media:stop');
         // Stop audio
         Adapt.audio.audioClip[channel].pause();
@@ -431,8 +449,8 @@ define([
         // Update player to new clip vars
         Adapt.audio.audioClip[channel].src = audioClip;
         Adapt.audio.audioClip[channel].newID = id;
-        // Only play if prompt is not open
-        if(Adapt.audio.promptIsOpen == false && Adapt.audio.autoPlayOnIOS) {
+        // Only play if prompt is not open or the audio type is a popup
+        if ((Adapt.audio.promptIsOpen == false || popup == true) && Adapt.audio.autoPlayOnIOS) {
           try {
             var delay = 500;
             if (id === null) {
@@ -476,10 +494,30 @@ define([
 
     promptClosed: function() {
       this.stopAllChannels();
-      Adapt.audio.promptIsOpen = false;
+      this.updatePromptStatus();
       Adapt.audio.audioClip[0].onscreenID = "";
       if(Adapt.audio.audioClip[0].status == 1) {
         this.playAudio(Adapt.audio.audioClip[0].src, Adapt.audio.audioClip[0].playingID, 0);
+      }
+    },
+
+    popupOpened: function() {
+      this.stopAllChannels();
+      Adapt.audio.promptIsOpen = true;
+      Adapt.audio.externalPromptIsOpen = true;
+    },
+
+    popupClosed: function() {
+      this.stopAllChannels();
+      Adapt.audio.promptIsOpen = false;
+      Adapt.audio.audioClip[0].onscreenID = "";
+    },
+
+    updatePromptStatus: function() {
+      if (Adapt.audio.externalPromptIsOpen == true) {
+        Adapt.audio.promptIsOpen = true;
+      } else {
+        Adapt.audio.promptIsOpen = false;
       }
     },
 
@@ -527,6 +565,10 @@ define([
     updateOfflineStorage: function() {
       Adapt.offlineStorage.set("audio_level", Adapt.audio.audioStatus);
       Adapt.offlineStorage.set("audio_textSize", Adapt.audio.textSize);
+    },
+
+    audioConfigured: function() {
+      Adapt.trigger('audio:configured');
     },
 
     addAudioDrawerItem: function() {
