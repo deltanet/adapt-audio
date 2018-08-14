@@ -477,6 +477,7 @@ define([
 
     pauseAudio: function(channel) {
       if (!Adapt.audio.audioClip[channel].paused) {
+        Adapt.audio.audioClip[channel].isPlaying = false;
         Adapt.audio.audioClip[channel].pause();
         this.hideAudioIcon(channel);
       }

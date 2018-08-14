@@ -300,6 +300,7 @@ define(function(require) {
 
           // Stop audio
           Adapt.audio.audioClip[this.audioChannel].pause();
+          Adapt.audio.audioClip[this.audioChannel].isPlaying = false;
           // Update previous player
           $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass(Adapt.audio.iconPause);
           $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).addClass(Adapt.audio.iconPlay);
@@ -329,6 +330,7 @@ define(function(require) {
             if (Adapt.audio.pauseStopAction == "pause") {
                 this.pausedTime = Adapt.audio.audioClip[this.audioChannel].currentTime;
                 Adapt.audio.audioClip[this.audioChannel].pause();
+                Adapt.audio.audioClip[this.audioChannel].isPlaying = false;
                 this.$('.audio-toggle').removeClass(Adapt.audio.iconPause);
                 this.$('.audio-toggle').addClass(Adapt.audio.iconPlay);
                 this.$('.audio-toggle').removeClass('playing');
