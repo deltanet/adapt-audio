@@ -44,6 +44,13 @@ define(function(require) {
                 this.canAutoplay = false;
             }
 
+            // Autoplay once
+            if (this.model.get("_audio")._autoPlayOnce) {
+                this.autoplayOnce = true;
+            } else {
+                this.autoplayOnce = false;
+            }
+
             // Add audio icon
             this.$('.audio-toggle').addClass(this.audioIcon);
 
@@ -55,11 +62,20 @@ define(function(require) {
             // Set listener for when clip ends
             $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
 
+            // Check for '_canReplayAudio' on the model
+            if (!this.model.has('_canReplayAudio')) {
+              this.model.set('_canReplayAudio', true);
+            }
+
             // Play audio if autoplay is true
-            if (this.canAutoplay) {
+            if (this.canAutoplay && this.model.get('_canReplayAudio')) {
               // Check if audio is set to on
               if(Adapt.audio.audioClip[this.audioChannel].status==1){
                   Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+              }
+              // Set to false to stop autoplay when onscreen again
+              if (this.autoplayOnce) {
+                this.model.set('_canReplayAudio', false);
               }
             }
         },

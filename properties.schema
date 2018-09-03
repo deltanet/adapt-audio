@@ -550,6 +550,15 @@
                   "validators": [],
                   "help": "Autoplays the audio when on screen."
                 },
+                "_autoPlayOnce": {
+                  "type":"boolean",
+                  "required": false,
+                  "default": false,
+                  "title": "Autoplay Once Is Enabled",
+                  "inputType": "Checkbox",
+                  "validators": [],
+                  "help": "Sets whether audio should autoplay only once when on screen."
+                },
                 "_channel": {
                   "type": "number",
                   "required": false,

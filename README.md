@@ -29,7 +29,7 @@ To be written
 To be written  
 
 ----------------------------
-**Version number:**  3.4.0   
+**Version number:**  3.5.0   
 **Framework versions supported:**  2.0.6    
 **Author / maintainer:** DeltaNet with [contributors](https://github.com/deltanet/adapt-audio/graphs/contributors)     
 **Accessibility support:** No  
