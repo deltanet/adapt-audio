@@ -312,6 +312,16 @@ define(function(require) {
 
           Adapt.audio.audioClip[this.audioChannel].prevID = Adapt.audio.audioClip[this.audioChannel].playingID;
           Adapt.audio.audioClip[this.audioChannel].src = this.audioFile;
+
+          // Check for items (Narrative component etc) that set a "_stage" attribute
+          if (this.model.get('_items')) {
+            var itemNumber = this.model.has('_stage') ? this.model.get('_stage') : 0;
+            var currentItem = this.model.get('_items')[itemNumber];
+            if (itemNumber > 0) {
+              Adapt.audio.audioClip[this.audioChannel].src = currentItem._audio.src;
+            }
+          }
+
           Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
 
           if (Adapt.audio.pauseStopAction == "pause") {
