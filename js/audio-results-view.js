@@ -9,7 +9,6 @@ define(function(require) {
 
         initialize: function () {
             this.listenTo(Adapt, 'remove', this.remove);
-            this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
             this.render();
@@ -48,18 +47,6 @@ define(function(require) {
 
         onAudioEnded: function() {
             Adapt.trigger('audio:audioEnded', this.audioChannel);
-        },
-
-        onAccessibilityToggle: function() {
-            var hasAccessibility = Adapt.config.has('_accessibility') && Adapt.config.get('_accessibility')._isEnabled;
-
-            if (!hasAccessibility) {
-            } else {
-
-                for (var i = 0; i < Adapt.audio.numChannels; i++) {
-                    Adapt.trigger('audio:updateAudioStatus', this.audioChannel, 0);
-                }
-            }
         },
 
         updateToggle: function() {

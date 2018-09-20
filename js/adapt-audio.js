@@ -139,13 +139,11 @@ define([
     },
 
     onAddToggle: function(navigationView) {
-      if (Adapt.course.get('_audio')._showOnNavbar) {
-        var audioModel = Adapt.course.get('_audio');
-        var audioToggleModel = new Backbone.Model(audioModel);
-        navigationView.$('.navigation-drawer-toggle-button').after(new AudioToggleView({
-          model: audioToggleModel
-        }).$el);
-      }
+      var audioModel = Adapt.course.get('_audio');
+      var audioToggleModel = new Backbone.Model(audioModel);
+      navigationView.$('.navigation-drawer-toggle-button').after(new AudioToggleView({
+        model: audioToggleModel
+      }).$el);
     },
 
     checkLaunch: function() {

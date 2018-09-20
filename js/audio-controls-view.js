@@ -12,7 +12,6 @@ define(function(require) {
             this.listenTo(Adapt, 'device:changed', this.setAudioFile);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initFeedback);
             this.listenTo(Adapt, 'popup:closed', this.stopFeedbackAudio);
-            this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenTo(Adapt, "audio:changeText", this.replaceText);
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
@@ -346,17 +345,6 @@ define(function(require) {
                 this.$('.audio-toggle').removeClass('playing');
             } else {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
-            }
-        },
-
-        onAccessibilityToggle: function() {
-            var hasAccessibility = Adapt.config.has('_accessibility') && Adapt.config.get('_accessibility')._isEnabled;
-
-            if (!hasAccessibility) {} else {
-
-                for (var i = 0; i < Adapt.audio.numChannels; i++) {
-                    Adapt.trigger('audio:updateAudioStatus', this.audioChannel, 0);
-                }
             }
         },
 

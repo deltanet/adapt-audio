@@ -32,6 +32,10 @@ define(function(require) {
                 this.$('.audio-nav-toggle').addClass(Adapt.audio.iconOff);
             }
 
+            if (!Adapt.course.get('_audio')._showOnNavbar) {
+                this.$el.addClass('hidden');
+            }
+
             return this;
         },
 
@@ -53,9 +57,29 @@ define(function(require) {
         },
 
         onAccessibilityToggle: function() {
-            if (Adapt.config.has('_accessibility') && Adapt.config.get('_accessibility')._isEnabled) {
-                this.$el.addClass('hidden');
+          if (Adapt.config.has('_accessibility') && Adapt.config.get('_accessibility')._isEnabled) {
+
+            if (Adapt.config.get('_accessibility')._isActive) {
+
+              this.$el.addClass('hidden');
+
+              for (var i = 0; i < Adapt.audio.numChannels; i++) {
+                Adapt.trigger('audio:updateAudioStatus', i, 0);
+              }
+
+            } else {
+              // Set defaults
+              if (Adapt.course.get('_audio')._showOnNavbar) {
+                this.$el.removeClass('hidden');
+              }
+
+              Adapt.trigger('audio:updateAudioStatus', 0, Adapt.course.get('_audio')._channels._narration._status);
+              Adapt.trigger('audio:updateAudioStatus', 1, Adapt.course.get('_audio')._channels._effects._status);
+              Adapt.trigger('audio:updateAudioStatus', 2, Adapt.course.get('_audio')._channels._music._status);
+
+              Adapt.audio.audioStatus = Adapt.course.get('_audio')._channels._narration._status;
             }
+          }
         }
 
     });
