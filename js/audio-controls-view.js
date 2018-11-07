@@ -11,6 +11,7 @@ define(function(require) {
             this.listenTo(Adapt, 'remove', this.remove);
             this.listenTo(Adapt, 'device:changed', this.setAudioFile);
             this.listenTo(Adapt, 'questionView:showFeedback', this.initFeedback);
+            this.listenTo(Adapt, 'popup:opened', this.popupOpened);
             this.listenTo(Adapt, 'popup:closed', this.stopFeedbackAudio);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenTo(Adapt, "audio:changeText", this.replaceText);
@@ -41,6 +42,7 @@ define(function(require) {
             this.audioIcon = Adapt.audio.iconPlay;
             this.pausedTime = 0;
             this.onscreenTriggered = false;
+            this.popupIsOpen = false;
 
             // Sound effects
             if (this.model.get('_audio')._feedback._soundEffect) {
@@ -86,7 +88,7 @@ define(function(require) {
 
         postRender: function() {
             // Add inview listener on audio element
-            this.$('.audio-inner').on("onscreen", _.bind(this.onscreen, this));
+            $('.'+this.model.get('_id')).on('onscreen', _.bind(this.onscreen, this));
             // Run function to check for reduced text
             this.replaceText(Adapt.audio.textSize);
         },
@@ -110,6 +112,10 @@ define(function(require) {
 
         onAudioEnded: function() {
             Adapt.trigger('audio:audioEnded', this.audioChannel);
+        },
+
+        popupOpened: function() {
+            this.popupIsOpen = true;
         },
 
         initFeedback: function(view) {
@@ -246,6 +252,8 @@ define(function(require) {
         },
 
         stopFeedbackAudio: function() {
+            this.popupIsOpen = false;
+
             if (this.model.get('_audio')._feedback && this.model.get('_audio')._feedback._isEnabled) {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
 
@@ -256,6 +264,8 @@ define(function(require) {
         },
 
         onscreen: function(event, measurements) {
+            if (this.popupIsOpen) return;
+
             var visible = this.model.get('_isVisible');
             var isOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromTop > 0;
             var isOnscreenX = measurements.percentInviewHorizontal == 100;
@@ -373,7 +383,7 @@ define(function(require) {
         },
 
         removeInViewListeners: function() {
-            this.$('.audio-inner').off('onscreen');
+            $('.'+this.model.get('_id')).off('onscreen');
         },
 
         replaceText: function(value) {

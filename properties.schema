@@ -77,7 +77,7 @@
                   "required": false,
                   "inputType": "Number",
                   "title": "Play Audio Position",
-                  "default": 60,
+                  "default": 40,
                   "validators": ["number"],
                   "help": "Set the percentage from the top of the screen for when the audio will play."
                 },
