@@ -67,6 +67,9 @@ define(function(require) {
                 Adapt.trigger('audio:updateAudioStatus', i, 0);
               }
 
+              Adapt.trigger('popup:closed');
+              Adapt.trigger('notify:closed');
+
             } else {
               // Set defaults
               if (Adapt.course.get('_audio')._showOnNavbar) {
