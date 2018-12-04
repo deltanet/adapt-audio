@@ -45,7 +45,8 @@ define(function(require) {
             this.popupIsOpen = false;
 
             // Sound effects
-            if (this.model.get('_audio')._feedback._soundEffect) {
+            var audioFeedbackModel = new Backbone.Model(this.model.get('_audio')._feedback);
+            if (audioFeedbackModel.has('_soundEffect')) {
               this.audioEffectsEnabled = this.model.get('_audio')._feedback._soundEffect._isEnabled;
               this.audioEffectsChannel = 1;
               this.audioEffectsFile = "";
