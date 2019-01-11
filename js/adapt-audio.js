@@ -494,9 +494,11 @@ define([
     promptClosed: function() {
       this.stopAllChannels();
       this.updatePromptStatus();
-      Adapt.audio.audioClip[0].onscreenID = "";
-      if(Adapt.audio.audioClip[0].status == 1) {
-        this.playAudio(Adapt.audio.audioClip[0].src, Adapt.audio.audioClip[0].playingID, 0);
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.audio.audioClip[i].onscreenID = "";
+        if(Adapt.audio.audioClip[i].status == 1) {
+          this.playAudio(Adapt.audio.audioClip[i].src, Adapt.audio.audioClip[i].playingID, i);
+        }
       }
     },
 
