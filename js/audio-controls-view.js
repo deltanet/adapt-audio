@@ -273,7 +273,7 @@ define(function(require) {
             var isOnscreen = measurements.onscreen;
 
             // Check for element coming on screen
-            if (visible && isOnscreenY && isOnscreenX && this.canAutoplay && this.onscreenTriggered == false) {
+            if (visible && isOnscreen && isOnscreenY && isOnscreenX && this.canAutoplay && this.onscreenTriggered == false) {
               // Check if audio is set to on
               if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
                 this.setAudioFile();
