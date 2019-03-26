@@ -164,6 +164,7 @@ define([
             this.listenToOnce(Adapt, 'popup:opened', this.bookmarkOpened);
           }
         }
+        this.audioConfigured();
       }
     },
 
@@ -636,4 +637,4 @@ define([
 
     return AudioController;
 
-})
+});
