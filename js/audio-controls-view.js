@@ -171,7 +171,7 @@ define(function(require) {
         setupPartlyCorrectFeedback: function() {
             // Final
             if (this.model.get('_attemptsLeft') === 0 || !this.model.get('_audio')._feedback._partlyCorrect.notFinal) {
-                if (this.model.get('_audio')._feedback._partlyCorrect.final) {
+                if (this.model.get('_audio')._feedback._partlyCorrect._final) {
                     try {
                         this.audioFile = this.model.get('_audio')._feedback._partlyCorrect._final;
                     } catch (e) {
