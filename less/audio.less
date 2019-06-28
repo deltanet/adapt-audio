@@ -1,8 +1,8 @@
-.audio-toggle {
-    .audio-nav-toggle {
-        float:right;
+.audio-navigation {
+    .audio-button {
+        float: right;
         .dir-rtl & {
-            float:left;
+            float: left;
         }
         color: @navigation-icon-color;
         padding: @navigation-padding;
@@ -13,6 +13,31 @@
     }
     &.hidden {
         display: none;
+    }
+}
+
+.audio-inner {
+    .top-left,
+    .bottom-left {
+        float: left;
+        .dir-rtl & {
+            float: right;
+        }
+    }
+
+    .bottom-left {
+        float: left;
+        .dir-rtl & {
+            float: right;
+        }
+    }
+
+    .top-right,
+    .bottom-right {
+        float: right;
+        .dir-rtl & {
+            float: left;
+        }
     }
 }
 
@@ -42,30 +67,33 @@
         margin-bottom: @drawer-item-padding-bottom;
     }
     .drawer-item-open {
-        padding-bottom: 0px !important;
-        width: 86% !important;
+        width: auto !important;
+
+        &:hover {
+          background-color: @drawer-item-color !important;
+        }
     }
     .drawer-audio-button {
         margin-top: @drawer-item-padding-top;
         margin-bottom: @drawer-item-padding-bottom;
         width: 100%;
-        color: @drawer-item-text-color;
-        background-color: @drawer-item-color;
+        color: @drawer-item-color;
+        background-color: @drawer-icon-color;
         .no-touch &:hover {
             color: @drawer-item-text-color-hover;
-            background-color: @drawer-item-color-hover;
+            background-color: @drawer-icon-color-hover;
         }
     }
 }
 
 // Ico moon font used for default audio icon
 @font-face {
-    font-family: 'icomoon';
-    src: url('fonts/icomoon.eot?');
-    src: url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-         url('fonts/icomoon.woff?') format('woff'),
-         url('fonts/icomoon.ttf?') format('truetype'),
-         url('fonts/icomoon.svg?1#fontawesome') format('svg');
+    font-family: 'audio';
+    src: url('fonts/audio.eot?');
+    src: url('fonts/audio.eot?#iefix') format('embedded-opentype'),
+         url('fonts/audio.woff?') format('woff'),
+         url('fonts/audio.ttf?') format('truetype'),
+         url('fonts/audio.svg?1#fontawesome') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -74,7 +102,7 @@
 .icon-audio-off,
 .icon-audio-play,
 .icon-audio-pause {
-    font-family: 'icomoon' !important;
+    font-family: 'audio' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -121,47 +149,86 @@
     content: "\e909";
 }
 
-///// Styling classes /////
-.audio-inner {
-
-  .top-left {
-    float: left;
-    margin-right: @component-padding;
-    .dir-rtl & {
-      float: right;
-      margin-right: inherit;
-      margin-left: @component-padding;
-    }
-  }
-
-  .bottom-left {
-    float: left;
-    .dir-rtl & {
-      float: right;
-    }
-  }
-
-  .top-right,
-  .bottom-right {
-    float: right;
-    .dir-rtl & {
-      float: left;
-    }
-  }
-
-}
-
-// Notify prompt styling
-.audio-prompt-image {
+.audio-prompt {
+  .audio-prompt-image {
     height: 130px;
-    padding-bottom: @component-padding;
-}
+    padding-bottom: @notify-padding;
 
-.audio-notify-icon {
+    @media all and (max-width: (@device-width-large + 20px)) {
+        padding-bottom: @notify-padding-top / 2;
+    }
+
+    @media all and (max-width: (@device-width-small + 20px)) {
+        padding-bottom: @notify-padding-top / 3;
+    }
+
+		img {
+		    display: block;
+		    margin-left: auto;
+		    margin-right: auto;
+		}
+  }
+
+  .audio-notify-icon {
+    .icon;
+    .icon-audio-on;
+
+    color: @notify-text-color;
+
     padding-left: 5px;
     padding-right: 5px;
     vertical-align: middle;
-    display: inline-block !important;
-    width: auto !important;
-    height: auto !important;
+    display: inline-block;
+  }
+
+  .audio-prompt-title {
+    margin-bottom: @notify-title-padding-bottom;
+    .item-title;
+    text-align: center;
+    font-size: @component-title-font-size;
+  }
+
+  .audio-prompt-body {
+    a {
+      text-decoration: underline;
+      color: @notify-text-color;
+    }
+
+    text-align: left;
+    .dir-rtl & {
+      text-align: right;
+    }
+  }
+
+  .audio-prompt-buttons {
+    text-align: center;
+    clear: both;
+  }
+
+  .audio-prompt-button {
+    background-color: @notify-button-color;
+    color: @notify-button-text-color;
+    padding: @button-padding-top @button-padding-right+10 @button-padding-bottom @button-padding-left+10;
+
+    margin-top: @notify-padding;
+    @media all and (max-width: (@device-width-large + 20px)) {
+        margin-top: @notify-padding-top / 2;
+    }
+
+    @media all and (max-width: (@device-width-small + 20px)) {
+        margin-top: @notify-padding-top / 3;
+    }
+
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    min-width: 100px;
+    .transition-all-colors;
+    .button-text;
+
+    .no-touch &:hover {
+      background-color: @notify-button-color-hover;
+      color: @notify-button-text-color-hover;
+    }
+  }
 }

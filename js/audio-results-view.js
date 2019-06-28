@@ -1,16 +1,19 @@
-define(function(require) {
-
-    var Adapt = require('coreJS/adapt');
-    var Backbone = require('backbone');
+define([
+    'core/js/adapt'
+], function(Adapt) {
 
     var AudioResultsView = Backbone.View.extend({
 
         className: "audio-controls",
 
         initialize: function () {
-            this.listenTo(Adapt, 'remove', this.remove);
-            this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
+            this.listenTo(Adapt, {
+                "remove": this.remove,
+                "audio:updateAudioStatus": this.updateToggle
+            });
+
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
+            
             this.render();
         },
 

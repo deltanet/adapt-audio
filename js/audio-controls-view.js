@@ -1,21 +1,32 @@
-define(function(require) {
-
-    var Adapt = require('coreJS/adapt');
-    var Backbone = require('backbone');
+define([
+    'core/js/adapt'
+], function(Adapt) {
 
     var AudioControlsView = Backbone.View.extend({
 
         className: "audio-controls",
 
         initialize: function() {
-            this.listenTo(Adapt, 'remove', this.remove);
-            this.listenTo(Adapt, 'device:changed', this.setAudioFile);
-            this.listenTo(Adapt, 'questionView:showFeedback', this.initFeedback);
-            this.listenTo(Adapt, 'popup:opened', this.popupOpened);
-            this.listenTo(Adapt, 'popup:closed', this.stopFeedbackAudio);
-            this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
-            this.listenTo(Adapt, "audio:changeText", this.replaceText);
+            this.listenTo(Adapt, {
+                "remove": this.remove,
+                "device:changed": this.setAudioFile,
+                "questionView:showFeedback": this.initFeedback,
+                "popup:opened": this.popupOpened,
+                "popup:closed": this.stopFeedbackAudio,
+                "audio:updateAudioStatus": this.updateToggle,
+                "audio:changeText": this.replaceText
+            });
+
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
+
+            // Set vars
+            this.audioChannel = this.model.get('_audio')._channel;
+            this.elementId = this.model.get("_id");
+            this.elementType = this.model.get("_type");
+            this.audioIcon = Adapt.audio.iconPlay;
+            this.pausedTime = 0;
+            this.onscreenTriggered = false;
+            this.popupIsOpen = false;
 
             this.render();
         },
@@ -29,20 +40,12 @@ define(function(require) {
             var template = Handlebars.templates["audioControls"];
 
             if (this.model.get('_audio')._location == "bottom-left" || this.model.get("_audio")._location == "bottom-right") {
-              $(this.el).html(template(data)).appendTo('.' + this.model.get('_id') + " > ." + this.model.get("_type") + "-inner");
+              $(this.el).html(template(data)).appendTo('.'+this.model.get('_id')+">."+this.elementType+"-inner");
             } else {
-              $(this.el).html(template(data)).prependTo('.' + this.model.get("_id") + " > ." + this.model.get("_type") + "-inner");
+              $(this.el).html(template(data)).prependTo('.'+this.model.get("_id")+">."+this.elementType+"-inner");
             }
             // Add class so it can be referenced in the theme if needed
-            $(this.el).addClass(this.model.get("_type") + "-audio");
-
-            // Set vars
-            this.audioChannel = this.model.get('_audio')._channel;
-            this.elementId = this.model.get("_id");
-            this.audioIcon = Adapt.audio.iconPlay;
-            this.pausedTime = 0;
-            this.onscreenTriggered = false;
-            this.popupIsOpen = false;
+            $(this.el).addClass(this.elementType+"-audio");
 
             // Sound effects
             var audioFeedbackModel = new Backbone.Model(this.model.get('_audio')._feedback);
@@ -242,7 +245,7 @@ define(function(require) {
         },
 
         setupIndividualFeedbackAudio: function(item) {
-            var itemArray = new Array();
+            var itemArray = [];
             itemArray = this.model.get('_audio')._feedback._items;
 
             try {
@@ -311,10 +314,13 @@ define(function(require) {
           // Stop audio
           Adapt.audio.audioClip[this.audioChannel].pause();
           Adapt.audio.audioClip[this.audioChannel].isPlaying = false;
-          // Update previous player
-          $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass(Adapt.audio.iconPause);
-          $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).addClass(Adapt.audio.iconPlay);
-          $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass('playing');
+
+          // Update previous player if there is one
+          if (Adapt.audio.audioClip[this.audioChannel].playingID) {
+            $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass(Adapt.audio.iconPause);
+            $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).addClass(Adapt.audio.iconPlay);
+            $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass('playing');
+          }
 
           this.$('.audio-toggle').removeClass(Adapt.audio.iconPlay);
           this.$('.audio-toggle').addClass(Adapt.audio.iconPause);
@@ -370,16 +376,14 @@ define(function(require) {
                 this.$('.audio-inner button').hide();
             }
 
-            var direction = "right";
-            if (Adapt.config.get('_defaultDirection') == 'rtl') {
-                direction = "left";
-            }
+            var elementWidth = $('.'+this.elementId).find('.'+this.elementType+'-header').width();
+            var maxWidth = elementWidth - width;
 
-            // Set padding on title or body
+            // Set width on elements title or body
             if (this.model.get('displayTitle') == "") {
-              $('.'+this.elementId).find('.'+this.model.get("_type")+'-body-inner').css("padding-"+direction, width);
+              $('.'+this.elementId).find('.'+this.elementType+'-body').css("max-width", maxWidth);
             } else {
-              $('.'+this.elementId).find('.'+this.model.get("_type")+'-title-inner').css("padding-"+direction, width);
+              $('.'+this.elementId).find('.'+this.elementType+'-title').css("max-width", maxWidth);
             }
         },
 
@@ -392,35 +396,35 @@ define(function(require) {
             if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._reducedTextisEnabled && this.model.get('_audio') && this.model.get('_audio')._reducedTextisEnabled) {
 
                 // Article
-                if (this.model.get("_type") == "article") {
+                if (this.elementType == "article") {
                     if (value == 0) {
-                        $('.' + this.model.get('_id')).find('.article-title-inner').html(this.stringReplace(this.model.get('displayTitle'))).a11y_text();
-                        $('.' + this.model.get('_id')).find('.article-body-inner').html(this.stringReplace(this.model.get('body'))).a11y_text();
+                        $('.' + this.model.get('_id')).find('.article-title-inner').html(this.stringReplace(this.model.get('displayTitle')));
+                        $('.' + this.model.get('_id')).find('.article-body-inner').html(this.stringReplace(this.model.get('body')));
                     } else {
-                        $('.' + this.model.get('_id')).find('.article-title-inner').html(this.stringReplace(this.model.get('_audio').displayTitleReduced)).a11y_text();
-                        $('.' + this.model.get('_id')).find('.article-body-inner').html(this.stringReplace(this.model.get('_audio').bodyReduced)).a11y_text();
+                        $('.' + this.model.get('_id')).find('.article-title-inner').html(this.stringReplace(this.model.get('_audio').displayTitleReduced));
+                        $('.' + this.model.get('_id')).find('.article-body-inner').html(this.stringReplace(this.model.get('_audio').bodyReduced));
                     }
                 }
 
                 // Block
-                if (this.model.get("_type") == "block") {
+                if (this.elementType == "block") {
                     if (value == 0) {
-                        $('.' + this.model.get('_id')).find('.block-title-inner').html(this.stringReplace(this.model.get('displayTitle'))).a11y_text();
-                        $('.' + this.model.get('_id')).find('.block-body-inner').html(this.stringReplace(this.model.get('body'))).a11y_text();
+                        $('.' + this.model.get('_id')).find('.block-title-inner').html(this.stringReplace(this.model.get('displayTitle')));
+                        $('.' + this.model.get('_id')).find('.block-body-inner').html(this.stringReplace(this.model.get('body')));
                     } else {
-                        $('.' + this.model.get('_id')).find('.block-title-inner').html(this.stringReplace(this.model.get('_audio').displayTitleReduced)).a11y_text();
-                        $('.' + this.model.get('_id')).find('.block-body-inner').html(this.stringReplace(this.model.get('_audio').bodyReduced)).a11y_text();
+                        $('.' + this.model.get('_id')).find('.block-title-inner').html(this.stringReplace(this.model.get('_audio').displayTitleReduced));
+                        $('.' + this.model.get('_id')).find('.block-body-inner').html(this.stringReplace(this.model.get('_audio').bodyReduced));
                     }
                 }
 
                 // Component
-                if (this.model.get("_type") == "component") {
+                if (this.elementType == "component") {
                     if (value == 0) {
-                        $('.' + this.model.get('_id')).find('.component-title-inner').html(this.stringReplace(this.model.get('displayTitle'))).a11y_text();
-                        $('.' + this.model.get('_id')).find('.component-body-inner').html(this.stringReplace(this.model.get('body'))).a11y_text();
+                        $('.' + this.model.get('_id')).find('.component-title-inner').html(this.stringReplace(this.model.get('displayTitle')));
+                        $('.' + this.model.get('_id')).find('.component-body-inner').html(this.stringReplace(this.model.get('body')));
                     } else {
-                        $('.' + this.model.get('_id')).find('.component-title-inner').html(this.stringReplace(this.model.get('_audio').displayTitleReduced)).a11y_text();
-                        $('.' + this.model.get('_id')).find('.component-body-inner').html(this.stringReplace(this.model.get('_audio').bodyReduced)).a11y_text();
+                        $('.' + this.model.get('_id')).find('.component-title-inner').html(this.stringReplace(this.model.get('_audio').displayTitleReduced));
+                        $('.' + this.model.get('_id')).find('.component-body-inner').html(this.stringReplace(this.model.get('_audio').bodyReduced));
                     }
                 }
             }

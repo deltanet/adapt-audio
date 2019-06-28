@@ -387,7 +387,7 @@
                     "title": {
                       "type": "string",
                       "required": false,
-                      "default": "Audio and text settings",
+                      "default": "Audio and text",
                       "title": "Title if Reduced text is On",
                       "inputType": "Text",
                       "validators": [],
@@ -396,7 +396,7 @@
                     "titleNoReduced": {
                       "type": "string",
                       "required": false,
-                      "default": "Audio setting",
+                      "default": "Audio",
                       "title": "Title if Reduced text is Off",
                       "inputType": "Text",
                       "validators": [],
