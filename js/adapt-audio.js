@@ -262,7 +262,7 @@ define([
           _isCancellable: true,
           _showCloseButton: false,
           _closeOnBackdrop: true,
-          _classes: ' audio'
+          _classes: ' audio-prompt'
       });
 
       this.listenToOnce(Adapt, {

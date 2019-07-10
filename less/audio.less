@@ -151,7 +151,6 @@
 
 .audio-prompt {
   .audio-prompt-image {
-    height: 130px;
     padding-bottom: @notify-padding;
 
     @media all and (max-width: (@device-width-large + 20px)) {
@@ -181,54 +180,8 @@
     display: inline-block;
   }
 
-  .audio-prompt-title {
-    margin-bottom: @notify-title-padding-bottom;
-    .item-title;
+  .notify-popup-title {
     text-align: center;
-    font-size: @component-title-font-size;
-  }
-
-  .audio-prompt-body {
-    a {
-      text-decoration: underline;
-      color: @notify-text-color;
-    }
-
-    text-align: left;
-    .dir-rtl & {
-      text-align: right;
-    }
-  }
-
-  .audio-prompt-buttons {
-    text-align: center;
-    clear: both;
-  }
-
-  .audio-prompt-button {
-    background-color: @notify-button-color;
-    color: @notify-button-text-color;
-    padding: @button-padding-top @button-padding-right+10 @button-padding-bottom @button-padding-left+10;
-
-    margin-top: @notify-padding;
-    @media all and (max-width: (@device-width-large + 20px)) {
-        margin-top: @notify-padding-top / 2;
-    }
-
-    @media all and (max-width: (@device-width-small + 20px)) {
-        margin-top: @notify-padding-top / 3;
-    }
-
-    text-decoration: none;
-    display: inline-block;
-    border: none;
-    min-width: 100px;
-    .transition-all-colors;
-    .button-text;
-
-    .no-touch &:hover {
-      background-color: @notify-button-color-hover;
-      color: @notify-button-text-color-hover;
-    }
+    padding-right: 0 !important;
   }
 }

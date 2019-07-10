@@ -4,7 +4,7 @@ define([
 
     var AudioPromptView = Backbone.View.extend({
 
-        className: "audio-prompt",
+        className: "audio-prompt-content",
 
         events: {
           'click .audio-fullTextAudioOn': 'setFullTextAudioOn',
