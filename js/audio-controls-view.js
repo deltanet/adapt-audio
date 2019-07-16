@@ -92,7 +92,9 @@ define([
 
         postRender: function() {
             // Add inview listener on audio element
-            $('.'+this.model.get('_id')).on('onscreen', _.bind(this.onscreen, this));
+            _.delay(_.bind(function() {
+                $('.'+this.model.get('_id')).on('onscreen', _.bind(this.onscreen, this));
+            }, this), 1000);
             // Run function to check for reduced text
             this.replaceText(Adapt.audio.textSize);
         },
