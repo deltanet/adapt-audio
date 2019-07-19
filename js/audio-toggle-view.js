@@ -8,6 +8,7 @@ define(function(require) {
         className: 'audio-toggle',
 
         initialize: function() {
+            this.listenTo(Adapt.config, 'change:_activeLanguage', this.remove);
             this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
             this.listenTo(Adapt, 'accessibility:toggle', this.onAccessibilityToggle);
             this.render();

@@ -14,6 +14,9 @@ define([
     },
 
     onDataReady: function() {
+      // Listen for language change
+      this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
+
       if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
         this.setupEventListeners();
         this.setupAudio();
@@ -43,8 +46,6 @@ define([
       this.listenToOnce(Adapt, "router:location", this.checkLaunch);
       // Listen for bookmarking being cancelled
       this.listenToOnce(Adapt, "bookmarking:cancel", this.promptClosed);
-      // Listen for language change
-      this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
       // Listen for notify closing
       this.listenTo(Adapt, 'notify:closed', this.notifyClosed);
       // Listeners for new popup functionality
@@ -52,6 +53,39 @@ define([
       this.listenTo(Adapt, 'audio:popupClosed', this.popupClosed);
       // // Stop all audio channels before the pages load
       this.listenTo(Adapt, "menuView:preRender pageView:preRender", this.stopAllChannels);
+    },
+
+    removeEventListeners: function() {
+      // load navigation toggle button
+      this.stopListening(Adapt, "navigationView:postRender", this.onAddToggle);
+      // load menu audio
+      this.stopListening(Adapt, "menuView:postRender", this.onMenuReady);
+      // load article, block, component audio
+      this.stopListening(Adapt, "articleView:postRender blockView:postRender componentView:postRender", this.onABCReady);
+      this.stopListening(Adapt, "audio:onscreenOff", this.onscreenOff);
+      this.stopListening(Adapt, "audio:playAudio", this.playAudio);
+      this.stopListening(Adapt, "audio:pauseAudio", this.pauseAudio);
+      this.stopListening(Adapt, "audio:stopAllChannels", this.stopAllChannels);
+      this.stopListening(Adapt, "audio:audioEnded", this.audioEnded);
+      // listen to toggle audio on or off
+      this.stopListening(Adapt, "audio:updateAudioStatus", this.updateAudioStatus);
+      // setup audio in drawer
+      this.stopListening(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio);
+      // listen to text change in nav bar toggle prompt
+      this.stopListening(Adapt, "audio:changeText", this.changeText);
+      // Check for first launch of course
+      this.stopListening(Adapt, "router:location", this.checkLaunch);
+      // Listen for bookmarking being cancelled
+      this.stopListening(Adapt, "bookmarking:cancel", this.promptClosed);
+      // Listen for language change
+      this.stopListening(Adapt.config, 'change:_activeLanguage', this.onLangChange);
+      // Listen for notify closing
+      this.stopListening(Adapt, 'notify:closed', this.notifyClosed);
+      // Listeners for new popup functionality
+      this.stopListening(Adapt, 'audio:popupOpened', this.popupOpened);
+      this.stopListening(Adapt, 'audio:popupClosed', this.popupClosed);
+      // // Stop all audio channels before the pages load
+      this.stopListening(Adapt, "menuView:preRender pageView:preRender", this.stopAllChannels);
     },
 
     setupAudio: function() {
@@ -173,69 +207,11 @@ define([
     },
 
     onLangChange: function() {
-      this.listenToOnce(Adapt, "app:dataReady", this.onDataChanged);
-    },
-
-    onDataChanged: function() {
-      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._reducedTextisEnabled) {
-        this.reducedTextEnabled = Adapt.course.get("_audio")._reducedTextisEnabled;
-      } else {
-        this.reducedTextEnabled = false;
-      }
-
-      // Set variable to be used for the initial prompt event
-      Adapt.audio.promptIsOpen = false;
-
-      // Set default text size to full
-      Adapt.audio.textSize = 0;
-
-      // Set action for the pause button
-      Adapt.audio.pauseStopAction = Adapt.course.get('_audio')._pauseStopAction;
-
-      // Set trigger position for onscreen percentFromTop detection
-      Adapt.audio.triggerPosition = Adapt.course.get('_audio')._triggerPosition;
-
-      // Set global variables based on course JSON
-      Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
-      Adapt.audio.autoPlayOnceGlobal = Adapt.course.get('_audio')._autoPlayOnce ? true : false;
-
-      // Get names for icons from course.config
-      Adapt.audio.iconOn = Adapt.course.get('_audio')._icons._audioOn;
-      Adapt.audio.iconOff = Adapt.course.get('_audio')._icons._audioOff;
-      Adapt.audio.iconPlay = Adapt.course.get('_audio')._icons._audioPlay;
-      Adapt.audio.iconPause = Adapt.course.get('_audio')._icons._audioPause;
-
-      // Assign variables to each audio object
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.audio.audioClip[i].isPlaying = false;
-        Adapt.audio.audioClip[i].playingID = "";
-        Adapt.audio.audioClip[i].newID = "";
-        Adapt.audio.audioClip[i].prevID = "";
-        Adapt.audio.audioClip[i].onscreenID = "";
-      }
-
-      //Set default audio status for each channel base on the course config
-      Adapt.audio.audioClip[0].status = Adapt.course.get('_audio')._channels._narration._status;
-      Adapt.audio.audioClip[1].status = Adapt.course.get('_audio')._channels._effects._status;
-      Adapt.audio.audioClip[2].status = Adapt.course.get('_audio')._channels._music._status;
-      Adapt.audio.audioStatus = Adapt.audio.audioClip[0].status;
-
-      // Collect data from offline storage
-      if(Adapt.offlineStorage.get("audio_level") == "1" || Adapt.offlineStorage.get("audio_level") == "0") {
-        // Set to saved audio status and text size
-        Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
-        Adapt.audio.textSize = Adapt.offlineStorage.get("audio_textSize");
-      }
-      // Update channels based on preference
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
-      }
-      // Change text and audio based on preference
-      this.updateAudioStatus(0,Adapt.audio.audioStatus);
-      this.changeText(Adapt.audio.textSize);
-
+      this.removeEventListeners();
+      // Set empty location so that the prompt is checked
       Adapt.offlineStorage.set("location", "");
-      this.listenToOnce(Adapt, "router:location", this.checkLaunch);
+
+      this.listenToOnce(Adapt, "app:dataReady", this.onDataReady);
     },
 
     showAudioPrompt: function() {
