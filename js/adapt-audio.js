@@ -15,6 +15,8 @@ define([
     },
 
     onDataReady: function() {
+      this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
+
       if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
         this.setupEventListeners();
         this.setupAudio();
@@ -24,8 +26,6 @@ define([
 
     setupEventListeners: function() {
       this.listenToOnce(Adapt, "router:location", this.checkLaunch);
-
-      this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
       this.listenTo(Adapt, {
           "navigationView:postRender": this.loadNavigationView,
@@ -180,6 +180,9 @@ define([
           "audio:popupClosed": this.popupClosed,
           "audio:audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels
       });
+
+      // Set empty location so that the prompt is checked
+      Adapt.offlineStorage.set("location", "");
 
       this.listenToOnce(Adapt, "app:dataReady", this.onDataReady);
     },

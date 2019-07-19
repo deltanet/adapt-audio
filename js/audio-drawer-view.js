@@ -7,8 +7,8 @@ define([
         className: "audio-drawer",
 
         initialize: function() {
-
             this.listenTo(Adapt, 'remove', this.remove);
+            this.listenTo(Adapt.config, 'change:_activeLanguage', this.remove);
             this.render();
         },
 

@@ -7,9 +7,8 @@ define([
         className: 'audio-navigation',
 
         initialize: function() {
-            this.listenTo(Adapt, {
-                "audio:updateAudioStatus": this.updateToggle
-            });
+            this.listenTo(Adapt.config, 'change:_activeLanguage', this.remove);
+            this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
 
             this.render();
         },
