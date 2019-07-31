@@ -461,7 +461,10 @@ define([
         // Pause all channels on view load
         this.stopAllChannels();
         try{
-          new AudioControlsView({model:view.model});
+          // Only render view if it DOESN'T already exist - Work around for hotgraphic component
+          if (!$('.' + view.model.get('_id')).find('.audio-controls').length) {
+            new AudioControlsView({model:view.model});
+          }
         } catch(e){
           console.log(e);
         }
