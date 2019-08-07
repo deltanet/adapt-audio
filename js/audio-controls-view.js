@@ -13,7 +13,7 @@ define([
                 "questionView:showFeedback": this.initFeedback,
                 "popup:opened": this.popupOpened,
                 "popup:closed": this.stopFeedbackAudio,
-                "audio:updateAudioStatus": this.updateToggle,
+                "audio:updateAudioStatus device:resize": this.updateToggle,
                 "audio:changeText": this.replaceText
             });
 
@@ -74,8 +74,6 @@ define([
             // Add audio icon
             this.$('.audio-toggle').addClass(this.audioIcon);
 
-            this.updateToggle();
-
             // Set audio file
             this.setAudioFile();
 
@@ -91,6 +89,7 @@ define([
         },
 
         postRender: function() {
+            this.updateToggle();
             // Add inview listener on audio element
             _.delay(_.bind(function() {
                 $('.'+this.model.get('_id')).on('onscreen', _.bind(this.onscreen, this));
@@ -368,18 +367,19 @@ define([
         },
 
         updateToggle: function() {
-          // Reset width
+            // Reset width
             var width = 0;
 
             if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls == true) {
                 this.$('.audio-inner button').show();
-                width = this.$('.audio-toggle').outerWidth();
+                outerWidth = this.$('.audio-toggle').outerWidth();
             } else {
                 this.$('.audio-inner button').hide();
             }
 
-            var elementWidth = $('.'+this.elementId).find('.'+this.elementType+'-header').width();
-            var maxWidth = elementWidth - width;
+            var elementWidth = $('.'+this.elementId).find('.'+this.elementType+'-header').outerWidth();
+            var padding = outerWidth - this.$('.audio-toggle').width();
+            var maxWidth = (elementWidth - outerWidth) - padding;
 
             // Set width on elements title or body
             if (this.model.get('displayTitle') == "") {
