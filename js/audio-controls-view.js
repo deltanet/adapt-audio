@@ -343,8 +343,10 @@ define([
 
           if (Adapt.audio.pauseStopAction == "pause") {
             Adapt.audio.audioClip[this.audioChannel].play(this.pausedTime);
+            this.$('.audio-toggle').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.pauseAriaLabel));
           } else {
             Adapt.audio.audioClip[this.audioChannel].play();
+            this.$('.audio-toggle').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.stopAriaLabel));
           }
 
           Adapt.audio.audioClip[this.audioChannel].onscreenID = this.elementId;
@@ -364,6 +366,7 @@ define([
             } else {
                 Adapt.trigger('audio:pauseAudio', this.audioChannel);
             }
+            this.$('.audio-toggle').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.playAriaLabel));
         },
 
         updateToggle: function() {

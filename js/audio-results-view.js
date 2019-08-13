@@ -13,7 +13,7 @@ define([
             });
 
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
-            
+
             this.render();
         },
 
@@ -45,7 +45,6 @@ define([
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
             // Set listener for when clip ends
             $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
-
         },
 
         onAudioEnded: function() {

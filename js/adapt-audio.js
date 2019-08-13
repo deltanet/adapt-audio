@@ -392,14 +392,24 @@ define([
       $(audioHTMLId).removeClass(Adapt.audio.iconPlay);
       $(audioHTMLId).addClass(Adapt.audio.iconPause);
       $(audioHTMLId).addClass('playing');
+
+      if (Adapt.audio.pauseStopAction == "pause") {
+        $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.pauseAriaLabel));
+      } else {
+        $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.stopAriaLabel));
+      }
     },
 
     hideAudioIcon: function(channel) {
       if (!Adapt.audio.audioClip[channel].playingID) return;
 
-      $('#'+Adapt.audio.audioClip[channel].playingID).removeClass(Adapt.audio.iconPause);
-      $('#'+Adapt.audio.audioClip[channel].playingID).addClass(Adapt.audio.iconPlay);
-      $('#'+Adapt.audio.audioClip[channel].playingID).removeClass('playing');
+      var audioHTMLId = '#'+Adapt.audio.audioClip[channel].playingID;
+
+      $(audioHTMLId).removeClass(Adapt.audio.iconPause);
+      $(audioHTMLId).addClass(Adapt.audio.iconPlay);
+      $(audioHTMLId).removeClass('playing');
+
+      $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.playAriaLabel));
     },
 
     updateAudioStatus: function(channel, value) {
