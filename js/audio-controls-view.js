@@ -367,25 +367,26 @@ define([
         },
 
         updateToggle: function() {
-            // Reset width
-            var width = 0;
-
             if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls == true) {
                 this.$('.audio-inner button').show();
-                outerWidth = this.$('.audio-toggle').outerWidth();
+
+                var outerWidth = this.$('.audio-toggle').outerWidth();
+                var elementWidth = $('.'+this.elementId).find('.'+this.elementType+'-header').outerWidth();
+                var padding = outerWidth - this.$('.audio-toggle').width();
+                var maxWidth = (elementWidth - outerWidth) - padding;
+
+                // Set width on elements title or body
+                if (this.model.get('displayTitle') == "") {
+                  $('.'+this.elementId).find('.'+this.elementType+'-body').css("max-width", maxWidth);
+                } else {
+                  $('.'+this.elementId).find('.'+this.elementType+'-title-inner').css("max-width", maxWidth);
+                }
+
             } else {
                 this.$('.audio-inner button').hide();
-            }
-
-            var elementWidth = $('.'+this.elementId).find('.'+this.elementType+'-header').outerWidth();
-            var padding = outerWidth - this.$('.audio-toggle').width();
-            var maxWidth = (elementWidth - outerWidth) - padding;
-
-            // Set width on elements title or body
-            if (this.model.get('displayTitle') == "") {
-              $('.'+this.elementId).find('.'+this.elementType+'-body').css("max-width", maxWidth);
-            } else {
-              $('.'+this.elementId).find('.'+this.elementType+'-title').css("max-width", maxWidth);
+                // Reset
+                $('.'+this.elementId).find('.'+this.elementType+'-body').css("max-width", "");
+                $('.'+this.elementId).find('.'+this.elementType+'-title-inner').css("max-width", "");
             }
         },
 
