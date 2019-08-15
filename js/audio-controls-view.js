@@ -380,7 +380,7 @@ define([
 
                 // Set width on elements title or body
                 if (this.model.get('displayTitle') == "") {
-                  $('.'+this.elementId).find('.'+this.elementType+'-body').css("max-width", maxWidth);
+                  $('.'+this.elementId).find('.'+this.elementType+'-body-inner').css("max-width", maxWidth);
                 } else {
                   $('.'+this.elementId).find('.'+this.elementType+'-title-inner').css("max-width", maxWidth);
                 }
@@ -388,7 +388,7 @@ define([
             } else {
                 this.$('.audio-inner button').hide();
                 // Reset
-                $('.'+this.elementId).find('.'+this.elementType+'-body').css("max-width", "");
+                $('.'+this.elementId).find('.'+this.elementType+'-body-inner').css("max-width", "");
                 $('.'+this.elementId).find('.'+this.elementType+'-title-inner').css("max-width", "");
             }
         },
