@@ -129,10 +129,12 @@ define([
                 this.$('.narration-description').html(Adapt.course.get('_audio')._channels._narration.descriptionOn);
                 this.$('.item-narration').removeClass(Adapt.audio.iconOff);
                 this.$('.item-narration').addClass(Adapt.audio.iconOn);
+                this.$('.item-narration').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.stopAriaLabel));
             } else {
                 this.$('.narration-description').html(Adapt.course.get('_audio')._channels._narration.descriptionOff);
                 this.$('.item-narration').removeClass(Adapt.audio.iconOn);
                 this.$('.item-narration').addClass(Adapt.audio.iconOff);
+                this.$('.item-narration').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.playAriaLabel));
             }
         },
 
@@ -141,10 +143,12 @@ define([
                 this.$('.effects-description').html(Adapt.course.get('_audio')._channels._effects.descriptionOn);
                 this.$('.item-effects').removeClass(Adapt.audio.iconOff);
                 this.$('.item-effects').addClass(Adapt.audio.iconOn);
+                this.$('.item-effects').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.stopAriaLabel));
             } else {
                 this.$('.effects-description').html(Adapt.course.get('_audio')._channels._effects.descriptionOff);
                 this.$('.item-effects').removeClass(Adapt.audio.iconOn);
                 this.$('.item-effects').addClass(Adapt.audio.iconOff);
+                this.$('.item-effects').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.playAriaLabel));
             }
         },
 
@@ -153,10 +157,12 @@ define([
                 this.$('.music-description').html(Adapt.course.get('_audio')._channels._music.descriptionOn);
                 this.$('.item-music').removeClass(Adapt.audio.iconOff);
                 this.$('.item-music').addClass(Adapt.audio.iconOn);
+                this.$('.item-music').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.stopAriaLabel));
             } else {
                 this.$('.music-description').html(Adapt.course.get('_audio')._channels._music.descriptionOff);
                 this.$('.item-music').removeClass(Adapt.audio.iconOn);
                 this.$('.item-music').addClass(Adapt.audio.iconOff);
+                this.$('.item-music').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.playAriaLabel));
             }
         },
 
