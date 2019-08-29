@@ -1,9 +1,43 @@
 {
-  "type":"object",
+  "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "id": "http://jsonschema.net",
-  "required":false,
-  "properties":{
+  "required": false,
+  "globals": {
+      "navigationAriaLabel": {
+          "type": "string",
+          "required": true,
+          "default": "Open course audio.",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+      },
+      "playAriaLabel": {
+          "type": "string",
+          "required": true,
+          "default": "Play audio.",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+      },
+      "pauseAriaLabel": {
+          "type": "string",
+          "required": true,
+          "default": "Pause audio.",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+      },
+      "stopAriaLabel": {
+          "type": "string",
+          "required": true,
+          "default": "Stop audio.",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+      }
+  },
+  "properties": {
     "pluginLocations": {
       "type":"object",
       "required": true,
@@ -387,7 +421,7 @@
                     "title": {
                       "type": "string",
                       "required": false,
-                      "default": "Audio and text settings",
+                      "default": "Audio and text",
                       "title": "Title if Reduced text is On",
                       "inputType": "Text",
                       "validators": [],
@@ -396,7 +430,7 @@
                     "titleNoReduced": {
                       "type": "string",
                       "required": false,
-                      "default": "Audio setting",
+                      "default": "Audio",
                       "title": "Title if Reduced text is Off",
                       "inputType": "Text",
                       "validators": [],

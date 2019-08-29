@@ -1,16 +1,19 @@
-define(function(require) {
-
-    var Adapt = require('coreJS/adapt');
-    var Backbone = require('backbone');
+define([
+    'core/js/adapt'
+], function(Adapt) {
 
     var AudioMenuView = Backbone.View.extend({
 
         className: "audio-controls",
 
         initialize: function () {
-            this.listenTo(Adapt, 'remove', this.remove);
-            this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
+            this.listenTo(Adapt, {
+                "remove": this.remove,
+                "audio:updateAudioStatus": this.updateToggle
+            });
+
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
+
             this.render();
         },
 
@@ -99,10 +102,13 @@ define(function(require) {
 
           // Stop audio
           Adapt.audio.audioClip[this.audioChannel].pause();
-          // Update previous player
-          $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass(Adapt.audio.iconPause);
-          $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).addClass(Adapt.audio.iconPlay);
-          $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass('playing');
+
+          // Update previous player if there is one
+          if (Adapt.audio.audioClip[this.audioChannel].playingID) {
+            $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass(Adapt.audio.iconPause);
+            $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).addClass(Adapt.audio.iconPlay);
+            $('#'+Adapt.audio.audioClip[this.audioChannel].playingID).removeClass('playing');
+          }
 
           this.$('.audio-toggle').removeClass(Adapt.audio.iconPlay);
           this.$('.audio-toggle').addClass(Adapt.audio.iconPause);
@@ -114,8 +120,10 @@ define(function(require) {
 
           if (Adapt.audio.pauseStopAction == "pause") {
             Adapt.audio.audioClip[this.audioChannel].play(this.pausedTime);
+            this.$('.audio-toggle').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.pauseAriaLabel));
           } else {
             Adapt.audio.audioClip[this.audioChannel].play();
+            this.$('.audio-toggle').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.stopAriaLabel));
           }
 
           Adapt.audio.audioClip[this.audioChannel].onscreenID = this.elementId;
@@ -134,6 +142,7 @@ define(function(require) {
           } else {
             Adapt.trigger('audio:pauseAudio', this.audioChannel);
           }
+          this.$('.audio-toggle').attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.playAriaLabel));
         },
 
         updateToggle: function(){
