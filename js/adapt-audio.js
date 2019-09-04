@@ -18,8 +18,8 @@ define([
       this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
       if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
-        this.setupEventListeners();
         this.setupAudio();
+        this.setupEventListeners();
         this.addAudioDrawerItem();
       }
     },
@@ -171,9 +171,9 @@ define([
 
     checkLaunch: function() {
       // Check launch based on the saved location
-      if((Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") === undefined) || (Adapt.offlineStorage.get("location") == "")) {
+      if ((Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") === undefined) || (Adapt.offlineStorage.get("location") == "")) {
         if (Adapt.course.get('_audio')._prompt._isEnabled) {
-          this.showAudioPrompt();
+          this.listenToOnce(Adapt, 'pageView:ready menuView:ready', this.onReady);
         } else {
           this.audioConfigured();
         }
@@ -189,6 +189,11 @@ define([
         }
         this.audioConfigured();
       }
+    },
+
+    onReady: function() {
+      this.stopListening(Adapt, 'pageView:ready menuView:ready', this.onReady);
+      this.showAudioPrompt();
     },
 
     bookmarkOpened: function() {
