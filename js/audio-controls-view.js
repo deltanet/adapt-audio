@@ -281,6 +281,17 @@ define([
               // Check if audio is set to on
               if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
                 this.setAudioFile();
+
+                // Check for component items
+                if (this.elementType === 'component' && this.model.get('_children')) {
+                  var itemIndex = this.getActiveItemIndex();
+                  var currentItem = this.model.get('_items')[itemIndex];
+
+                  if (itemIndex > 0) {
+                    this.audioFile = currentItem._audio.src;
+                  }
+                }
+
                 Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
               }
               // Set to false to stop autoplay when onscreen again
@@ -330,11 +341,12 @@ define([
           Adapt.audio.audioClip[this.audioChannel].prevID = Adapt.audio.audioClip[this.audioChannel].playingID;
           Adapt.audio.audioClip[this.audioChannel].src = this.audioFile;
 
-          // Check for items (Narrative component etc) that set a "_stage" attribute
-          if (this.model.get('_items')) {
-            var itemNumber = this.model.has('_stage') ? this.model.get('_stage') : 0;
-            var currentItem = this.model.get('_items')[itemNumber];
-            if (itemNumber > 0) {
+          // Check for component items
+          if (this.elementType === 'component' && this.model.get('_children')) {
+            var itemIndex = this.getActiveItemIndex();
+            var currentItem = this.model.get('_items')[itemIndex];
+
+            if (itemIndex > 0) {
               Adapt.audio.audioClip[this.audioChannel].src = currentItem._audio.src;
             }
           }
@@ -391,6 +403,17 @@ define([
                 $('.'+this.elementId).find('.'+this.elementType+'-body-inner').css("max-width", "");
                 $('.'+this.elementId).find('.'+this.elementType+'-title-inner').css("max-width", "");
             }
+        },
+
+        getActiveItemIndex: function() {
+          var activeItem = this.model.get('_children').findWhere({ _isActive: true });
+
+          if (activeItem) {
+            var index = activeItem.get('_index');
+            return index;
+          } else {
+            return 0;
+          }
         },
 
         removeInViewListeners: function() {
