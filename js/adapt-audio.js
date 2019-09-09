@@ -192,8 +192,10 @@ define([
     },
 
     onReady: function() {
-      this.stopListening(Adapt, 'pageView:ready menuView:ready', this.onReady);
-      this.showAudioPrompt();
+      _.defer(function() {
+        this.stopListening(Adapt, 'pageView:ready menuView:ready', this.onReady);
+        this.showAudioPrompt();
+      }.bind(this));
     },
 
     bookmarkOpened: function() {
