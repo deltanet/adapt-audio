@@ -41,7 +41,7 @@ define([
           "notify:closed": this.notifyClosed,
           "audio:popupOpened": this.popupOpened,
           "audio:popupClosed": this.popupClosed,
-          "audio:audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels
+          "audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels
       });
     },
 
@@ -218,7 +218,7 @@ define([
           "notify:closed": this.notifyClosed,
           "audio:popupOpened": this.popupOpened,
           "audio:popupClosed": this.popupClosed,
-          "audio:audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels
+          "audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels
       });
 
       // Set empty location so that the prompt is checked
