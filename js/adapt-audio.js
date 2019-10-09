@@ -107,17 +107,6 @@ define([
       Adapt.audio.autoPlayGlobal = Adapt.course.get('_audio')._autoplay ? true : false;
       Adapt.audio.autoPlayOnceGlobal = Adapt.course.get('_audio')._autoPlayOnce ? true : false;
 
-      // Set variable for iOS devices
-      // When false - autoplay will be disabled until the user clicks on the audio control icon
-      Adapt.audio.autoPlayOnIOS = false;
-
-      // Check if iOS is being used
-      if (navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i)) {
-        Adapt.audio.autoPlayOnIOS = false;
-      } else {
-        Adapt.audio.autoPlayOnIOS = true;
-      }
-
       // Get names for icons from course.config
       Adapt.audio.iconOn = Adapt.course.get('_audio')._icons._audioOn;
       Adapt.audio.iconOff = Adapt.course.get('_audio')._icons._audioOff;
@@ -364,7 +353,7 @@ define([
         Adapt.audio.audioClip[channel].src = audioClip;
         Adapt.audio.audioClip[channel].newID = id;
         // Only play if prompt is not open or the audio type is a popup
-        if ((Adapt.audio.promptIsOpen == false || popup == true) && Adapt.audio.autoPlayOnIOS) {
+        if (Adapt.audio.promptIsOpen == false || popup == true) {
           try {
             var delay = 500;
             if (id === null) {
@@ -471,6 +460,11 @@ define([
     },
 
     audioConfigured: function() {
+      for (var i = 0; i < Adapt.audio.numChannels; i++) {
+        Adapt.audio.audioClip[i].play();
+        Adapt.audio.audioClip[i].isPlaying = false;
+        Adapt.audio.audioClip[i].pause();
+      }
       Adapt.trigger('audio:configured');
     },
 

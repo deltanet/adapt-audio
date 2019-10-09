@@ -29,49 +29,42 @@ define([
 
         setFullTextAudioOn: function(event) {
           Adapt.audio.audioStatus = 1;
-          Adapt.audio.autoPlayOnIOS = true;
           Adapt.trigger('audio:changeText', 0);
           this.closePopup();
         },
 
         setFullTextAudioOff: function(event) {
           Adapt.audio.audioStatus = 0;
-          Adapt.audio.autoPlayOnIOS = true;
           Adapt.trigger('audio:changeText', 0);
           this.closePopup();
         },
 
         setReducedTextAudioOn: function(event) {
           Adapt.audio.audioStatus = 1;
-          Adapt.audio.autoPlayOnIOS = true;
           Adapt.trigger('audio:changeText', 1);
           this.closePopup();
         },
 
         setReducedTextAudioOff: function(event) {
           Adapt.audio.audioStatus = 0;
-          Adapt.audio.autoPlayOnIOS = true;
           Adapt.trigger('audio:changeText', 1);
           this.closePopup();
         },
 
         setContinueAudioOn: function(event) {
           Adapt.audio.audioStatus = 1;
-          Adapt.audio.autoPlayOnIOS = true;
           Adapt.trigger('audio:changeText', 0);
           this.closePopup();
         },
 
         setContinueAudioOff: function(event) {
           Adapt.audio.audioStatus = 0;
-          Adapt.audio.autoPlayOnIOS = true;
           Adapt.trigger('audio:changeText', 0);
           this.closePopup();
         },
 
         setAudioOff: function(event) {
           Adapt.audio.audioStatus = 0;
-          Adapt.audio.autoPlayOnIOS = true;
           for (var i = 0; i < Adapt.audio.numChannels; i++) {
             Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
           }
@@ -82,7 +75,6 @@ define([
 
         setAudioOn: function(event) {
           Adapt.audio.audioStatus = 1;
-          Adapt.audio.autoPlayOnIOS = true;
           for (var i = 0; i < Adapt.audio.numChannels; i++) {
             Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
           }

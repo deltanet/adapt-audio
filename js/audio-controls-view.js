@@ -364,7 +364,6 @@ define([
           Adapt.audio.audioClip[this.audioChannel].onscreenID = this.elementId;
           Adapt.audio.audioClip[this.audioChannel].playingID = Adapt.audio.audioClip[this.audioChannel].newID;
           Adapt.audio.audioClip[this.audioChannel].isPlaying = true;
-          Adapt.audio.autoPlayOnIOS = true;
         },
 
         pauseAudio: function() {
