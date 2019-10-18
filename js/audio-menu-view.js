@@ -100,6 +100,8 @@ define([
           // iOS requires direct user interaction on a button to enable autoplay
           // Re-use code from main adapt-audio.js playAudio() function
 
+          Adapt.trigger("media:stop");
+
           // Stop audio
           Adapt.audio.audioClip[this.audioChannel].pause();
 
