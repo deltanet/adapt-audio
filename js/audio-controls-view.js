@@ -90,15 +90,16 @@ define([
         },
 
         postRender: function() {
+            this.updateToggle();
+            // Run function to check for reduced text
+            this.replaceText(Adapt.audio.textSize);
+
+            // Add inview listener on audio element
             if (!Adapt.audio.isConfigured) return;
 
-            this.updateToggle();
-            // Add inview listener on audio element
             _.delay(_.bind(function() {
                 $('.'+this.model.get('_id')).on('onscreen', _.bind(this.onscreen, this));
             }, this), 1000);
-            // Run function to check for reduced text
-            this.replaceText(Adapt.audio.textSize);
         },
 
         setAudioFile: function() {
