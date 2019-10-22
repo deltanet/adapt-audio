@@ -89,6 +89,8 @@ define([
       Adapt.audio = {};
       Adapt.audio.audioClip = [];
 
+      Adapt.audio.isConfigured = false;
+
       // Set variables to be used for the initial prompt
       Adapt.audio.promptView = null;
       Adapt.audio.promptIsOpen = false;
@@ -310,22 +312,6 @@ define([
       }
 
       this.audioConfigured();
-      this.stopAllChannels();
-
-      for (var i = 0; i < Adapt.audio.numChannels; i++) {
-        Adapt.audio.audioClip[i].onscreenID = "";
-        if(Adapt.audio.audioClip[i].status == 1) {
-          this.playAudio(Adapt.audio.audioClip[i].src, Adapt.audio.audioClip[i].playingID, i);
-        }
-      }
-    },
-
-    playCurrentAudio: function(channel){
-      if(Adapt.audio.audioClip[channel].status == 1) {
-        Adapt.audio.audioClip[channel].play();
-        Adapt.audio.audioClip[channel].isPlaying = true;
-        this.showAudioIcon(channel);
-      }
     },
 
     changeText: function(value) {
@@ -465,6 +451,8 @@ define([
         Adapt.audio.audioClip[i].isPlaying = false;
         Adapt.audio.audioClip[i].pause();
       }
+
+      Adapt.audio.isConfigured = true;
       Adapt.trigger('audio:configured');
     },
 

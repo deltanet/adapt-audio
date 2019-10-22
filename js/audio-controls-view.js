@@ -14,6 +14,7 @@ define([
                 "popup:opened": this.popupOpened,
                 "popup:closed": this.stopFeedbackAudio,
                 "audio:updateAudioStatus device:resize": this.updateToggle,
+                "audio:configured": this.audioConfigured,
                 "audio:changeText": this.replaceText
             });
 
@@ -89,6 +90,8 @@ define([
         },
 
         postRender: function() {
+            if (!Adapt.audio.isConfigured) return;
+
             this.updateToggle();
             // Add inview listener on audio element
             _.delay(_.bind(function() {
@@ -121,6 +124,13 @@ define([
 
         popupOpened: function() {
             this.popupIsOpen = true;
+        },
+
+        audioConfigured: function() {
+            _.delay(_.bind(function() {
+                this.popupIsOpen = false;
+                $('.'+this.model.get('_id')).on('onscreen', _.bind(this.onscreen, this));
+            }, this), 500);
         },
 
         initFeedback: function(view) {
