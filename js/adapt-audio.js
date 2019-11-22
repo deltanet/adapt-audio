@@ -99,6 +99,10 @@ define([
       // Set default text size to full
       Adapt.audio.textSize = 0;
 
+      Adapt.audio.playAriaLabel = Adapt.course.get("_globals")._extensions._audio ? Adapt.course.get("_globals")._extensions._audio.playAriaLabel : "";
+      Adapt.audio.pauseAriaLabel = Adapt.course.get("_globals")._extensions._audio ? Adapt.course.get("_globals")._extensions._audio.pauseAriaLabel : "";
+      Adapt.audio.stopAriaLabel = Adapt.course.get("_globals")._extensions._audio ? Adapt.course.get("_globals")._extensions._audio.stopAriaLabel : "";
+
       // Set action for the pause button
       Adapt.audio.pauseStopAction = Adapt.course.get('_audio')._pauseStopAction;
 
@@ -409,9 +413,9 @@ define([
       $(audioHTMLId).addClass('playing');
 
       if (Adapt.audio.pauseStopAction == "pause") {
-        $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.pauseAriaLabel));
+        $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.audio.pauseAriaLabel));
       } else {
-        $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.stopAriaLabel));
+        $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.audio.stopAriaLabel));
       }
     },
 
@@ -424,7 +428,7 @@ define([
       $(audioHTMLId).addClass(Adapt.audio.iconPlay);
       $(audioHTMLId).removeClass('playing');
 
-      $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.course.get("_globals")._extensions._audio.playAriaLabel));
+      $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.audio.playAriaLabel));
     },
 
     updateAudioStatus: function(channel, value) {
