@@ -223,8 +223,10 @@ define([
 
         setupIncorrectFeedback: function() {
             // apply individual item feedback
-            if (this.model.has('_selectedItems') && (this.model.get('_selectable') === 1) && this.model.get('_selectedItems') !="" && this.model.get('_selectedItems')[0].feedback) {
-                this.setupIndividualFeedbackAudio(this.model.get('_selectedItems')[0]._index);
+            var items = this.model.get('_audio')._feedback._items;
+
+            if (this.model.get('_selectable') === 1 && items.length > 0) {
+                this.setupIndividualFeedbackAudio();
             } else {
                 // Final
                 if (this.model.get('_attemptsLeft') === 0) {
@@ -257,14 +259,14 @@ define([
         },
 
         setupIndividualFeedbackAudio: function(item) {
-            var itemArray = [];
-            itemArray = this.model.get('_audio')._feedback._items;
+            var activeItem = this.getActiveItem();
+            var index = activeItem.get('_index');
+            var itemArray = this.model.get('_audio')._feedback._items;
+            this.audioFile = itemArray[index]._src;
+        },
 
-            try {
-                this.audioFile = itemArray[item]._src;
-            } catch (e) {
-                console.log('An error has occured loading audio');
-            }
+        getActiveItem: function() {
+            return this.model.get('_children').findWhere({ _isActive: true });
         },
 
         stopFeedbackAudio: function() {
