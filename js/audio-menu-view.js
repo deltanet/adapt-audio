@@ -9,6 +9,7 @@ define([
         initialize: function () {
             this.listenTo(Adapt, {
                 "remove": this.remove,
+                "audio:configured": this.audioConfigured,
                 "audio:updateAudioStatus": this.updateToggle
             });
 
@@ -69,17 +70,9 @@ define([
               this.model.set('_canReplayAudio', true);
             }
 
-            // Play audio if autoplay is true
-            if (this.canAutoplay && this.model.get('_canReplayAudio')) {
-              // Check if audio is set to on
-              if(Adapt.audio.audioClip[this.audioChannel].status==1){
-                  Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
-              }
-              // Set to false to stop autoplay when onscreen again
-              if (this.autoplayOnce) {
-                this.model.set('_canReplayAudio', false);
-              }
-            }
+            if (!Adapt.audio.isConfigured) return;
+
+            this.autoplayAudio();
         },
 
         onAudioEnded: function() {
@@ -96,7 +89,21 @@ define([
             }
         },
 
-        playAudio: function () {
+        autoplayAudio: function() {
+          // Play audio if autoplay is true
+          if (this.canAutoplay && this.model.get('_canReplayAudio')) {
+            // Check if audio is set to on
+            if (Adapt.audio.audioClip[this.audioChannel].status==1){
+                Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
+            }
+            // Set to false to stop autoplay when onscreen again
+            if (this.autoplayOnce) {
+              this.model.set('_canReplayAudio', false);
+            }
+          }
+        },
+
+        playAudio: function() {
           // iOS requires direct user interaction on a button to enable autoplay
           // Re-use code from main adapt-audio.js playAudio() function
 
@@ -152,6 +159,10 @@ define([
             } else {
                 this.$('.audio-toggle').addClass('hidden');
             }
+        },
+
+        audioConfigured: function() {
+          this.autoplayAudio();
         },
 
         removeInViewListeners: function () {
