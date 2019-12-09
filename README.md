@@ -233,7 +233,7 @@ The **_audio** attribute at Page level contains values for **_isEnabled**, **_sh
 <div float align=right><a href="#top">Back to Top</a></div>
 
 ----------------------------
-**Version number:**  4.0.10   
+**Version number:**  4.0.11   
 **Framework versions supported:**  4+    
 **Author / maintainer:** DeltaNet with [contributors](https://github.com/deltanet/adapt-audio/graphs/contributors)     
 **Accessibility support:** Yes  
