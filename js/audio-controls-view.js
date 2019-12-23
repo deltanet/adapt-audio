@@ -474,7 +474,8 @@ define([
         },
 
         stringReplace: function(text) {
-          // Check for _globals._learnerInfo elements
+          if (!Adapt.course.get('_globals')._learnerInfo) return text;
+
           // name
           var newText = text.replace(/{{_globals._learnerInfo.name}}/g, Adapt.course.get('_globals')._learnerInfo.name);
           // firstname
