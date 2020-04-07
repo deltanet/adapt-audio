@@ -484,10 +484,9 @@ define([
       if (view.model && view.model.get("_audio") && view.model.get('_type') == "menu" && view.model.get("_audio")._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
-        try{
-         new AudioMenuView({model:view.model});
-        } catch(e){
-         console.log(e);
+        // Only render current location menu
+        if (Adapt.location._currentId == view.model.get("_id")) {
+          new AudioMenuView({model:view.model});
         }
       }
     },
