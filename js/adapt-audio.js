@@ -45,39 +45,6 @@ define([
       });
     },
 
-    removeEventListeners: function() {
-      // load navigation toggle button
-      this.stopListening(Adapt, "navigationView:postRender", this.onAddToggle);
-      // load menu audio
-      this.stopListening(Adapt, "menuView:postRender", this.onMenuReady);
-      // load article, block, component audio
-      this.stopListening(Adapt, "articleView:postRender blockView:postRender componentView:postRender", this.onABCReady);
-      this.stopListening(Adapt, "audio:onscreenOff", this.onscreenOff);
-      this.stopListening(Adapt, "audio:playAudio", this.playAudio);
-      this.stopListening(Adapt, "audio:pauseAudio", this.pauseAudio);
-      this.stopListening(Adapt, "audio:stopAllChannels", this.stopAllChannels);
-      this.stopListening(Adapt, "audio:audioEnded", this.audioEnded);
-      // listen to toggle audio on or off
-      this.stopListening(Adapt, "audio:updateAudioStatus", this.updateAudioStatus);
-      // setup audio in drawer
-      this.stopListening(Adapt, "audio:showAudioDrawer", this.setupDrawerAudio);
-      // listen to text change in nav bar toggle prompt
-      this.stopListening(Adapt, "audio:changeText", this.changeText);
-      // Check for first launch of course
-      this.stopListening(Adapt, "router:location", this.checkLaunch);
-      // Listen for bookmarking being cancelled
-      this.stopListening(Adapt, "bookmarking:cancel", this.promptClosed);
-      // Listen for language change
-      this.stopListening(Adapt.config, 'change:_activeLanguage', this.onLangChange);
-      // Listen for notify closing
-      this.stopListening(Adapt, 'notify:closed', this.notifyClosed);
-      // Listeners for new popup functionality
-      this.stopListening(Adapt, 'audio:popupOpened', this.popupOpened);
-      this.stopListening(Adapt, 'audio:popupClosed', this.popupClosed);
-      // // Stop all audio channels before the pages load
-      this.stopListening(Adapt, "menuView:preRender pageView:preRender", this.stopAllChannels);
-    },
-
     setupAudio: function() {
       if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._reducedTextisEnabled) {
         this.reducedTextEnabled = Adapt.course.get("_audio")._reducedTextisEnabled;
@@ -213,8 +180,11 @@ define([
           "notify:closed": this.notifyClosed,
           "audio:popupOpened": this.popupOpened,
           "audio:popupClosed": this.popupClosed,
-          "audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels
+          "audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels,
+          "bookmarking:cancel": this.promptClosed
       });
+
+      this.stopListening(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
       // Set empty location so that the prompt is checked
       Adapt.offlineStorage.set("location", "");
