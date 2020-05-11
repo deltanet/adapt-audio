@@ -11,7 +11,7 @@ define([
                 "remove": this.remove,
                 "device:changed": this.setAudioFile,
                 "questionView:showFeedback": this.initFeedback,
-                "popup:opened": this.popupOpened,
+                "popup:opened notify:opened": this.popupOpened,
                 "popup:closed": this.stopFeedbackAudio,
                 "audio:updateAudioStatus device:resize": this.updateToggle,
                 "audio:configured": this.audioConfigured,
