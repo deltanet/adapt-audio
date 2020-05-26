@@ -41,6 +41,9 @@ define([
           "notify:closed": this.notifyClosed,
           "audio:popupOpened": this.popupOpened,
           "audio:popupClosed": this.popupClosed,
+          "audio:stopNarrationChannel": this.stopNarrationChannel,
+          "audio:stopEffectsChannel": this.stopEffectsChannel,
+          "audio:stopMusicChannel": this.stopMusicChannel,
           "audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels
       });
     },
@@ -180,6 +183,9 @@ define([
           "notify:closed": this.notifyClosed,
           "audio:popupOpened": this.popupOpened,
           "audio:popupClosed": this.popupClosed,
+          "audio:stopNarrationChannel": this.stopNarrationChannel,
+          "audio:stopEffectsChannel": this.stopEffectsChannel,
+          "audio:stopMusicChannel": this.stopMusicChannel,
           "audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels,
           "bookmarking:cancel": this.promptClosed
       });
@@ -352,7 +358,8 @@ define([
     },
 
     notifyClosed: function() {
-      this.stopAllChannels();
+      this.stopNarrationChannel();
+      this.stopEffectsChannel();
       Adapt.audio.promptIsOpen = false;
     },
 
@@ -373,6 +380,18 @@ define([
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         this.pauseAudio(i);
       }
+    },
+
+    stopNarrationChannel: function() {
+      this.pauseAudio(0);
+    },
+
+    stopEffectsChannel: function() {
+      this.pauseAudio(1);
+    },
+
+    stopMusicChannel: function() {
+      this.pauseAudio(2);
     },
 
     showAudioIcon: function(channel) {
