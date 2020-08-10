@@ -223,7 +223,7 @@ define([
 
         setupIncorrectFeedback: function() {
             // apply individual item feedback
-            var items = this.model.get('_audio')._feedback._items;
+            var items = this.model.get('_audio')._feedback._items ? this.model.get('_audio')._feedback._items : [];
 
             if (this.model.get('_selectable') === 1 && items.length > 0) {
                 this.setupIndividualFeedbackAudio();
