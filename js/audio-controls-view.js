@@ -315,7 +315,7 @@ define([
               this.onscreenTriggered = true;
             }
             // Check when element is off screen
-            if (visible && isOnscreen == false) {
+            if (visible && isOnscreenY == false) {
               this.onscreenTriggered = false;
               Adapt.trigger('audio:onscreenOff', this.elementId, this.audioChannel);
             }
