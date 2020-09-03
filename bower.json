@@ -1,7 +1,7 @@
 {
   "name": "adapt-audio",
-  "version": "4.1.1",
-  "framework": ">=4",
+  "version": "5.0.0",
+  "framework": ">=5",
   "homepage": "https://github.com/deltanet/adapt-audio",
   "issues": "https://github.com/deltanet/adapt-audio/issues",
   "displayName" : "Audio",
@@ -12,6 +12,6 @@
     "adapt-plugin",
     "adapt-extension"
   ],
-  "license": "GPLv3",
+  "license": "GPL-3.0",
   "targetAttribute": "_audio"
 }

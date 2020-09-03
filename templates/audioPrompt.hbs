@@ -1,24 +1,45 @@
 {{! make the _globals object in course.json available to this template}}
 {{import_globals}}
+
+{{#if _graphic._icon}}
+<div class="audio-prompt__icon">
+	<div class="{{_graphic._icon}}"></div>
+</div>
+{{/if}}
+
 {{#if _graphic.src}}
-<div class="audio-prompt-image">
+<div class="audio-prompt__image">
 	<img src="{{_graphic.src}}" aria-hidden="true"/>
 </div>
 {{/if}}
+
 {{#if promptTitle}}
-<div id="notify-heading" class="notify-popup-title">
-	<div class="notify-popup-title-inner h5" role="heading" aria-level="1">
+<div class="notify__title" id="notify-heading">
+	<div class="notify__title-inner" {{{a11y_attrs_heading 'notify'}}}>
 		{{{compile promptTitle}}}
 	</div>
 </div>
 {{/if}}
+
 {{#if promptBody}}
-<div class="notify-popup-body">
-	<div class="notify-popup-body-inner">{{{compile promptBody}}}</div>
+<div class="notify__body">
+	<div class="notify__body-inner">
+		{{{compile promptBody}}}
+	</div>
 </div>
 {{/if}}
-<div class="notify-popup-buttons">
-	<button class="notify-popup-button audio-{{promptButton1Callback}}" aria-label="{{promptButton1Text}}">{{{promptButton1Text}}}</button>
-	<button class="notify-popup-button audio-{{promptButton2Callback}}" aria-label="{{promptButton2Text}}">{{{promptButton2Text}}}</button>
+
+{{#if promptInstruction}}
+<div class="notify__instruction">
+	<div class="notify__instruction-inner">
+		{{{compile promptInstruction}}}
+	</div>
 </div>
+{{/if}}
+
+<div class="notify__btn-container">
+	<button class="btn-text notify__btn js-audio-{{promptButton1Callback}}" aria-label="{{promptButton1Text}}">{{{promptButton1Text}}}</button>
+	<button class="btn-text notify__btn js-audio-{{promptButton2Callback}}" aria-label="{{promptButton2Text}}">{{{promptButton2Text}}}</button>
+</div>
+
 {{a11y_wrap_focus}}

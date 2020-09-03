@@ -41,6 +41,20 @@ The **_audio** attribute at course level contains values for **_isEnabled**, **_
 
 >**_drawerOrder** (number): Determines the order in which this extension appears as a drawer item. Acceptable values are numbers.  
 
+>**_reducedText** (object): This `_reducedText` attributes group stores the properties for the drawer reduced text. It contains values for **title**, **descriptionFull**, **descriptionReduced**, and **_buttons**.  
+
+>>**title** (string):  Defines the title text for the core Drawer item.  
+
+>>**descriptionFull** (string):  Defines the description text for the core Drawer item when the reduced text is off.  
+
+>>**descriptionReduced** (string):  Defines the description text for the core Drawer item when the reduced text is on.  
+
+>>**_buttons** (object): This `_buttons` attributes group stores the properties for reduced text drawer buttons. It contains values for **full**, and **reduced**.  
+
+>>>**full** (string):  This becomes the text for the button that sets the reduced text off.  
+
+>>>**reduced** (string):  This becomes the text for the button that sets the reduced text on.  
+
 >**_channels** (object): This `_channels` attributes group stores the properties for the audio objects. There are 3 altogether which will allow multiple audio clips to be played at the same time. It contains values for **_narration**, **_effects**, and **_music**.  
 
 >>**_narration** (object): This `_narration` attributes group stores the properties for narration channel. It contains values for **_isEnabled**, **_status**, **title**, **descriptionOn**, and **descriptionOff**.  
@@ -79,20 +93,6 @@ The **_audio** attribute at course level contains values for **_isEnabled**, **_
 
 >>>**descriptionOff** (string):  Defines the description text for the core Drawer item when the channel is muted.  
 
->**_reducedText** (object): This `_reducedText` attributes group stores the properties for the drawer reduced text. It contains values for **title**, **descriptionFull**, **descriptionReduced**, and **_buttons**.  
-
->>**title** (string):  Defines the title text for the core Drawer item.  
-
->>**descriptionFull** (string):  Defines the description text for the core Drawer item when the reduced text is off.  
-
->>**descriptionReduced** (string):  Defines the description text for the core Drawer item when the reduced text is on.  
-
->>**_buttons** (object): This `_buttons` attributes group stores the properties for reduced text drawer buttons. It contains values for **full**, and **reduced**.  
-
->>>**full** (string):  This becomes the text for the button that sets the reduced text off.  
-
->>>**reduced** (string):  This becomes the text for the button that sets the reduced text on.  
-
 >**_icons** (object): This `_icons` attributes group stores the properties for css icons used for the audio controls. It contains values for **_audioOn**, **_audioOff**, **_audioPlay**, and **_audioPause**.  
 
 >>**_audioOn** (string):  Class name for the icon(s) used on the button when the audio is on. The class should be defined in the theme. Default is `icon-audio-on audio-volume-medium`.  
@@ -103,7 +103,7 @@ The **_audio** attribute at course level contains values for **_isEnabled**, **_
 
 >>**_audioPause** (string):  Class name for the icon(s) used on the button to pause the audio. The class should be defined in the theme. Default is `icon-audio-pause audio-stop`.  
 
->**_prompt** (object): This `_prompt` attributes group stores the properties for a prompt when the course loads. It contains values for **_isEnabled**, **title**, **titleNoReduced**, **bodyAudioOn**, **bodyAudioOff**, **bodyNoReducedAudioOn**, **bodyNoReducedAudioOff**, **_buttons**, and **_graphic**.  
+>**_prompt** (object): This `_prompt` attributes group stores the properties for a prompt when the course loads. It contains values for **_isEnabled**, **title**, **titleNoReduced**, **bodyAudioOn**, **instructionAudioOn**, **bodyAudioOff**, **instructionAudioOff**, **bodyNoReducedAudioOn**, **instructionNoReducedAudioOn**, **bodyNoReducedAudioOff**, **instructionNoReducedAudioOff**, **_buttons**, and **_graphic**.  
 
 >>**_isEnabled** (boolean):  Turns on and off the prompt.  
 
@@ -112,12 +112,16 @@ The **_audio** attribute at course level contains values for **_isEnabled**, **_
 >>**titleNoReduced** (string):  This becomes the prompt title if reduced text is turned off.  
 
 >>**bodyAudioOn** (string):  This becomes the prompt body text if reduced text is turned on and the audio is on.  
+>>**instructionAudioOn** (string):  This becomes the prompt instruction text if reduced text is turned on and the audio is on.
 
 >>**bodyAudioOff** (string):  This becomes the prompt body text if reduced text is turned on and the audio is turned off.  
+>>**instructionAudioOff** (string):  This becomes the prompt instruction text if reduced text is turned on and the audio is turned off.  
 
 >>**bodyNoReducedAudioOn** (string):  This becomes the prompt body text if reduced text is turned off and the audio is on.  
+>>**instructionNoReducedAudioOn** (string):  This becomes the prompt instruction text if reduced text is turned off and the audio is on.  
 
 >>**bodyNoReducedAudioOff** (string):  This becomes the prompt body text if reduced text is turned off and the audio is turned off.  
+>>**instructionNoReducedAudioOff** (string):  This becomes the prompt instruction text if reduced text is turned off and the audio is turned off.  
 
 >>**_buttons** (object): This `_buttons` attributes group stores the properties for the prompt buttons. It contains values for **full**, **reduced**, **continue**, **turnOff**, and **turnOn**.  
 
@@ -131,11 +135,32 @@ The **_audio** attribute at course level contains values for **_isEnabled**, **_
 
 >>>**turnOn** (string):  This becomes the text for the turn audio on button.  
 
->>**_graphic** (object): This `_graphic` attributes group stores the properties for the prompt graphic. It contains values for **src**.  
+>>**_graphic** (object): This `_graphic` attributes group stores the properties for the prompt graphic. It contains values for **_icon**, and **src**.  
+
+>>>**_icon** (string):  Class name for the icon used as the header image.  
 
 >>>**src** (string): File name (including path) of the image. Path should be relative to the *src* folder.  
 
 <div float align=right><a href="#top">Back to Top</a></div>
+
+**Page**
+The **_audio** attribute at Page level contains values for **_isEnabled**, **_showControls**, **_autoplay**, **_autoPlayOnce**, **_channel**, **_location**, and **_media**.
+
+>**_isEnabled** (boolean):  Turns on and off the **Audio** extension. Can be set to disable **Audio** when not required.  
+
+>**_showControls** (boolean):  Defines whether the audio control button will be displayed on screen.  
+
+>**_autoplay** (boolean):  Defines whether the audio will auto play when on screen.  
+
+>**_autoPlayOnce** (boolean):  Defines whether the audio will auto play when only occur once. If set to `false` the audio will play when the element is on screen again.  
+
+>**_channel** (number):  Defines the channel number. Options are `0`, `1` and `2`.  
+
+>**_location** (string):  Defines the location of the audio button within the element. Options are `top-left`, `top-right`, `bottom-left` and `bottom-right`.  
+
+>**_media** (object): This `_media` attributes group stores the properties for the audio clip. It contains values for **src**.  
+
+>>**src** (string): File name (including path) of the mp3. Path should be relative to the *src* folder.  
 
 **Article, Block and Component**
 The **_audio** attribute at Article, Block and Component level contains values for **_isEnabled**, **_showControls**, **_autoplay**, **_autoPlayOnce**, **_channel**, **_location**, **_media**, **_reducedTextisEnabled**, **displayTitleReduced**, **bodyReduced**, and **_feedback**.
@@ -210,31 +235,9 @@ The **_audio** attribute at Article, Block and Component level contains values f
 
 <div float align=right><a href="#top">Back to Top</a></div>
 
-**Page**
-The **_audio** attribute at Page level contains values for **_isEnabled**, **_showControls**, **_autoplay**, **_autoPlayOnce**, **_channel**, **_location**, and **_media**.
-
->**_isEnabled** (boolean):  Turns on and off the **Audio** extension. Can be set to disable **Audio** when not required.  
-
->**_showControls** (boolean):  Defines whether the audio control button will be displayed on screen.  
-
->**_autoplay** (boolean):  Defines whether the audio will auto play when on screen.  
-
->**_autoPlayOnce** (boolean):  Defines whether the audio will auto play when only occur once. If set to `false` the audio will play when the element is on screen again.  
-
->**_channel** (number):  Defines the channel number. Options are `0`, `1` and `2`.  
-
->**_location** (string):  Defines the location of the audio button within the element. Options are `top-left`, `top-right`, `bottom-left` and `bottom-right`.  
-
->**_media** (object): This `_media` attributes group stores the properties for the audio clip. It contains values for **src**.  
-
->>**src** (string): File name (including path) of the mp3. Path should be relative to the *src* folder.  
-
-
-<div float align=right><a href="#top">Back to Top</a></div>
-
 ----------------------------
-**Version number:**  4.1.1   
-**Framework versions supported:**  4+    
+**Version number:**  5.0.0   
+**Framework versions supported:**  5+    
 **Author / maintainer:** DeltaNet with [contributors](https://github.com/deltanet/adapt-audio/graphs/contributors)     
 **Accessibility support:** Yes  
 **RTL support:** Yes     

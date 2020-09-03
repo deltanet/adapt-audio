@@ -4,17 +4,17 @@ define([
 
     var AudioPromptView = Backbone.View.extend({
 
-        className: "audio-prompt-content",
+        className: "audio-prompt__content",
 
         events: {
-          'click .audio-fullTextAudioOn': 'setFullTextAudioOn',
-          'click .audio-reducedTextAudioOn': 'setReducedTextAudioOn',
-          'click .audio-fullTextAudioOff': 'setFullTextAudioOff',
-          'click .audio-reducedTextAudioOff': 'setReducedTextAudioOff',
-          'click .audio-selectContinueAudioOn': 'setContinueAudioOn',
-          'click .audio-selectContinueAudioOff': 'setContinueAudioOff',
-          'click .audio-selectOff': 'setAudioOff',
-          'click .audio-selectOn': 'setAudioOn'
+          'click .js-audio-fullTextAudioOn': 'setFullTextAudioOn',
+          'click .js-audio-reducedTextAudioOn': 'setReducedTextAudioOn',
+          'click .js-audio-fullTextAudioOff': 'setFullTextAudioOff',
+          'click .js-audio-reducedTextAudioOff': 'setReducedTextAudioOff',
+          'click .js-audio-selectContinueAudioOn': 'setContinueAudioOn',
+          'click .js-audio-selectContinueAudioOff': 'setContinueAudioOff',
+          'click .js-audio-selectOff': 'setAudioOff',
+          'click .js-audio-selectOn': 'setAudioOn'
         },
 
         initialize: function() {
