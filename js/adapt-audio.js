@@ -283,7 +283,7 @@ define([
         model: audioPrompt
       });
 
-      Adapt.trigger('notify:popup', {
+      Adapt.notify.popup({
         _view: Adapt.audio.promptView,
         _isCancellable: true,
         _showCloseButton: false,
