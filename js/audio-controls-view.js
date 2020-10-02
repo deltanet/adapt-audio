@@ -285,12 +285,16 @@ define([
             if (this.popupIsOpen) return;
 
             var visible = this.model.get('_isVisible');
-            var isOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromTop > 0;
             var isOnscreenX = measurements.percentInviewHorizontal == 100;
             var isOnscreen = measurements.onscreen;
 
+            var elementTopOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromTop > 0;
+            var elementBottomOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromBottom < (100 - Adapt.audio.triggerPosition);
+
+            var isOnscreenY = elementTopOnscreenY || elementBottomOnscreenY;
+
             // Check for element coming on screen
-            if (visible && isOnscreen && isOnscreenY && isOnscreenX && this.canAutoplay && this.onscreenTriggered == false) {
+            if (visible && isOnscreen && isOnscreenY && isOnscreenX && this.canAutoplay && !this.onscreenTriggered) {
               // Check if audio is set to on
               if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
                 this.setAudioFile();
@@ -314,8 +318,9 @@ define([
               // Set to true to stop onscreen looping
               this.onscreenTriggered = true;
             }
+
             // Check when element is off screen
-            if (visible && isOnscreenY == false) {
+            if (visible && (!isOnscreenY || !isOnscreenX)) {
               this.onscreenTriggered = false;
               Adapt.trigger('audio:onscreenOff', this.elementId, this.audioChannel);
             }
