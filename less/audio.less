@@ -34,10 +34,19 @@
   }
 
   &__controls {
-    padding: @item-padding;
-
     &.hidden {
       display: none;
+    }
+  }
+
+  .btn-icon {
+    background-color: @btn-color;
+    color: @btn-color-inverted;
+
+    .no-touch &:hover {
+      background-color: @btn-color-hover;
+      color: @btn-color-inverted-hover;
+      .transition(background-color @duration ease-in, color @duration ease-in;);
     }
   }
 }

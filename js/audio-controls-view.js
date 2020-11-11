@@ -75,6 +75,8 @@ define([
       // Add audio icon
       this.$('.audio__controls-icon').addClass(this.audioIcon);
 
+      this.elementHeight = this.$('.audio__controls').outerHeight();
+
       // Set audio file
       this.setAudioFile();
 
@@ -257,12 +259,16 @@ define([
       if (this.popupIsOpen) return;
 
       var visible = this.model.get('_isVisible');
-      var isOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromTop > 0;
       var isOnscreenX = measurements.percentInviewHorizontal == 100;
       var isOnscreen = measurements.onscreen;
 
+      var elementTopOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromTop > 0;
+      var elementBottomOnscreenY = measurements.percentFromTop < Adapt.audio.triggerPosition && measurements.percentFromBottom < (100 - Adapt.audio.triggerPosition);
+
+      var isOnscreenY = elementTopOnscreenY || elementBottomOnscreenY;
+
       // Check for element coming on screen
-      if (visible && isOnscreen && isOnscreenY && isOnscreenX && this.canAutoplay && this.onscreenTriggered == false) {
+      if (visible && isOnscreen && isOnscreenY && isOnscreenX && this.canAutoplay && !this.onscreenTriggered) {
         // Check if audio is set to on
         if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
           this.setAudioFile();
@@ -286,8 +292,9 @@ define([
         // Set to true to stop onscreen looping
         this.onscreenTriggered = true;
       }
+
       // Check when element is off screen
-      if (visible && isOnscreenY == false) {
+      if (visible && (!isOnscreenY || !isOnscreenX)) {
         this.onscreenTriggered = false;
         Adapt.trigger('audio:onscreenOff', this.elementId, this.audioChannel);
       }
@@ -370,6 +377,14 @@ define([
     },
 
     updateToggle: function () {
+      // Reset
+      $('.'+this.elementId).find('.'+this.elementType+'__body-inner').css('max-width', "");
+      $('.'+this.elementId).find('.'+this.elementType+'__title-inner').css('max-width', "");
+
+      this.$('.audio__controls').css('padding', "");
+      this.$('.audio__controls').css('height', "");
+      this.$('.audio__controls').css('width', "");
+
       if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls == true) {
         this.$('.audio__controls').removeClass('hidden');
 
@@ -378,18 +393,23 @@ define([
         var padding = outerWidth - this.$('.js-audio-toggle').width();
         var maxWidth = (elementWidth - outerWidth) - padding;
 
+        var titleHeight = $('.'+this.elementId).find('.'+this.elementType+'__title').outerHeight();
+
         // Set width on elements title or body
         if (this.model.get('displayTitle') == "") {
           $('.'+this.elementId).find('.'+this.elementType+'__body-inner').css('max-width', maxWidth);
         } else {
           $('.'+this.elementId).find('.'+this.elementType+'__title-inner').css('max-width', maxWidth);
+
+          if (titleHeight < this.elementHeight) {
+            this.$('.audio__controls').css('padding', 0);
+            this.$('.audio__controls').css('height', titleHeight);
+            this.$('.audio__controls').css('width', titleHeight);
+          }
         }
 
       } else {
         this.$('.audio__controls').addClass('hidden');
-        // Reset
-        $('.'+this.elementId).find('.'+this.elementType+'__body-inner').css('max-width', "");
-        $('.'+this.elementId).find('.'+this.elementType+'__title-inner').css('max-width', "");
       }
     },
 

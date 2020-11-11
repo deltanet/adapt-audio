@@ -14,7 +14,9 @@ define([
       this.listenTo(Adapt, {
         'remove': this.remove,
         'audio:configured': this.audioConfigured,
-        'audio:updateAudioStatus': this.updateToggle
+        'audio:updateAudioStatus': this.updateToggle,
+        'popup:opened notify:opened': this.popupOpened,
+        'popup:closed': this.popupClosed,
       });
 
       this.listenToOnce(Adapt, 'remove', this.removeInViewListeners);
@@ -40,6 +42,8 @@ define([
       this.audioIcon = Adapt.audio.iconPlay;
       this.pausedTime = "";
       Adapt.audio.audioClip[this.audioChannel].onscreenID = "";
+      this.popupIsOpen = false;
+      this.onscreenTriggered = false;
 
       // Autoplay
       if (Adapt.audio.autoPlayGlobal || this.model.get('_audio')._autoplay){
@@ -73,11 +77,25 @@ define([
 
       if (!Adapt.audio.isConfigured) return;
 
-      this.autoplayAudio();
+      _.delay(function() {
+        this.autoplayAudio();
+      }.bind(this), 1000);
     },
 
     onAudioEnded: function() {
       Adapt.trigger('audio:audioEnded', this.audioChannel);
+    },
+
+    popupOpened: function() {
+      this.popupIsOpen = true;
+    },
+
+    popupClosed: function() {
+      this.popupIsOpen = false;
+
+      if (this.onscreenTriggered) return;
+
+      this.autoplayAudio();
     },
 
     toggleAudio: function(event) {
@@ -92,6 +110,8 @@ define([
     },
 
     autoplayAudio: function() {
+      if (this.popupIsOpen) return;
+
       // Play audio if autoplay is true
       if (this.canAutoplay && this.model.get('_canReplayAudio')) {
         // Check if audio is set to on
@@ -102,6 +122,7 @@ define([
         if (this.autoplayOnce) {
           this.model.set('_canReplayAudio', false);
         }
+        this.onscreenTriggered = true;
       }
     },
 
