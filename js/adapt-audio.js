@@ -199,7 +199,7 @@ define([
       this.stopListening(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
       this.stopAllChannels();
-      
+
       // Set empty location so that the prompt is checked
       Adapt.offlineStorage.set('location', "");
 
@@ -499,7 +499,7 @@ define([
         // Pause all channels on view load
         this.stopAllChannels();
         // Only render view if it DOESN'T already exist - Work around for hotgraphic component
-        if (!$('.' + view.model.get('_id')).find('.audio-controls').length) {
+        if (!$('.' + view.model.get('_id')).find('.audio__controls').length) {
           new AudioControlsView({model:view.model});
         }
       }
@@ -507,7 +507,7 @@ define([
         // Pause all channels on view load
         this.stopAllChannels();
         // Only render view if it DOESN'T already exist - Work around for assessmentResults component
-        if (!$('.' + view.model.get('_id')).find('.audio-controls').length) {
+        if (!$('.' + view.model.get('_id')).find('.audio__controls').length) {
           new AudioResultsView({model:view.model});
         }
       }
