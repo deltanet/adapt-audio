@@ -293,8 +293,10 @@ define([
 
             var isOnscreenY = elementTopOnscreenY || elementBottomOnscreenY;
 
+            var elementAnimated = $('.'+this.elementId).hasClass('animate-hidden');
+
             // Check for element coming on screen
-            if (visible && isOnscreen && isOnscreenY && isOnscreenX && this.canAutoplay && !this.onscreenTriggered) {
+            if (visible && isOnscreen && isOnscreenY && isOnscreenX && this.canAutoplay && !this.onscreenTriggered && !elementAnimated) {
               // Check if audio is set to on
               if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
                 this.setAudioFile();
