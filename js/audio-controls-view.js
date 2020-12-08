@@ -94,6 +94,12 @@ define([
             // Run function to check for reduced text
             this.replaceText(Adapt.audio.textSize);
 
+            this.isAnimating = $('.'+this.elementId).hasClass('animate-hidden');
+
+            if (this.isAnimating) {
+              this.listenTo(this.model, 'change:_isAnimating', this.checkOnscreen);
+            }
+
             // Add inview listener on audio element
             if (!Adapt.audio.isConfigured) return;
 
@@ -293,10 +299,8 @@ define([
 
             var isOnscreenY = elementTopOnscreenY || elementBottomOnscreenY;
 
-            var elementAnimated = $('.'+this.elementId).hasClass('animate-hidden');
-
             // Check for element coming on screen
-            if (visible && isOnscreen && isOnscreenY && isOnscreenX && this.canAutoplay && !this.onscreenTriggered && !elementAnimated) {
+            if (visible && isOnscreen && isOnscreenY && isOnscreenX && this.canAutoplay && !this.onscreenTriggered && !this.isAnimating) {
               // Check if audio is set to on
               if (Adapt.audio.audioClip[this.audioChannel].status == 1) {
                 this.setAudioFile();
@@ -326,6 +330,12 @@ define([
               this.onscreenTriggered = false;
               Adapt.trigger('audio:onscreenOff', this.elementId, this.audioChannel);
             }
+        },
+
+        checkOnscreen: function() {
+          this.isAnimating = this.model.get('_isAnimating');
+
+          $('.'+this.model.get('_id')).on('onscreen', _.bind(this.onscreen, this));
         },
 
         toggleAudio: function(event) {
