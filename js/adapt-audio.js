@@ -198,12 +198,14 @@ define([
 
       this.stopListening(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
-      this.stopAllChannels();
-
       // Set empty location so that the prompt is checked
       Adapt.offlineStorage.set('location', "");
 
       this.listenToOnce(Adapt, 'app:dataReady', this.onDataReady);
+
+      if (!Adapt.audio) return;
+
+      this.stopAllChannels();
     },
 
     showAudioPrompt: function () {
