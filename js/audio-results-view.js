@@ -41,7 +41,7 @@ define([
 
       // Hide controls
       if (this.model.get('_audioAssessment')._showControls == false || Adapt.audio.audioClip[this.audioChannel].status == 0) {
-        this.$('.audio__controls').addClass('hidden');
+        this.$('.audio__controls').addClass('is-hidden');
       }
 
       // Set clip ID
@@ -73,7 +73,7 @@ define([
       this.$('.audio__controls').css('width', "");
 
       if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audioAssessment')._showControls) {
-        this.$('.audio__controls').removeClass('hidden');
+        this.$('.audio__controls').removeClass('is-hidden');
 
         var outerWidth = this.$('.js-audio-toggle').outerWidth();
         var elementWidth = $('.'+this.elementId).find('.component-header').outerWidth();
@@ -96,7 +96,7 @@ define([
         }
 
       } else {
-        this.$('.audio__controls').addClass('hidden');
+        this.$('.audio__controls').addClass('is-hidden');
       }
     },
 

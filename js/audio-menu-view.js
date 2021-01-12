@@ -64,7 +64,7 @@ define([
 
       // Hide controls if set in JSON or if audio is turned off
       if (this.model.get('_audio')._showControls==false || Adapt.audio.audioClip[this.audioChannel].status==0){
-        this.$('.audio__controls').addClass('hidden');
+        this.$('.audio__controls').addClass('is-hidden');
       }
 
       // Set listener for when clip ends
@@ -178,9 +178,9 @@ define([
 
     updateToggle: function(){
       if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls){
-        this.$('.audio__controls').removeClass('hidden');
+        this.$('.audio__controls').removeClass('is-hidden');
       } else {
-        this.$('.audio__controls').addClass('hidden');
+        this.$('.audio__controls').addClass('is-hidden');
       }
     },
 

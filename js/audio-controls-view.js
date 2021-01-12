@@ -308,7 +308,7 @@ define([
 
     checkOnscreen: function() {
       this.isAnimating = this.model.get('_isAnimating');
-      
+
       $('.'+this.model.get('_id')).on('onscreen', _.bind(this.onscreen, this));
     },
 
@@ -398,7 +398,7 @@ define([
       this.$('.audio__controls').css('width', "");
 
       if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audio')._showControls == true) {
-        this.$('.audio__controls').removeClass('hidden');
+        this.$('.audio__controls').removeClass('is-hidden');
 
         var outerWidth = this.$('.js-audio-toggle').outerWidth();
         var elementWidth = $('.'+this.elementId).find('.'+this.elementType+'-header').outerWidth();
@@ -421,7 +421,7 @@ define([
         }
 
       } else {
-        this.$('.audio__controls').addClass('hidden');
+        this.$('.audio__controls').addClass('is-hidden');
       }
     },
 
