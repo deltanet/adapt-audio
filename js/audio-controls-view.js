@@ -93,6 +93,7 @@ define([
 
     postRender: function () {
       this.updateToggle();
+      
       // Run function to check for reduced text
       this.replaceText(Adapt.audio.textSize);
 
@@ -106,6 +107,7 @@ define([
       if (!Adapt.audio.isConfigured) return;
 
       _.delay(function () {
+        this.updateToggle();
         $('.'+this.model.get('_id')).on('onscreen', this.onscreen.bind(this));
       }.bind(this), 1000);
     },
@@ -130,6 +132,7 @@ define([
     audioConfigured: function () {
       _.delay(function () {
         this.popupIsOpen = false;
+        this.updateToggle();
         $('.'+this.model.get('_id')).on('onscreen', this.onscreen.bind(this));
       }.bind(this), 500);
     },
