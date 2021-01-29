@@ -16,7 +16,7 @@ define([
         'audio:configured': this.audioConfigured,
         'audio:updateAudioStatus': this.updateToggle,
         'popup:opened notify:opened': this.popupOpened,
-        'popup:closed': this.popupClosed,
+        'popup:closed': this.popupClosed
       });
 
       this.listenToOnce(Adapt, 'remove', this.removeInViewListeners);
