@@ -310,8 +310,15 @@ define([
                   var itemIndex = this.getActiveItemIndex();
                   var currentItem = this.model.get('_items')[itemIndex];
 
-                  if (itemIndex > 0) {
-                    this.audioFile = currentItem._audio.src;
+                  // Check for tiles component
+                  if (this.model.get('_component') == "tiles" && itemIndex != null) {
+                    if (itemIndex == 0 || itemIndex > 0) {
+                      this.audioFile = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
+                    }
+                  } else {
+                    if (itemIndex > 0) {
+                      this.audioFile = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
+                    }
                   }
                 }
 
@@ -378,8 +385,15 @@ define([
             var itemIndex = this.getActiveItemIndex();
             var currentItem = this.model.get('_items')[itemIndex];
 
-            if (itemIndex > 0) {
-              Adapt.audio.audioClip[this.audioChannel].src = currentItem._audio.src;
+            // Check for tiles component
+            if (this.model.get('_component') == "tiles" && itemIndex != null) {
+              if (itemIndex == 0 || itemIndex > 0) {
+                Adapt.audio.audioClip[this.audioChannel].src = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
+              }
+            } else {
+              if (itemIndex > 0) {
+                Adapt.audio.audioClip[this.audioChannel].src = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
+              }
             }
           }
 
@@ -443,7 +457,7 @@ define([
             var index = activeItem.get('_index');
             return index;
           } else {
-            return 0;
+            return null;
           }
         },
 
