@@ -3,7 +3,7 @@
 
 {{#if _graphic._icon}}
 <div class="audio-prompt__icon">
-	<div class="{{_graphic._icon}}"></div>
+	<div class="audio-prompt-icon {{_graphic._icon}}"></div>
 </div>
 {{/if}}
 
@@ -38,8 +38,13 @@
 {{/if}}
 
 <div class="notify__btn-container">
-	<button class="btn-text notify__btn js-audio-{{promptButton1Callback}}" aria-label="{{promptButton1Text}}">{{{promptButton1Text}}}</button>
-	<button class="btn-text notify__btn js-audio-{{promptButton2Callback}}" aria-label="{{promptButton2Text}}">{{{promptButton2Text}}}</button>
+	<button class="btn-text notify__btn js-audio-{{promptButton1Callback}}" aria-label="{{promptButton1Text}}">
+		{{{promptButton1Text}}}
+	</button>
+
+	<button class="btn-text notify__btn js-audio-{{promptButton2Callback}}" aria-label="{{promptButton2Text}}">
+		{{{promptButton2Text}}}
+	</button>
 </div>
 
 {{a11y_wrap_focus}}
