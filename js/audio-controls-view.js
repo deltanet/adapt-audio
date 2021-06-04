@@ -17,7 +17,7 @@ define([
         'questionView:showFeedback': this.initFeedback,
         'popup:opened notify:opened': this.popupOpened,
         'popup:closed': this.stopFeedbackAudio,
-        'audio:updateAudioStatus device:resize': this.updateToggle,
+        'audio:updateAudioStatus device:resize device:changed': this.onResize,
         'audio:configured': this.audioConfigured,
         'audio:changeText': this.replaceText
       });
@@ -75,7 +75,7 @@ define([
       // Add audio icon
       this.$('.audio__controls-icon').addClass(this.audioIcon);
 
-      this.elementHeight = this.$('.audio__controls').outerHeight();
+      this.elementHeight = Math.round(this.$('.audio__controls').outerHeight());
 
       // Set audio file
       this.setAudioFile();
@@ -405,6 +405,12 @@ define([
       this.$('.audio__controls').attr('aria-label', $.a11y_normalize(Adapt.audio.playAriaLabel));
     },
 
+    onResize: function () {
+      _.delay(function () {
+        this.updateToggle();
+      }.bind(this), 500);
+    },
+
     updateToggle: function () {
       // Reset
       $('.'+this.elementId).find('.'+this.elementType+'__body-inner').css('max-width', "");
@@ -422,7 +428,7 @@ define([
         var padding = outerWidth - this.$('.js-audio-toggle').width();
         var maxWidth = (elementWidth - outerWidth) - padding;
 
-        var titleHeight = $('.'+this.elementId).find('.'+this.elementType+'__title').outerHeight();
+        var titleHeight = Math.round($('.'+this.elementId).find('.'+this.elementType+'__title').outerHeight());
 
         // Set width on elements title or body
         if (this.model.get('displayTitle') == "") {
