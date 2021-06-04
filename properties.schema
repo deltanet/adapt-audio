@@ -4,6 +4,22 @@
   "id": "http://jsonschema.net",
   "required": false,
   "globals": {
+    "statusOnAriaLabel": {
+      "type": "string",
+      "required": true,
+      "default": "Audio is turned on.",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    },
+    "statusOffAriaLabel": {
+      "type": "string",
+      "required": true,
+      "default": "Audio is turned off.",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    },
     "navigationAriaLabel": {
       "type": "string",
       "required": true,

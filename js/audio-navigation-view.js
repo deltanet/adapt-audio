@@ -15,6 +15,7 @@ define([
     initialize: function () {
       this.listenTo(Adapt.config, 'change:_activeLanguage', this.remove);
       this.listenTo(Adapt, 'audio:updateAudioStatus', this.updateToggle);
+      this.listenTo(Adapt, 'device:changed', this.onDeviceChanged);
 
       this.render();
     },
@@ -27,12 +28,8 @@ define([
         audioToggle:data
       }));
 
-      // Check for audio being on
-      if (Adapt.audio.audioStatus == 1){
-        this.$('.audio__controls-icon').addClass(Adapt.audio.iconOn);
-      } else {
-        this.$('.audio__controls-icon').addClass(Adapt.audio.iconOff);
-      }
+      this.updateToggle();
+      this.onDeviceChanged();
     },
 
     updateToggle: function (){
@@ -40,15 +37,25 @@ define([
       if (Adapt.audio.audioStatus == 1){
         this.$('.audio__controls-icon').removeClass(Adapt.audio.iconOff);
         this.$('.audio__controls-icon').addClass(Adapt.audio.iconOn);
+        this.$el.attr('aria-label', $.a11y_normalize(Adapt.course.get('_globals')._extensions._audio.statusOnAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel));
       } else {
         this.$('.audio__controls-icon').removeClass(Adapt.audio.iconOn);
         this.$('.audio__controls-icon').addClass(Adapt.audio.iconOff);
+        this.$el.attr('aria-label', $.a11y_normalize(Adapt.course.get('_globals')._extensions._audio.statusOffAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel));
       }
     },
 
     toggleAudio: function (event) {
       if (event) event.preventDefault();
       Adapt.trigger('audio:showAudioDrawer');
+    },
+
+    onDeviceChanged: function() {
+      if (Adapt.device.screenSize === 'small') {
+        this.$el.addClass('u-display-none');
+      } else {
+        this.$el.removeClass('u-display-none');
+      }
     }
 
   });

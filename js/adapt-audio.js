@@ -135,7 +135,7 @@ define([
       $('.nav__drawer-btn').after(new AudioNavigationView({
         model: audioNavigationModel,
         attributes: {
-          'aria-label': Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel
+          'aria-label': Adapt.course.get('_globals')._extensions._audio.statusOnAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel
         }
       }).$el);
     },
@@ -505,6 +505,7 @@ define([
           new AudioControlsView({model:view.model});
         }
       }
+
       if (view.model && view.model.get('_audioAssessment') && view.model.get('_audioAssessment')._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
