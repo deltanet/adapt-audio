@@ -17,7 +17,8 @@ define([
         'questionView:showFeedback': this.initFeedback,
         'popup:opened notify:opened': this.popupOpened,
         'popup:closed': this.stopFeedbackAudio,
-        'audio:updateAudioStatus device:resize device:changed': this.onResize,
+        'audio:updateAudioStatus device:resize': this.onDeviceResize,
+        'device:changed': this.onDeviceChanged,
         'audio:configured': this.audioConfigured,
         'audio:changeText': this.replaceText
       });
@@ -405,10 +406,14 @@ define([
       this.$('.audio__controls').attr('aria-label', $.a11y_normalize(Adapt.audio.playAriaLabel));
     },
 
-    onResize: function () {
+    onDeviceResize: function () {
       _.delay(function () {
         this.updateToggle();
       }.bind(this), 500);
+    },
+
+    onDeviceChanged: function () {
+      this.updateToggle();
     },
 
     updateToggle: function () {
