@@ -25,6 +25,8 @@ define([
 
       this.listenToOnce(Adapt, 'remove', this.removeInViewListeners);
 
+      this.listenTo(this.model, 'change:_component', this.remove);
+
       // Set vars
       this.audioChannel = this.model.get('_audio')._channel;
       this.elementId = this.model.get('_id');
