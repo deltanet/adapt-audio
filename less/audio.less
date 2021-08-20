@@ -1,181 +1,155 @@
-.audio-navigation {
-    .audio-button {
-        float: right;
-        .dir-rtl & {
-            float: left;
-        }
-        color: @navigation-icon-color;
-        padding: @navigation-padding;
-        .transition-color;
-        &:hover{
-            color: @navigation-icon-color-hover;
-        }
+.nav {
+  .nav__audio-btn {
+    float: right;
+    .dir-rtl & {
+      float: left;
     }
-    &.hidden {
-        display: none;
-    }
+  }
 }
 
-.audio-inner {
+.audio {
+  &__inner {
     .top-left,
     .bottom-left {
-        float: left;
-        .dir-rtl & {
-            float: right;
-        }
+      float: left;
+      .dir-rtl & {
+        float: right;
+      }
     }
 
     .bottom-left {
-        float: left;
-        .dir-rtl & {
-            float: right;
-        }
+      float: left;
+      .dir-rtl & {
+        float: right;
+      }
     }
 
     .top-right,
     .bottom-right {
-        float: right;
-        .dir-rtl & {
-            float: left;
-        }
+      float: right;
+      .dir-rtl & {
+        float: left;
+      }
     }
-}
+  }
 
-.audio-controls {
-    .audio-toggle {
-        color: @item-text-color;
-        background-color: @item-color;
-        padding: @item-padding;
-        .transition-all-colors;
-        &:hover{
-            background-color: @item-color-hover;
-        }
-        &.hidden {
-            display: none;
-        }
+  &__controls {
+    &.is-hidden {
+      display: none;
     }
+  }
+
+  .btn-icon {
+    background-color: @btn-color;
+    color: @btn-color-inverted;
+
+    .no-touch &:hover {
+      background-color: @btn-color-hover;
+      color: @btn-color-inverted-hover;
+      .transition(background-color @duration ease-in, color @duration ease-in;);
+    }
+  }
 }
 
 .audio-drawer {
-    .drawer-audio-toggle {
-        color: @drawer-item-text-color;
-        .transition-color;
-        .no-touch &:hover {
-            color: @drawer-icon-color-hover;
-        }
-        margin-top: @drawer-item-padding-top;
-        margin-bottom: @drawer-item-padding-bottom;
-    }
-    .drawer-item-open {
-        width: auto !important;
+  &__item-open {
+    display: block;
+    padding: @item-padding;
+    background-color: @drawer-item-selected;
+    border-bottom: 1px solid @drawer;
+    color: @drawer-item-inverted-selected;
+  }
 
-        &:hover {
-          background-color: @drawer-item-color !important;
-        }
+  &__toggle {
+    background-color: transparent;
+    color: @drawer-icon-inverted;
+
+    .no-touch &:hover {
+      background-color: transparent;
+      color: @drawer-icon-inverted-hover;
+      .transition(background-color @duration ease-in, color @duration ease-in;);
     }
-    .drawer-audio-button {
-        margin-top: @drawer-item-padding-top;
-        margin-bottom: @drawer-item-padding-bottom;
-        width: 100%;
-        color: @drawer-item-text-color;
-        background-color: @drawer-item-color;
-        .no-touch &:hover {
-            color: @drawer-item-text-color-hover;
-            background-color: @drawer-item-color-hover;
-        }
-    }
+    margin-top: @btn-padding / 2;
+  }
+
+  &__btn {
+    width: 100%;
+  }
+
+  .drawer__item-body {
+    margin-bottom: @btn-padding / 2;
+  }
+}
+
+.audio-prompt {
+  .audio-prompt-icon {
+    font-size: @icon-size * 3;
+    margin-bottom: @notify-title-margin;
+  }
+
+  &__image {
+    margin-bottom: @notify-title-margin;
+    img {
+      display: block;
+		  margin-left: auto;
+		  margin-right: auto;
+      min-width: 0;
+		}
+  }
 }
 
 // Ico moon font used for default audio icon
 @font-face {
-    font-family: 'audio';
-    src: url(fonts/audio.woff);
+  font-family: 'audio';
+  src: url(fonts/audio.woff);
 }
 
+.audio__controls-icon,
 .icon-audio-on,
 .icon-audio-off,
 .icon-audio-play,
 .icon-audio-pause {
-    font-family: 'audio' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
+  font-family: 'audio' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
 
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
-    color: @foreground-color;
-    display: block;
-    font-size: @icon-size;
-    text-decoration: none;
-    text-align: center;
-
+  display: block;
+  font-size: @icon-size;
+  text-decoration: none;
+  text-align: center;
 }
 
 .audio-play:before {
-    content: "\e900";
+  content: "\e900";
 }
 .audio-pause:before {
-    content: "\e901";
+  content: "\e901";
 }
 .audio-stop:before {
-    content: "\e902";
+  content: "\e902";
 }
 .audio-volume-high:before {
-    content: "\e903";
+  content: "\e903";
 }
 .audio-volume-medium:before {
-    content: "\e904";
+  content: "\e904";
 }
 .audio-volume-low:before {
-    content: "\e905";
+  content: "\e905";
 }
 .audio-volume-mute:before {
-    content: "\e907";
+  content: "\e907";
 }
 .audio-volume-increase:before {
-    content: "\e908";
+  content: "\e908";
 }
 .audio-volume-decrease:before {
-    content: "\e909";
-}
-
-.audio-prompt {
-  .audio-prompt-image {
-    padding-bottom: @notify-padding;
-
-    @media all and (max-width: (@device-width-large + 20px)) {
-        padding-bottom: @notify-padding-top / 2;
-    }
-
-    @media all and (max-width: (@device-width-small + 20px)) {
-        padding-bottom: @notify-padding-top / 3;
-    }
-
-		img {
-		    display: block;
-		    margin-left: auto;
-		    margin-right: auto;
-		}
-  }
-
-  .audio-notify-icon {
-    .icon;
-    .icon-audio-on;
-
-    color: @notify-text-color;
-
-    padding-left: 5px;
-    padding-right: 5px;
-    vertical-align: middle;
-    display: inline-block;
-  }
-
-  .notify-popup-title {
-    text-align: center;
-    padding-right: 0 !important;
-  }
+  content: "\e909";
 }

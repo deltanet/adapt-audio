@@ -1,56 +1,56 @@
 define([
-    'core/js/adapt',
-    './audio-prompt-view',
-    './audio-navigation-view',
-    './audio-drawer-view',
-    './audio-menu-view',
-    './audio-controls-view',
-    './audio-results-view'
-], function(Adapt, AudioPromptView, AudioNavigationView, AudioDrawerView, AudioMenuView, AudioControlsView, AudioResultsView) {
+  'core/js/adapt',
+  './audio-prompt-view',
+  './audio-navigation-view',
+  './audio-drawer-view',
+  './audio-menu-view',
+  './audio-controls-view',
+  './audio-results-view'
+], function (Adapt, AudioPromptView, AudioNavigationView, AudioDrawerView, AudioMenuView, AudioControlsView, AudioResultsView) {
 
   var AudioController = _.extend({
 
-    initialize: function() {
-        this.listenToOnce(Adapt, "app:dataReady", this.onDataReady);
+    initialize: function () {
+      this.listenToOnce(Adapt, 'app:dataReady', this.onDataReady);
     },
 
-    onDataReady: function() {
+    onDataReady: function () {
       this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
-      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._isEnabled) {
+      if (Adapt.course.get('_audio') && Adapt.course.get('_audio')._isEnabled) {
         this.setupAudio();
         this.setupEventListeners();
         this.addAudioDrawerItem();
       }
     },
 
-    setupEventListeners: function() {
-      this.listenToOnce(Adapt, "router:location", this.checkLaunch);
+    setupEventListeners: function () {
+      this.listenToOnce(Adapt, 'router:location', this.checkLaunch);
 
       this.listenTo(Adapt, {
-          "navigationView:postRender": this.loadNavigationView,
-          "menuView:postRender": this.onMenuReady,
-          "articleView:postRender blockView:postRender componentView:postRender": this.onABCReady,
-          "audio:onscreenOff": this.onscreenOff,
-          "audio:playAudio": this.playAudio,
-          "audio:pauseAudio": this.pauseAudio,
-          "audio:audioEnded": this.audioEnded,
-          "audio:updateAudioStatus": this.updateAudioStatus,
-          "audio:showAudioDrawer": this.setupDrawerAudio,
-          "audio:changeText": this.changeText,
-          "notify:closed": this.notifyClosed,
-          "audio:popupOpened": this.popupOpened,
-          "audio:popupClosed": this.popupClosed,
-          "audio:stopNarrationChannel": this.stopNarrationChannel,
-          "audio:stopEffectsChannel": this.stopEffectsChannel,
-          "audio:stopMusicChannel": this.stopMusicChannel,
-          "audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels
+        'navigationView:postRender': this.renderNavigationView,
+        'menuView:postRender': this.onMenuReady,
+        'articleView:postRender blockView:postRender componentView:postRender': this.onABCReady,
+        'audio:onscreenOff': this.onscreenOff,
+        'audio:playAudio': this.playAudio,
+        'audio:pauseAudio': this.pauseAudio,
+        'audio:audioEnded': this.audioEnded,
+        'audio:updateAudioStatus': this.updateAudioStatus,
+        'audio:showAudioDrawer': this.setupDrawerAudio,
+        'audio:changeText': this.changeText,
+        'notify:closed': this.notifyClosed,
+        'audio:popupOpened': this.popupOpened,
+        'audio:popupClosed': this.popupClosed,
+        'audio:stopNarrationChannel': this.stopNarrationChannel,
+        'audio:stopEffectsChannel': this.stopEffectsChannel,
+        'audio:stopMusicChannel': this.stopMusicChannel,
+        'audio:stopAllChannels menuView:preRender pageView:preRender': this.stopAllChannels
       });
     },
 
-    setupAudio: function() {
-      if (Adapt.course.get("_audio") && Adapt.course.get("_audio")._reducedTextisEnabled) {
-        this.reducedTextEnabled = Adapt.course.get("_audio")._reducedTextisEnabled;
+    setupAudio: function () {
+      if (Adapt.course.get('_audio') && Adapt.course.get('_audio')._reducedTextisEnabled) {
+        this.reducedTextEnabled = Adapt.course.get('_audio')._reducedTextisEnabled;
       } else {
         this.reducedTextEnabled = false;
       }
@@ -69,9 +69,9 @@ define([
       // Set default text size to full
       Adapt.audio.textSize = 0;
 
-      Adapt.audio.playAriaLabel = Adapt.course.get("_globals")._extensions._audio ? Adapt.course.get("_globals")._extensions._audio.playAriaLabel : "";
-      Adapt.audio.pauseAriaLabel = Adapt.course.get("_globals")._extensions._audio ? Adapt.course.get("_globals")._extensions._audio.pauseAriaLabel : "";
-      Adapt.audio.stopAriaLabel = Adapt.course.get("_globals")._extensions._audio ? Adapt.course.get("_globals")._extensions._audio.stopAriaLabel : "";
+      Adapt.audio.playAriaLabel = Adapt.course.get('_globals')._extensions._audio ? Adapt.course.get('_globals')._extensions._audio.playAriaLabel : "";
+      Adapt.audio.pauseAriaLabel = Adapt.course.get('_globals')._extensions._audio ? Adapt.course.get('_globals')._extensions._audio.pauseAriaLabel : "";
+      Adapt.audio.stopAriaLabel = Adapt.course.get('_globals')._extensions._audio ? Adapt.course.get('_globals')._extensions._audio.stopAriaLabel : "";
 
       // Set action for the pause button
       Adapt.audio.pauseStopAction = Adapt.course.get('_audio')._pauseStopAction;
@@ -112,10 +112,10 @@ define([
       Adapt.audio.audioStatus = Adapt.audio.audioClip[0].status;
 
       // Collect data from offline storage
-      if(Adapt.offlineStorage.get("audio_level") == "1" || Adapt.offlineStorage.get("audio_level") == "0") {
+      if (Adapt.offlineStorage.get('audio_level') == '1' || Adapt.offlineStorage.get('audio_level') == '0') {
         // Set to saved audio status and text size
-        Adapt.audio.audioStatus = Adapt.offlineStorage.get("audio_level");
-        Adapt.audio.textSize = Adapt.offlineStorage.get("audio_textSize");
+        Adapt.audio.audioStatus = Adapt.offlineStorage.get('audio_level');
+        Adapt.audio.textSize = Adapt.offlineStorage.get('audio_textSize');
       }
       // Update channels based on preference
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
@@ -126,17 +126,23 @@ define([
       this.changeText(Adapt.audio.textSize);
     },
 
-    loadNavigationView: function(navigationView) {
+    renderNavigationView: function () {
       var audioModel = Adapt.course.get('_audio');
+
+      if (!audioModel._showOnNavbar) return;
+
       var audioNavigationModel = new Backbone.Model(audioModel);
-      navigationView.$('.navigation-drawer-toggle-button').after(new AudioNavigationView({
-        model: audioNavigationModel
+      $('.nav__drawer-btn').after(new AudioNavigationView({
+        model: audioNavigationModel,
+        attributes: {
+          'aria-label': Adapt.course.get('_globals')._extensions._audio.statusOnAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel
+        }
       }).$el);
     },
 
-    checkLaunch: function() {
+    checkLaunch: function () {
       // Check launch based on the saved location
-      if ((Adapt.offlineStorage.get("location") === "undefined") || (Adapt.offlineStorage.get("location") === undefined) || (Adapt.offlineStorage.get("location") == "")) {
+      if ((Adapt.offlineStorage.get('location') === 'undefined') || (Adapt.offlineStorage.get('location') === undefined) || (Adapt.offlineStorage.get('location') == "")) {
         if (Adapt.course.get('_audio')._prompt._isEnabled) {
           this.listenToOnce(Adapt, 'pageView:ready menuView:ready', this.onReady);
         } else {
@@ -156,53 +162,53 @@ define([
       }
     },
 
-    onReady: function() {
-      _.defer(function() {
+    onReady: function () {
+      _.defer(function () {
         this.stopListening(Adapt, 'pageView:ready menuView:ready', this.onReady);
         this.showAudioPrompt();
       }.bind(this));
     },
 
-    bookmarkOpened: function() {
+    bookmarkOpened: function () {
       Adapt.audio.promptIsOpen = true;
-      this.listenToOnce(Adapt, "bookmarking:cancel", this.onPromptClosed);
+      this.listenToOnce(Adapt, 'bookmarking:cancel', this.onPromptClosed);
     },
 
-    onLangChange: function() {
+    onLangChange: function () {
       this.stopListening(Adapt, {
-          "navigationView:postRender": this.loadNavigationView,
-          "menuView:postRender": this.onMenuReady,
-          "articleView:postRender blockView:postRender componentView:postRender": this.onABCReady,
-          "audio:onscreenOff": this.onscreenOff,
-          "audio:playAudio": this.playAudio,
-          "audio:pauseAudio": this.pauseAudio,
-          "audio:audioEnded": this.audioEnded,
-          "audio:updateAudioStatus": this.updateAudioStatus,
-          "audio:showAudioDrawer": this.setupDrawerAudio,
-          "audio:changeText": this.changeText,
-          "notify:closed": this.notifyClosed,
-          "audio:popupOpened": this.popupOpened,
-          "audio:popupClosed": this.popupClosed,
-          "audio:stopNarrationChannel": this.stopNarrationChannel,
-          "audio:stopEffectsChannel": this.stopEffectsChannel,
-          "audio:stopMusicChannel": this.stopMusicChannel,
-          "audio:stopAllChannels menuView:preRender pageView:preRender": this.stopAllChannels,
-          "bookmarking:cancel": this.promptClosed
+        'navigationView:postRender': this.renderNavigationView,
+        'menuView:postRender': this.onMenuReady,
+        'articleView:postRender blockView:postRender componentView:postRender': this.onABCReady,
+        'audio:onscreenOff': this.onscreenOff,
+        'audio:playAudio': this.playAudio,
+        'audio:pauseAudio': this.pauseAudio,
+        'audio:audioEnded': this.audioEnded,
+        'audio:updateAudioStatus': this.updateAudioStatus,
+        'audio:showAudioDrawer': this.setupDrawerAudio,
+        'audio:changeText': this.changeText,
+        'notify:closed': this.notifyClosed,
+        'audio:popupOpened': this.popupOpened,
+        'audio:popupClosed': this.popupClosed,
+        'audio:stopNarrationChannel': this.stopNarrationChannel,
+        'audio:stopEffectsChannel': this.stopEffectsChannel,
+        'audio:stopMusicChannel': this.stopMusicChannel,
+        'audio:stopAllChannels menuView:preRender pageView:preRender': this.stopAllChannels,
+        'bookmarking:cancel': this.promptClosed
       });
 
       this.stopListening(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
       // Set empty location so that the prompt is checked
-      Adapt.offlineStorage.set("location", "");
+      Adapt.offlineStorage.set('location', "");
 
-      this.listenToOnce(Adapt, "app:dataReady", this.onDataReady);
+      this.listenToOnce(Adapt, 'app:dataReady', this.onDataReady);
 
       if (!Adapt.audio) return;
 
       this.stopAllChannels();
     },
 
-    showAudioPrompt: function() {
+    showAudioPrompt: function () {
       if (Adapt.audio.promptIsOpen) return;
 
       Adapt.audio.promptIsOpen = true;
@@ -212,6 +218,7 @@ define([
       // Set model data depending on audio and text settings
       var promptTitle = "";
       var promptBody = "";
+      var promptInstruction = "";
       var promptButton1Text = "";
       var promptButton2Text = "";
       var promptButton1Callback = "";
@@ -222,43 +229,47 @@ define([
         if (this.reducedTextEnabled) {
           promptTitle = audioPromptModel.title;
           promptBody = audioPromptModel.bodyAudioOff;
+          promptInstruction = audioPromptModel.instructionAudioOff;
 
           promptButton1Text = audioPromptModel._buttons.full;
           promptButton2Text = audioPromptModel._buttons.reduced;
 
-          promptButton1Callback = "fullTextAudioOff";
-          promptButton2Callback = "reducedTextAudioOff";
+          promptButton1Callback = 'fullTextAudioOff';
+          promptButton2Callback = 'reducedTextAudioOff';
 
         } else {
           promptTitle = audioPromptModel.titleNoReduced;
           promptBody = audioPromptModel.bodyNoReducedAudioOff;
+          promptInstruction = audioPromptModel.instructionNoReducedAudioOff;
 
           promptButton1Text = audioPromptModel._buttons.continue;
           promptButton2Text = audioPromptModel._buttons.turnOn;
 
-          promptButton1Callback = "selectContinueAudioOff";
-          promptButton2Callback = "selectOn";
+          promptButton1Callback = 'selectContinueAudioOff';
+          promptButton2Callback = 'selectOn';
         }
       } else {
         if (this.reducedTextEnabled) {
           promptTitle = audioPromptModel.title;
           promptBody = audioPromptModel.bodyAudioOn;
+          promptInstruction = audioPromptModel.instructionAudioOn;
 
           promptButton1Text = audioPromptModel._buttons.full;
           promptButton2Text = audioPromptModel._buttons.reduced;
 
-          promptButton1Callback = "fullTextAudioOn";
-          promptButton2Callback = "reducedTextAudioOn";
+          promptButton1Callback = 'fullTextAudioOn';
+          promptButton2Callback = 'reducedTextAudioOn';
 
         } else {
           promptTitle = audioPromptModel.titleNoReduced;
           promptBody = audioPromptModel.bodyNoReducedAudioOn;
+          promptInstruction = audioPromptModel.instructionNoReducedAudioOn;
 
           promptButton1Text = audioPromptModel._buttons.continue;
           promptButton2Text = audioPromptModel._buttons.turnOff;
 
-          promptButton1Callback = "selectContinueAudioOn";
-          promptButton2Callback = "selectOff";
+          promptButton1Callback = 'selectContinueAudioOn';
+          promptButton2Callback = 'selectOff';
         }
       }
 
@@ -266,29 +277,30 @@ define([
 
       audioPrompt.set('promptTitle', promptTitle);
       audioPrompt.set('promptBody', promptBody);
+      audioPrompt.set('promptInstruction', promptInstruction);
       audioPrompt.set('promptButton1Text', promptButton1Text);
       audioPrompt.set('promptButton2Text', promptButton2Text);
       audioPrompt.set('promptButton1Callback', promptButton1Callback);
       audioPrompt.set('promptButton2Callback', promptButton2Callback);
 
       Adapt.audio.promptView = new AudioPromptView({
-          model: audioPrompt
+        model: audioPrompt
       });
 
-      Adapt.trigger("notify:popup", {
-          _view: Adapt.audio.promptView,
-          _isCancellable: true,
-          _showCloseButton: false,
-          _closeOnBackdrop: true,
-          _classes: ' audio-prompt'
+      Adapt.notify.popup({
+        _view: Adapt.audio.promptView,
+        _isCancellable: true,
+        _showCloseButton: false,
+        _closeOnBackdrop: true,
+        _classes: ' audio-prompt'
       });
 
       this.listenToOnce(Adapt, {
-          'popup:closed': this.onPromptClosed
+        'popup:closed': this.onPromptClosed
       });
     },
 
-    onPromptClosed: function() {
+    onPromptClosed: function () {
       if (Adapt.audio.externalPromptIsOpen == true) {
         Adapt.audio.promptIsOpen = true;
       } else {
@@ -298,19 +310,19 @@ define([
       this.audioConfigured();
     },
 
-    changeText: function(value) {
+    changeText: function (value) {
       Adapt.audio.textSize = value;
       this.updateOfflineStorage();
     },
 
-    onscreenOff: function(id, channel){
-      if(id == Adapt.audio.audioClip[channel].playingID){
+    onscreenOff: function (id, channel){
+      if (id == Adapt.audio.audioClip[channel].playingID){
         Adapt.audio.audioClip[channel].onscreenID = "";
         this.pauseAudio(channel);
       }
     },
 
-    playAudio: function(audioClip, id, channel, popup) {
+    playAudio: function (audioClip, id, channel, popup) {
       if (audioClip == "") return;
       if (Adapt.audio.audioClip[channel].onscreenID != id || id === null) {
         Adapt.trigger('media:stop');
@@ -329,7 +341,7 @@ define([
             if (id === null) {
               delay = 0;
             }
-            setTimeout(function() {
+            setTimeout(function () {
               Adapt.audio.audioClip[channel].play();
               Adapt.audio.audioClip[channel].isPlaying = true;
             },delay);
@@ -348,7 +360,7 @@ define([
       }
     },
 
-    pauseAudio: function(channel) {
+    pauseAudio: function (channel) {
       if (!Adapt.audio.audioClip[channel].paused) {
         Adapt.audio.audioClip[channel].isPlaying = false;
         Adapt.audio.audioClip[channel].pause();
@@ -356,93 +368,93 @@ define([
       }
     },
 
-    audioEnded: function(channel) {
+    audioEnded: function (channel) {
       Adapt.audio.audioClip[channel].isPlaying = false;
       this.hideAudioIcon(channel);
     },
 
-    notifyClosed: function() {
+    notifyClosed: function () {
       this.stopNarrationChannel();
       this.stopEffectsChannel();
       Adapt.audio.promptIsOpen = false;
     },
 
-    popupOpened: function() {
+    popupOpened: function () {
       this.stopAllChannels();
       Adapt.audio.promptIsOpen = true;
       Adapt.audio.externalPromptIsOpen = true;
     },
 
-    popupClosed: function() {
+    popupClosed: function () {
       this.stopAllChannels();
       Adapt.audio.promptIsOpen = false;
       Adapt.audio.audioClip[0].onscreenID = "";
     },
 
-    stopAllChannels: function() {
+    stopAllChannels: function () {
       // Pause all channels
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         this.pauseAudio(i);
       }
     },
 
-    stopNarrationChannel: function() {
+    stopNarrationChannel: function () {
       this.pauseAudio(0);
     },
 
-    stopEffectsChannel: function() {
+    stopEffectsChannel: function () {
       this.pauseAudio(1);
     },
 
-    stopMusicChannel: function() {
+    stopMusicChannel: function () {
       this.pauseAudio(2);
     },
 
-    showAudioIcon: function(channel) {
+    showAudioIcon: function (channel) {
       var audioHTMLId = '#'+Adapt.audio.audioClip[channel].newID;
 
-      $(audioHTMLId).removeClass(Adapt.audio.iconPlay);
-      $(audioHTMLId).addClass(Adapt.audio.iconPause);
+      $(audioHTMLId).find('.audio__controls-icon').removeClass(Adapt.audio.iconPlay);
+      $(audioHTMLId).find('.audio__controls-icon').addClass(Adapt.audio.iconPause);
       $(audioHTMLId).addClass('playing');
 
-      if (Adapt.audio.pauseStopAction == "pause") {
+      if (Adapt.audio.pauseStopAction == 'pause') {
         $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.audio.pauseAriaLabel));
       } else {
         $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.audio.stopAriaLabel));
       }
     },
 
-    hideAudioIcon: function(channel) {
+    hideAudioIcon: function (channel) {
       if (!Adapt.audio.audioClip[channel].playingID) return;
 
       var audioHTMLId = '#'+Adapt.audio.audioClip[channel].playingID;
 
-      $(audioHTMLId).removeClass(Adapt.audio.iconPause);
-      $(audioHTMLId).addClass(Adapt.audio.iconPlay);
+      $(audioHTMLId).find('.audio__controls-icon').removeClass(Adapt.audio.iconPause);
+      $(audioHTMLId).find('.audio__controls-icon').addClass(Adapt.audio.iconPlay);
       $(audioHTMLId).removeClass('playing');
 
       $(audioHTMLId).attr('aria-label', $.a11y_normalize(Adapt.audio.playAriaLabel));
     },
 
-    updateAudioStatus: function(channel, value) {
+    updateAudioStatus: function (channel, value) {
       Adapt.audio.audioClip[channel].status = value;
       // Pause audio channel
       Adapt.trigger('audio:pauseAudio', channel);
       // Set to off
       Adapt.audio.audioStatus = 0;
       // Check for narration channel being on
-      if(Adapt.audio.audioClip[0].status == 1){
+      if (Adapt.audio.audioClip[0].status == 1){
         Adapt.audio.audioStatus = 1;
       }
       this.updateOfflineStorage();
     },
 
-    updateOfflineStorage: function() {
-      Adapt.offlineStorage.set("audio_level", Adapt.audio.audioStatus);
-      Adapt.offlineStorage.set("audio_textSize", Adapt.audio.textSize);
+    updateOfflineStorage: function () {
+      Adapt.offlineStorage.set('audio_level', Adapt.audio.audioStatus);
+      Adapt.offlineStorage.set('audio_textSize', Adapt.audio.textSize);
     },
 
-    audioConfigured: function() {
+    audioConfigured: function () {
       for (var i = 0; i < Adapt.audio.numChannels; i++) {
         Adapt.audio.audioClip[i].play();
         Adapt.audio.audioClip[i].isPlaying = false;
@@ -453,7 +465,7 @@ define([
       Adapt.trigger('audio:configured');
     },
 
-    addAudioDrawerItem: function() {
+    addAudioDrawerItem: function () {
       var drawerAudio = Adapt.course.get('_audio');
       var drawerObject = {
         title: drawerAudio.title,
@@ -464,7 +476,7 @@ define([
       Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
     },
 
-    setupDrawerAudio: function() {
+    setupDrawerAudio: function () {
       var audioDrawerModel = Adapt.course.get('_audio');
       var audioDrawerModel = new Backbone.Model(audioDrawerModel);
 
@@ -473,48 +485,41 @@ define([
       }).$el);
     },
 
-    onMenuReady: function(view) {
-      if (view.model && view.model.get("_audio") && view.model.get('_type') == "menu" && view.model.get("_audio")._isEnabled) {
+    onMenuReady: function (view) {
+      if (view.model && view.model.get('_audio') && view.model.get('_type') == 'menu' && view.model.get('_audio')._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
         // Only render current location menu
-        if (Adapt.location._currentId == view.model.get("_id")) {
+        if (Adapt.location._currentId == view.model.get('_id')) {
           new AudioMenuView({model:view.model});
         }
       }
     },
 
-    onABCReady: function(view) {
-      if (view.model && view.model.get("_audio") && view.model.get("_audio")._isEnabled) {
+    onABCReady: function (view) {
+      if (view.model && view.model.get('_audio') && view.model.get('_audio')._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
-        try{
-          // Only render view if it DOESN'T already exist - Work around for hotgraphic component
-          if (!$('.' + view.model.get('_id')).find('.audio-controls').length) {
-            new AudioControlsView({model:view.model});
-          }
-        } catch(e){
-          console.log(e);
+        // Only render view if it DOESN'T already exist - Work around for hotgraphic component
+        if (!$('.' + view.model.get('_id')).find('.audio__controls').length) {
+          new AudioControlsView({model:view.model});
         }
       }
-      if (view.model && view.model.get("_audioAssessment") && view.model.get("_audioAssessment")._isEnabled) {
+
+      if (view.model && view.model.get('_audioAssessment') && view.model.get('_audioAssessment')._isEnabled) {
         // Pause all channels on view load
         this.stopAllChannels();
-        try{
-          // Only render view if it DOESN'T already exist - Work around for assessmentResults component
-          if (!$('.' + view.model.get('_id')).find('.audio-controls').length) {
-            new AudioResultsView({model:view.model});
-          }
-        } catch(e){
-          console.log(e);
+        // Only render view if it DOESN'T already exist - Work around for assessmentResults component
+        if (!$('.' + view.model.get('_id')).find('.audio__controls').length) {
+          new AudioResultsView({model:view.model});
         }
       }
     }
 
   }, Backbone.Events);
 
-    AudioController.initialize();
+  AudioController.initialize();
 
-    return AudioController;
+  return AudioController;
 
 });
