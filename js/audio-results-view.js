@@ -9,7 +9,7 @@ define([
         initialize: function () {
             this.listenTo(Adapt, {
                 "remove": this.remove,
-                "audio:updateAudioStatus": this.updateToggle
+                "audio:updateAudioStatus device:resize": this.updateToggle
             });
 
             this.listenToOnce(Adapt, "remove", this.removeInViewListeners);
@@ -43,8 +43,17 @@ define([
 
             // Set clip ID
             Adapt.audio.audioClip[this.audioChannel].newID = this.elementId;
+
             // Set listener for when clip ends
             $(Adapt.audio.audioClip[this.audioChannel]).on('ended', _.bind(this.onAudioEnded, this));
+
+            _.defer(_.bind(function() {
+                this.postRender();
+            }, this));
+        },
+
+        postRender: function() {
+            this.updateToggle();
         },
 
         onAudioEnded: function() {
@@ -54,8 +63,24 @@ define([
         updateToggle: function() {
             if (Adapt.audio.audioClip[this.audioChannel].status == 1 && this.model.get('_audioAssessment')._showControls == true) {
                 this.$('.audio-inner button').show();
+
+                var outerWidth = this.$('.audio-toggle').outerWidth();
+                var elementWidth = $('.'+this.elementId).find('.component-header').outerWidth();
+                var padding = outerWidth - this.$('.audio-toggle').width();
+                var maxWidth = (elementWidth - outerWidth) - padding;
+
+                // Set width on elements title or body
+                if (this.model.get('displayTitle') == "") {
+                  $('.'+this.elementId).find('.component-body-inner').css("max-width", maxWidth);
+                } else {
+                  $('.'+this.elementId).find('.component-title-inner').css("max-width", maxWidth);
+                }
+
             } else {
                 this.$('.audio-inner button').hide();
+                // Reset
+                $('.'+this.elementId).find('.component-body-inner').css("max-width", "");
+                $('.'+this.elementId).find('.component-title-inner').css("max-width", "");
             }
         },
 
