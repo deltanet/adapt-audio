@@ -1,94 +1,95 @@
-define([
-    'core/js/adapt'
-], function(Adapt) {
+import Adapt from 'core/js/adapt';
 
-    var AudioPromptView = Backbone.View.extend({
+export default class AudioPromptView extends Backbone.View {
 
-        className: "audio-prompt__content",
+  className() {
+    return 'audio-prompt__content';
+  }
 
-        events: {
-          'click .js-audio-fullTextAudioOn': 'setFullTextAudioOn',
-          'click .js-audio-reducedTextAudioOn': 'setReducedTextAudioOn',
-          'click .js-audio-fullTextAudioOff': 'setFullTextAudioOff',
-          'click .js-audio-reducedTextAudioOff': 'setReducedTextAudioOff',
-          'click .js-audio-selectContinueAudioOn': 'setContinueAudioOn',
-          'click .js-audio-selectContinueAudioOff': 'setContinueAudioOff',
-          'click .js-audio-selectOff': 'setAudioOff',
-          'click .js-audio-selectOn': 'setAudioOn'
-        },
+  events() {
+    return {
+      'click .js-audio-fullTextAudioOn': 'setFullTextAudioOn',
+      'click .js-audio-reducedTextAudioOn': 'setReducedTextAudioOn',
+      'click .js-audio-fullTextAudioOff': 'setFullTextAudioOff',
+      'click .js-audio-reducedTextAudioOff': 'setReducedTextAudioOff',
+      'click .js-audio-selectContinueAudioOn': 'setContinueAudioOn',
+      'click .js-audio-selectContinueAudioOff': 'setContinueAudioOff',
+      'click .js-audio-selectOff': 'setAudioOff',
+      'click .js-audio-selectOn': 'setAudioOn'
+    };
+  }
 
-        initialize: function() {
-          this.render();
-        },
+  initialize() {
+    this.render();
+  }
 
-        render: function() {
-          var data = this.model.toJSON();
-          var template = Handlebars.templates["audioPrompt"];
-          this.$el.html(template(data));
-        },
+  render() {
+    const data = this.model.toJSON();
+    const template = Handlebars.templates["audioPrompt"];
+    this.$el.html(template(data));
+  }
 
-        setFullTextAudioOn: function(event) {
-          Adapt.audio.audioStatus = 1;
-          Adapt.trigger('audio:changeText', 0);
-          this.closePopup();
-        },
+  setFullTextAudioOn(event) {
+    Adapt.audio.audioStatus = 1;
+    Adapt.trigger('audio:changeText', 0);
+    this.closePopup();
+  }
 
-        setFullTextAudioOff: function(event) {
-          Adapt.audio.audioStatus = 0;
-          Adapt.trigger('audio:changeText', 0);
-          this.closePopup();
-        },
+  setFullTextAudioOff(event) {
+    Adapt.audio.audioStatus = 0;
+    Adapt.trigger('audio:changeText', 0);
+    this.closePopup();
+  }
 
-        setReducedTextAudioOn: function(event) {
-          Adapt.audio.audioStatus = 1;
-          Adapt.trigger('audio:changeText', 1);
-          this.closePopup();
-        },
+  setReducedTextAudioOn(event) {
+    Adapt.audio.audioStatus = 1;
+    Adapt.trigger('audio:changeText', 1);
+    this.closePopup();
+  }
 
-        setReducedTextAudioOff: function(event) {
-          Adapt.audio.audioStatus = 0;
-          Adapt.trigger('audio:changeText', 1);
-          this.closePopup();
-        },
+  setReducedTextAudioOff(event) {
+    Adapt.audio.audioStatus = 0;
+    Adapt.trigger('audio:changeText', 1);
+    this.closePopup();
+  }
 
-        setContinueAudioOn: function(event) {
-          Adapt.audio.audioStatus = 1;
-          Adapt.trigger('audio:changeText', 0);
-          this.closePopup();
-        },
+  setContinueAudioOn(event) {
+    Adapt.audio.audioStatus = 1;
+    Adapt.trigger('audio:changeText', 0);
+    this.closePopup();
+  }
 
-        setContinueAudioOff: function(event) {
-          Adapt.audio.audioStatus = 0;
-          Adapt.trigger('audio:changeText', 0);
-          this.closePopup();
-        },
+  setContinueAudioOff(event) {
+    Adapt.audio.audioStatus = 0;
+    Adapt.trigger('audio:changeText', 0);
+    this.closePopup();
+  }
 
-        setAudioOff: function(event) {
-          Adapt.audio.audioStatus = 0;
-          for (var i = 0; i < Adapt.audio.numChannels; i++) {
-            Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
-          }
-          Adapt.trigger('audio:updateAudioStatus', 0, 0);
-          Adapt.trigger('audio:changeText', 0);
-          this.closePopup();
-        },
+  setAudioOff(event) {
+    Adapt.audio.audioStatus = 0;
 
-        setAudioOn: function(event) {
-          Adapt.audio.audioStatus = 1;
-          for (var i = 0; i < Adapt.audio.numChannels; i++) {
-            Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
-          }
-          Adapt.trigger('audio:updateAudioStatus', 0, 1);
-          Adapt.trigger('audio:changeText', 0);
-          this.closePopup();
-        },
+    for (let i = 0; i < Adapt.audio.numChannels; i++) {
+      Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
+    }
 
-        closePopup: function () {
-          Adapt.trigger('notify:close');
-        }
+    Adapt.trigger('audio:updateAudioStatus', 0, 0);
+    Adapt.trigger('audio:changeText', 0);
+    this.closePopup();
+  }
 
-    });
+  setAudioOn(event) {
+    Adapt.audio.audioStatus = 1;
 
-    return AudioPromptView;
+    for (let i = 0; i < Adapt.audio.numChannels; i++) {
+      Adapt.audio.audioClip[i].status = parseInt(Adapt.audio.audioStatus);
+    }
 
-});
+    Adapt.trigger('audio:updateAudioStatus', 0, 1);
+    Adapt.trigger('audio:changeText', 0);
+    this.closePopup();
+  }
+
+  closePopup() {
+    Adapt.trigger('notify:close');
+  }
+}
