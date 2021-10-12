@@ -952,7 +952,7 @@
                       "inputType": "Asset:audio",
                       "validators": [],
                       "audioSources": ["body"],
-                      "audioConditions": [{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}],
+                      "audioConditions": [{"ifComponentReplaceText": {"component": "character-text", "path": "_text/body"}},{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}],
                       "help": "Audio for desktop size device."
                     },
                     "mobile": {
@@ -963,7 +963,7 @@
                       "inputType": "Asset:audio",
                       "validators": [],
                       "audioSources": ["body"],
-                      "audioConditions": [{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}],
+                      "audioConditions": [{"ifComponentReplaceText": {"component": "character-text", "path": "_text/body"}},{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}],
                       "help": "Audio for mobile size device."
                     }
                   }
