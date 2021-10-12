@@ -1116,6 +1116,8 @@
                           "title": "Partly Correct Not Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
+                          "audioSources": ["_feedback/_partlyCorrect/notFinal"],
+                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/partlyCorrectNotFinal"}}],
                           "help": "Optional audio for partly correct not final feedback."
                         },
                         "_final": {
@@ -1125,6 +1127,8 @@
                           "title": "Partly Correct Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
+                          "audioSources": ["_feedback/_partlyCorrect/final"],
+                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/partlyCorrect"}}],
                           "help": "Optional audio for partly correct final feedback."
                         }
                       }
