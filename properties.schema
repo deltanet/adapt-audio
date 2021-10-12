@@ -622,6 +622,8 @@
                       "title": "Page Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
+                      "audioSources": ["body"],
+                      "audioConditions": [],
                       "help": "Audio for the page."
                     }
                   }
@@ -703,6 +705,8 @@
                       "title": "Desktop Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
+                      "audioSources": ["body"],
+                      "audioConditions": [],
                       "help": "Audio for desktop size device."
                     },
                     "mobile": {
@@ -712,6 +716,8 @@
                       "title": "Mobile Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
+                      "audioSources": ["body"],
+                      "audioConditions": [],
                       "help": "Audio for mobile size device."
                     }
                   }
@@ -822,6 +828,8 @@
                       "title": "Desktop Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
+                      "audioSources": ["body"],
+                      "audioConditions": [],
                       "help": "Audio for desktop size device."
                     },
                     "mobile": {
@@ -831,6 +839,8 @@
                       "title": "Mobile Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
+                      "audioSources": ["body"],
+                      "audioConditions": [],
                       "help": "Audio for mobile size device."
                     }
                   }
@@ -941,6 +951,8 @@
                       "title": "Desktop Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
+                      "audioSources": ["body"],
+                      "audioConditions": [{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}],
                       "help": "Audio for desktop size device."
                     },
                     "mobile": {
@@ -950,6 +962,8 @@
                       "title": "Mobile Audio",
                       "inputType": "Asset:audio",
                       "validators": [],
+                      "audioSources": ["body"],
+                      "audioConditions": [{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}],
                       "help": "Audio for mobile size device."
                     }
                   }
@@ -1017,6 +1031,8 @@
                           "title": "Correct Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
+                          "audioSources": ["_feedback/correct"],
+                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/correct"}}],
                           "help": "Optional audio for correct feedback."
                         }
                       }
@@ -1052,6 +1068,8 @@
                           "title": "Incorrect Not Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
+                          "audioSources": ["_feedback/_incorrect/notFinal"],
+                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/incorrectNotFinal"}}],
                           "help": "Optional audio for incorrect not final feedback."
                         },
                         "_final": {
@@ -1061,6 +1079,8 @@
                           "title": "Incorrect Final Audio",
                           "inputType": "Asset:audio",
                           "validators": [],
+                          "audioSources": ["_feedback/_incorrect/final"],
+                          "audioConditions": [{"ifExtensionAddFirst": {"extension": "_enhancedQuestion", "path": "_enhancedQuestion/_feedbackTitle/incorrect"}}],
                           "help": "Optional audio for incorrect final feedback."
                         }
                       }
