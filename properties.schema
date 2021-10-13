@@ -952,7 +952,7 @@
                       "inputType": "Asset:audio",
                       "validators": [],
                       "audioSources": ["body"],
-                      "audioConditions": [{"ifComponentReplaceText": {"component": "character-text", "path": "_text/body"}},{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}],
+                      "audioConditions": [{"ifComponentReplaceText": {"component": "character-text", "path": "_text/body"}},{"ifItemsAppendFirstItem": {"component": "narrativeAudio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "tabs-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "scenario-audio", "path": "_items/0/body"}}, {"ifItemsAppendFirstItem": {"component": "perceptionQuestion", "path": "_items/0/body"}}, {"ifItemsAppendAllItems": {"component": "list", "itemKey": "_items", "textPaths": ["title"]}}],
                       "help": "Audio for desktop size device."
                     },
                     "mobile": {
