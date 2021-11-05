@@ -450,7 +450,10 @@ define([
           }
         }
 
+        $('.'+this.elementId).addClass('is-audio');
+
       } else {
+        $('.'+this.elementId).removeClass('is-audio');
         this.$('.audio__controls').addClass('is-hidden');
       }
     },
