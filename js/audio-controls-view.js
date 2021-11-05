@@ -286,7 +286,7 @@ define([
           this.setAudioFile();
 
           // Check for component items
-          if (this.elementType === 'component' && !this.model.get('_isQuestionType') && this.model.get('_children')) {
+          if (this.elementType === 'component' && this.model.get('_items') && !this.model.get('_isQuestionType') && this.model.get('_children')) {
             var itemIndex = this.getActiveItemIndex();
             var currentItem = this.model.get('_items')[itemIndex];
 
@@ -363,7 +363,7 @@ define([
       Adapt.audio.audioClip[this.audioChannel].src = this.audioFile;
 
       // Check for component items
-      if (this.elementType === 'component' && !this.model.get('_isQuestionType') && this.model.get('_children')) {
+      if (this.elementType === 'component' && this.model.get('_items') && !this.model.get('_isQuestionType') && this.model.get('_children')) {
         var itemIndex = this.getActiveItemIndex();
         var currentItem = this.model.get('_items')[itemIndex];
 
