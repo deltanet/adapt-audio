@@ -442,7 +442,10 @@ define([
                   $('.'+this.elementId).find('.'+this.elementType+'-title-inner').css("max-width", maxWidth);
                 }
 
+                $('.'+this.elementId).addClass('is-audio');
+
             } else {
+                $('.'+this.elementId).removeClass('is-audio');
                 this.$('.audio-inner button').hide();
                 // Reset
                 $('.'+this.elementId).find('.'+this.elementType+'-body-inner').css("max-width", "");
