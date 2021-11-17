@@ -322,6 +322,16 @@ define([
                   }
                 }
 
+                // Check for perception question
+                if (this.elementType === 'component' && this.model.get('_component') == "perceptionQuestion") {
+                  var itemIndex = this.model.get('_stage');
+                  var currentItem = this.model.get('_items')[itemIndex];
+
+                  if (itemIndex > 0) {
+                    this.audioFile = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
+                  }
+                }
+
                 Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
               }
               // Set to false to stop autoplay when onscreen again
@@ -394,6 +404,16 @@ define([
               if (itemIndex > 0) {
                 Adapt.audio.audioClip[this.audioChannel].src = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
               }
+            }
+          }
+
+          // Check for perception question
+          if (this.elementType === 'component' && this.model.get('_component') == "perceptionQuestion") {
+            var itemIndex = this.model.get('_stage');
+            var currentItem = this.model.get('_items')[itemIndex];
+
+            if (itemIndex > 0) {
+              Adapt.audio.audioClip[this.audioChannel].src = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
             }
           }
 
