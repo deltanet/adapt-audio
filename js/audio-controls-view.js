@@ -304,6 +304,16 @@ export default class AudioControlsView extends Backbone.View {
           }
         }
 
+        // Check for perception question
+        if (this.elementType === 'component' && this.model.get('_component') == "perceptionQuestion") {
+          const itemIndex = this.model.get('_stage');
+          const currentItem = this.model.get('_items')[itemIndex];
+
+          if (itemIndex > 0) {
+            this.audioFile = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
+          }
+        }
+
         Adapt.trigger('audio:playAudio', this.audioFile, this.elementId, this.audioChannel);
       }
       // Set to false to stop autoplay when onscreen again
@@ -378,6 +388,16 @@ export default class AudioControlsView extends Backbone.View {
         if (itemIndex > 0) {
           Adapt.audio.audioClip[this.audioChannel].src = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
         }
+      }
+    }
+
+    // Check for perception question
+    if (this.elementType === 'component' && this.model.get('_component') == "perceptionQuestion") {
+      const itemIndex = this.model.get('_stage');
+      const currentItem = this.model.get('_items')[itemIndex];
+
+      if (itemIndex > 0) {
+        Adapt.audio.audioClip[this.audioChannel].src = currentItem._audio.src ? currentItem._audio.src : currentItem._audio._src;
       }
     }
 
