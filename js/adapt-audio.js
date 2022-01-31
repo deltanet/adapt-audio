@@ -53,6 +53,8 @@ class AudioController extends Backbone.Controller {
       this.reducedTextEnabled = false;
     }
 
+    Adapt.audio = {};
+
     Adapt.audio.audioClip = [];
 
     Adapt.audio.isConfigured = false;
@@ -510,4 +512,4 @@ class AudioController extends Backbone.Controller {
   }
 }
 
-export default Adapt.audio = new AudioController();
+export default AudioController;

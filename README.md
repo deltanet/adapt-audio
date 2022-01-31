@@ -236,7 +236,7 @@ The **_audio** attribute at Article, Block and Component level contains values f
 <div float align=right><a href="#top">Back to Top</a></div>
 
 ----------------------------
-**Version number:**  5.2.0   
+**Version number:**  5.2.1   
 **Framework versions supported:**  5.8+    
 **Author / maintainer:** DeltaNet with [contributors](https://github.com/deltanet/adapt-audio/graphs/contributors)     
 **Accessibility support:** Yes  
