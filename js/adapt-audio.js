@@ -15,11 +15,13 @@ class AudioController extends Backbone.Controller {
   onDataReady() {
     this.listenTo(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
-    if (Adapt.course.get('_audio') && Adapt.course.get('_audio')._isEnabled) {
-      this.setupAudio();
-      this.setupEventListeners();
-      this.addAudioDrawerItem();
-    }
+    Adapt.audio.isEnabled = Adapt.course.get('_audio') && Adapt.course.get('_audio')._isEnabled;
+
+    if (!Adapt.audio.isEnabled) return;
+
+    this.setupAudio();
+    this.setupEventListeners();
+    this.addAudioDrawerItem();
   }
 
   setupEventListeners() {
@@ -47,13 +49,7 @@ class AudioController extends Backbone.Controller {
   }
 
   setupAudio() {
-    if (Adapt.course.get('_audio') && Adapt.course.get('_audio')._reducedTextisEnabled) {
-      this.reducedTextEnabled = Adapt.course.get('_audio')._reducedTextisEnabled;
-    } else {
-      this.reducedTextEnabled = false;
-    }
-
-    Adapt.audio = {};
+    Adapt.audio.isReducedTextEnabled = Adapt.course.get('_audio') && Adapt.course.get('_audio')._reducedTextisEnabled;
 
     Adapt.audio.audioClip = [];
 
@@ -198,7 +194,7 @@ class AudioController extends Backbone.Controller {
 
     this.listenToOnce(Adapt, 'app:dataReady', this.onDataReady);
 
-    if (!Adapt.audio) return;
+    if (!Adapt.audio.isEnabled) return;
 
     this.stopAllChannels();
   }
@@ -221,7 +217,7 @@ class AudioController extends Backbone.Controller {
 
     // If audio is off
     if (Adapt.audio.audioStatus == 0) {
-      if (this.reducedTextEnabled) {
+      if (Adapt.audio.isReducedTextEnabled) {
         promptTitle = audioPromptModel.title;
         promptBody = audioPromptModel.bodyAudioOff;
 
@@ -244,7 +240,7 @@ class AudioController extends Backbone.Controller {
         promptButton2Callback = 'selectOn';
       }
     } else {
-      if (this.reducedTextEnabled) {
+      if (Adapt.audio.isReducedTextEnabled) {
         promptTitle = audioPromptModel.title;
         promptBody = audioPromptModel.bodyAudioOn;
         promptInstruction = audioPromptModel.instructionAudioOn;
@@ -512,4 +508,4 @@ class AudioController extends Backbone.Controller {
   }
 }
 
-export default AudioController;
+export default Adapt.audio = new AudioController();
