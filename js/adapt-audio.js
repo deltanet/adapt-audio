@@ -152,8 +152,9 @@ class AudioController extends Backbone.Controller {
         } else {
           this.listenToOnce(Adapt, 'popup:opened', this.bookmarkOpened);
         }
+      } else {
+        this.audioConfigured();
       }
-      this.audioConfigured();
     }
   }
 
@@ -166,7 +167,7 @@ class AudioController extends Backbone.Controller {
 
   bookmarkOpened() {
     Adapt.audio.promptIsOpen = true;
-    this.listenToOnce(Adapt, 'bookmarking:cancel', this.onPromptClosed);
+    this.listenToOnce(Adapt, 'bookmarking:cancel bookmarking:continue', this.onPromptClosed);
   }
 
   onLangChange() {
@@ -457,7 +458,10 @@ class AudioController extends Backbone.Controller {
     }
 
     Adapt.audio.isConfigured = true;
-    Adapt.trigger('audio:configured');
+
+    _.delay(() => {
+      Adapt.trigger('audio:configured');
+    }, 500);
   }
 
   addAudioDrawerItem() {
