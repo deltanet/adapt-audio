@@ -78,6 +78,15 @@
                   "validators": [],
                   "help": "Controls whether the Audio extension is enabled or disabled."
                 },
+                "_configureOnLoad": {
+                  "type": "boolean",
+                  "required": false,
+                  "default": true,
+                  "title": "Configure On Load",
+                  "inputType": "Checkbox",
+                  "validators": [],
+                  "help": "Controls whether the Audio status is configured when the course loads. Turn off to allow other plugins to trigger when the audio should be configured."
+                },
                 "_reducedTextisEnabled": {
                   "type": "boolean",
                   "required": false,

@@ -19,9 +19,11 @@ The attributes listed below are properly formatted as JSON in [*example.json*](h
 ### Attributes
 
 **Course**
-The **_audio** attribute at course level contains values for **_isEnabled**, **_reducedTextisEnabled**, **_autoplay**, **_autoPlayOnce**, **_showOnNavbar**, **_pauseStopAction**, **_triggerPosition**, **title**, **description**, **_drawerOrder**, **_channels**, **_reducedText**, **_icons**, and **_prompt**.
+The **_audio** attribute at course level contains values for **_isEnabled**, **_configureOnLoad**, **_reducedTextisEnabled**, **_autoplay**, **_autoPlayOnce**, **_showOnNavbar**, **_pauseStopAction**, **_triggerPosition**, **title**, **description**, **_drawerOrder**, **_channels**, **_reducedText**, **_icons**, and **_prompt**.
 
 >**_isEnabled** (boolean):  Turns on and off the **Audio** extension. Can be set to disable **Audio** when not required.  
+
+>**_configureOnLoad** (boolean):  Controls whether the Audio status is configured when the course loads. Turn off to allow other plugins to trigger when the audio should be configured. 
 
 >**_reducedTextisEnabled** (boolean):  Turns on and off the Reduced Text functionality.  
 
@@ -236,7 +238,7 @@ The **_audio** attribute at Article, Block and Component level contains values f
 <div float align=right><a href="#top">Back to Top</a></div>
 
 ----------------------------
-**Version number:**  5.2.4   
+**Version number:**  5.3.0   
 **Framework versions supported:**  5.8+    
 **Author / maintainer:** DeltaNet with [contributors](https://github.com/deltanet/adapt-audio/graphs/contributors)     
 **Accessibility support:** Yes  

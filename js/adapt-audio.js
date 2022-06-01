@@ -29,6 +29,7 @@ class AudioController extends Backbone.Controller {
       'navigationView:postRender': this.renderNavigationView,
       'menuView:postRender': this.onMenuReady,
       'articleView:postRender blockView:postRender componentView:postRender': this.onABCReady,
+      'audio:configure': this.configureAudio,
       'audio:onscreenOff': this.onscreenOff,
       'audio:playAudio': this.playAudio,
       'audio:pauseAudio': this.pauseAudio,
@@ -141,7 +142,9 @@ class AudioController extends Backbone.Controller {
       if (Adapt.course.get('_audio')._prompt._isEnabled) {
         this.listenToOnce(Adapt, 'pageView:ready menuView:ready', this.onReady);
       } else {
-        this.audioConfigured();
+        if (Adapt.course.get('_audio')._configureOnLoad || Adapt.course.get('_audio')._configureOnLoad === undefined || Adapt.course.get('_audio')._configureOnLoad === 'undefined') {
+          this.configureAudio();
+        }
       }
     } else {
       // Check for bookmark
@@ -153,7 +156,7 @@ class AudioController extends Backbone.Controller {
           this.listenToOnce(Adapt, 'popup:opened', this.bookmarkOpened);
         }
       } else {
-        this.audioConfigured();
+        this.configureAudio();
       }
     }
   }
@@ -303,7 +306,7 @@ class AudioController extends Backbone.Controller {
       Adapt.audio.promptIsOpen = false;
     }
 
-    this.audioConfigured();
+    this.configureAudio();
   }
 
   changeText(value) {
@@ -450,7 +453,7 @@ class AudioController extends Backbone.Controller {
     Adapt.offlineStorage.set('audio_textSize', Adapt.audio.textSize);
   }
 
-  audioConfigured() {
+  configureAudio() {
     for (let i = 0; i < Adapt.audio.numChannels; i++) {
       Adapt.audio.audioClip[i].play();
       Adapt.audio.audioClip[i].isPlaying = false;
