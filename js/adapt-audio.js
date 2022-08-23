@@ -1,4 +1,5 @@
 import Adapt from 'core/js/adapt';
+import offlineStorage from 'core/js/offlineStorage';
 import AudioPromptView from './audio-prompt-view';
 import AudioNavigationView from './audio-navigation-view';
 import AudioDrawerView from './audio-drawer-view';
@@ -111,10 +112,10 @@ class AudioController extends Backbone.Controller {
     Adapt.audio.audioStatus = Adapt.audio.audioClip[0].status;
 
     // Collect data from offline storage
-    if (Adapt.offlineStorage.get('audio_level') == '1' || Adapt.offlineStorage.get('audio_level') == '0') {
+    if (offlineStorage.get('audio_level') == '1' || offlineStorage.get('audio_level') == '0') {
       // Set to saved audio status and text size
-      Adapt.audio.audioStatus = Adapt.offlineStorage.get('audio_level');
-      Adapt.audio.textSize = Adapt.offlineStorage.get('audio_textSize');
+      Adapt.audio.audioStatus = offlineStorage.get('audio_level');
+      Adapt.audio.textSize = offlineStorage.get('audio_textSize');
     }
     // Update channels based on preference
     for (let i = 0; i < Adapt.audio.numChannels; i++) {
@@ -138,7 +139,7 @@ class AudioController extends Backbone.Controller {
 
   checkLaunch() {
     // Check launch based on the saved location
-    if ((Adapt.offlineStorage.get('location') === 'undefined') || (Adapt.offlineStorage.get('location') === undefined) || (Adapt.offlineStorage.get('location') == "")) {
+    if ((offlineStorage.get('location') === 'undefined') || (offlineStorage.get('location') === undefined) || (offlineStorage.get('location') == "")) {
       if (Adapt.course.get('_audio')._prompt._isEnabled) {
         this.listenToOnce(Adapt, 'pageView:ready menuView:ready', this.onReady);
       } else {
@@ -198,7 +199,7 @@ class AudioController extends Backbone.Controller {
     this.stopListening(Adapt.config, 'change:_activeLanguage', this.onLangChange);
 
     // Set empty location so that the prompt is checked
-    Adapt.offlineStorage.set('location', "");
+    offlineStorage.set('location', "");
 
     this.listenToOnce(Adapt, 'app:dataReady', this.onDataReady);
 
@@ -449,8 +450,8 @@ class AudioController extends Backbone.Controller {
   }
 
   updateOfflineStorage() {
-    Adapt.offlineStorage.set('audio_level', Adapt.audio.audioStatus);
-    Adapt.offlineStorage.set('audio_textSize', Adapt.audio.textSize);
+    offlineStorage.set('audio_level', Adapt.audio.audioStatus);
+    offlineStorage.set('audio_textSize', Adapt.audio.textSize);
   }
 
   configureAudio() {
