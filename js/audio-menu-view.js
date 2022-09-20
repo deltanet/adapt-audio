@@ -1,4 +1,5 @@
 import Adapt from 'core/js/adapt';
+import a11y from 'core/js/a11y';
 
 export default class AudioMenuView extends Backbone.View {
 
@@ -154,10 +155,10 @@ export default class AudioMenuView extends Backbone.View {
 
     if (Adapt.audio.pauseStopAction == 'pause') {
       Adapt.audio.audioClip[this.audioChannel].play(this.pausedTime);
-      this.$('.audio__controls').attr('aria-label', Adapt.a11y.normalize(Adapt.audio.pauseAriaLabel));
+      this.$('.audio__controls').attr('aria-label', a11y.normalize(Adapt.audio.pauseAriaLabel));
     } else {
       Adapt.audio.audioClip[this.audioChannel].play();
-      this.$('.audio__controls').attr('aria-label', Adapt.a11y.normalize(Adapt.audio.stopAriaLabel));
+      this.$('.audio__controls').attr('aria-label', a11y.normalize(Adapt.audio.stopAriaLabel));
     }
 
     Adapt.audio.audioClip[this.audioChannel].onscreenID = this.elementId;
@@ -175,7 +176,7 @@ export default class AudioMenuView extends Backbone.View {
     } else {
       Adapt.trigger('audio:pauseAudio', this.audioChannel);
     }
-    this.$('.audio__controls').attr('aria-label', Adapt.a11y.normalize(Adapt.audio.playAriaLabel));
+    this.$('.audio__controls').attr('aria-label', a11y.normalize(Adapt.audio.playAriaLabel));
   }
 
   updateToggle() {

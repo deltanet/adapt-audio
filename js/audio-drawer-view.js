@@ -1,4 +1,5 @@
 import Adapt from 'core/js/adapt';
+import a11y from 'core/js/a11y';
 
 export default class AudioDrawerView extends Backbone.View {
 
@@ -132,12 +133,12 @@ export default class AudioDrawerView extends Backbone.View {
       this.$('.narration-body').html(Adapt.course.get('_audio')._channels._narration.descriptionOn);
       this.$('.js-item-narration').removeClass(Adapt.audio.iconOff);
       this.$('.js-item-narration').addClass(Adapt.audio.iconOn);
-      this.$('.js-item-narration').attr('aria-label', Adapt.a11y.normalize(Adapt.audio.stopAriaLabel));
+      this.$('.js-item-narration').attr('aria-label', a11y.normalize(Adapt.audio.stopAriaLabel));
     } else {
       this.$('.narration-body').html(Adapt.course.get('_audio')._channels._narration.descriptionOff);
       this.$('.js-item-narration').removeClass(Adapt.audio.iconOn);
       this.$('.js-item-narration').addClass(Adapt.audio.iconOff);
-      this.$('.js-item-narration').attr('aria-label', Adapt.a11y.normalize(Adapt.audio.playAriaLabel));
+      this.$('.js-item-narration').attr('aria-label', a11y.normalize(Adapt.audio.playAriaLabel));
     }
   }
 
@@ -146,12 +147,12 @@ export default class AudioDrawerView extends Backbone.View {
       this.$('.effects-body').html(Adapt.course.get('_audio')._channels._effects.descriptionOn);
       this.$('.js-item-effects').removeClass(Adapt.audio.iconOff);
       this.$('.js-item-effects').addClass(Adapt.audio.iconOn);
-      this.$('.js-item-effects').attr('aria-label', Adapt.a11y.normalize(Adapt.audio.stopAriaLabel));
+      this.$('.js-item-effects').attr('aria-label', a11y.normalize(Adapt.audio.stopAriaLabel));
     } else {
       this.$('.effects-body').html(Adapt.course.get('_audio')._channels._effects.descriptionOff);
       this.$('.js-item-effects').removeClass(Adapt.audio.iconOn);
       this.$('.js-item-effects').addClass(Adapt.audio.iconOff);
-      this.$('.js-item-effects').attr('aria-label', Adapt.a11y.normalize(Adapt.audio.playAriaLabel));
+      this.$('.js-item-effects').attr('aria-label', a11y.normalize(Adapt.audio.playAriaLabel));
     }
   }
 
@@ -160,12 +161,12 @@ export default class AudioDrawerView extends Backbone.View {
       this.$('.music-body').html(Adapt.course.get('_audio')._channels._music.descriptionOn);
       this.$('.js-item-music').removeClass(Adapt.audio.iconOff);
       this.$('.js-item-music').addClass(Adapt.audio.iconOn);
-      this.$('.js-item-music').attr('aria-label', Adapt.a11y.normalize(Adapt.audio.stopAriaLabel));
+      this.$('.js-item-music').attr('aria-label', a11y.normalize(Adapt.audio.stopAriaLabel));
     } else {
       this.$('.music-body').html(Adapt.course.get('_audio')._channels._music.descriptionOff);
       this.$('.js-item-music').removeClass(Adapt.audio.iconOn);
       this.$('.js-item-music').addClass(Adapt.audio.iconOff);
-      this.$('.js-item-music').attr('aria-label', Adapt.a11y.normalize(Adapt.audio.playAriaLabel));
+      this.$('.js-item-music').attr('aria-label', a11y.normalize(Adapt.audio.playAriaLabel));
     }
   }
 

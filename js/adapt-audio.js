@@ -1,4 +1,7 @@
 import Adapt from 'core/js/adapt';
+import a11y from 'core/js/a11y';
+import drawer from 'core/js/drawer';
+import notify from 'core/js/notify';
 import offlineStorage from 'core/js/offlineStorage';
 import AudioPromptView from './audio-prompt-view';
 import AudioNavigationView from './audio-navigation-view';
@@ -287,7 +290,7 @@ class AudioController extends Backbone.Controller {
       model: audioPrompt
     });
 
-    Adapt.notify.popup({
+    notify.popup({
       _view: Adapt.audio.promptView,
       _isCancellable: true,
       _showCloseButton: false,
@@ -418,9 +421,9 @@ class AudioController extends Backbone.Controller {
     $(audioHTMLId).addClass('playing');
 
     if (Adapt.audio.pauseStopAction == 'pause') {
-      $(audioHTMLId).attr('aria-label', Adapt.a11y.normalize(Adapt.audio.pauseAriaLabel));
+      $(audioHTMLId).attr('aria-label', a11y.normalize(Adapt.audio.pauseAriaLabel));
     } else {
-      $(audioHTMLId).attr('aria-label', Adapt.a11y.normalize(Adapt.audio.stopAriaLabel));
+      $(audioHTMLId).attr('aria-label', a11y.normalize(Adapt.audio.stopAriaLabel));
     }
   }
 
@@ -433,7 +436,7 @@ class AudioController extends Backbone.Controller {
     $(audioHTMLId).find('.audio__controls-icon').addClass(Adapt.audio.iconPlay);
     $(audioHTMLId).removeClass('playing');
 
-    $(audioHTMLId).attr('aria-label', Adapt.a11y.normalize(Adapt.audio.playAriaLabel));
+    $(audioHTMLId).attr('aria-label', a11y.normalize(Adapt.audio.playAriaLabel));
   }
 
   updateAudioStatus(channel, value) {
@@ -476,14 +479,14 @@ class AudioController extends Backbone.Controller {
       className: 'audio-drawer',
       drawerOrder: audioModel._drawerOrder || 0
     };
-    Adapt.drawer.addItem(drawerObject, 'audio:showAudioDrawer');
+    drawer.addItem(drawerObject, 'audio:showAudioDrawer');
   }
 
   setupDrawerAudio() {
     const audioModel = Adapt.course.get('_audio');
     const audioDrawerModel = new Backbone.Model(audioModel);
 
-    Adapt.drawer.triggerCustomView(new AudioDrawerView({
+    drawer.triggerCustomView(new AudioDrawerView({
       model: audioDrawerModel
     }).$el);
   }

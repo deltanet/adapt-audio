@@ -1,4 +1,6 @@
 import Adapt from 'core/js/adapt';
+import a11y from 'core/js/a11y';
+import device from 'core/js/device';
 
 export default class AudioNavigationView extends Backbone.View {
 
@@ -47,11 +49,11 @@ export default class AudioNavigationView extends Backbone.View {
     if (Adapt.audio.audioStatus == 1){
       this.$('.audio__controls-icon').removeClass(Adapt.audio.iconOff);
       this.$('.audio__controls-icon').addClass(Adapt.audio.iconOn);
-      this.$el.attr('aria-label', Adapt.a11y.normalize(Adapt.course.get('_globals')._extensions._audio.statusOnAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel));
+      this.$el.attr('aria-label', a11y.normalize(Adapt.course.get('_globals')._extensions._audio.statusOnAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel));
     } else {
       this.$('.audio__controls-icon').removeClass(Adapt.audio.iconOn);
       this.$('.audio__controls-icon').addClass(Adapt.audio.iconOff);
-      this.$el.attr('aria-label', Adapt.a11y.normalize(Adapt.course.get('_globals')._extensions._audio.statusOffAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel));
+      this.$el.attr('aria-label', a11y.normalize(Adapt.course.get('_globals')._extensions._audio.statusOffAriaLabel + ' ' + Adapt.course.get('_globals')._extensions._audio.navigationAriaLabel));
     }
   }
 
@@ -61,7 +63,7 @@ export default class AudioNavigationView extends Backbone.View {
   }
 
   onDeviceChanged() {
-    if (Adapt.device.screenSize === 'small') {
+    if (device.screenSize === 'small') {
       this.$el.addClass('u-display-none');
     } else {
       this.$el.removeClass('u-display-none');
