@@ -1,6 +1,7 @@
 import Adapt from 'core/js/adapt';
 import a11y from 'core/js/a11y';
 import drawer from 'core/js/drawer';
+import location from 'core/js/location';
 import notify from 'core/js/notify';
 import offlineStorage from 'core/js/offlineStorage';
 import AudioPromptView from './audio-prompt-view';
@@ -496,7 +497,7 @@ class AudioController extends Backbone.Controller {
       // Pause all channels on view load
       this.stopAllChannels();
       // Only render current location menu
-      if (Adapt.location._currentId == view.model.get('_id')) {
+      if (location._currentId == view.model.get('_id')) {
         new AudioMenuView({model:view.model});
       }
     }
