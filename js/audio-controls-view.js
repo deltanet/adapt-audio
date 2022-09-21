@@ -290,7 +290,7 @@ export default class AudioControlsView extends Backbone.View {
         this.setAudioFile();
 
         // Check for component items
-        if (this.elementType === 'component' && this.model.get('_items') && !this.model.get('_isQuestionType') && this.model.get('_children')) {
+        if (this.elementType === 'component' && this.model.get('_items') && !this.model.get('_isQuestionType') && this.model.getChildren()) {
           const itemIndex = this.getActiveItemIndex();
           const currentItem = this.model.get('_items')[itemIndex];
 
@@ -377,7 +377,7 @@ export default class AudioControlsView extends Backbone.View {
     Adapt.audio.audioClip[this.audioChannel].src = this.audioFile;
 
     // Check for component items
-    if (this.elementType === 'component' && this.model.get('_items') && !this.model.get('_isQuestionType') && this.model.get('_children')) {
+    if (this.elementType === 'component' && this.model.get('_items') && !this.model.get('_isQuestionType') && this.model.getChildren()) {
       const itemIndex = this.getActiveItemIndex();
       const currentItem = this.model.get('_items')[itemIndex];
 
