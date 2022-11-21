@@ -102,7 +102,7 @@ export default class AudioControlsView extends Backbone.View {
     // Run function to check for reduced text
     this.replaceText(Adapt.audio.textSize);
 
-    this.isAnimating = $('.'+this.elementId).hasClass('animate-hidden');
+    this.isAnimating = $('.'+this.elementId).hasClass('is-animate-hidden');
 
     if (this.isAnimating) {
       this.listenTo(this.model, 'change:_isAnimating', this.checkOnscreen);
